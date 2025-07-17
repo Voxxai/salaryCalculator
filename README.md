@@ -4,6 +4,10 @@ Een React web- en mobiele applicatie voor het berekenen van salaris met toeslage
 
 ## 🚀 Functionaliteiten
 
+### 🆕 Nieuw: Automatische Deployment
+
+De app wordt automatisch gedeployed naar GitHub Pages bij elke push naar de master branch!
+
 ### 1. Configuratie Sectie
 
 - **All-in Uurloon**: Voer je uurloon in euro's in (standaard: €19.18)
