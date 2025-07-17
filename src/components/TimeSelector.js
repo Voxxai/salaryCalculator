@@ -13,8 +13,8 @@ const TimeSelector = ({ value, onChange, placeholder = "0:00" }) => {
 
   const { hours, minutes } = parseTime(value);
 
-  // Generate options for hours (0-12)
-  const hourOptions = Array.from({ length: 13 }, (_, i) => i);
+  // Generate options for hours (0-60)
+  const hourOptions = Array.from({ length: 61 }, (_, i) => i);
 
   // Generate options for minutes (0, 15, 30, 45)
   const minuteOptions = [0, 15, 30, 45];
