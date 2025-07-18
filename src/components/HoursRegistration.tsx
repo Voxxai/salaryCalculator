@@ -91,7 +91,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                 <button
                   onClick={() => handleAddAllowance(index)}
                   className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold hover:bg-blue-600 transition-colors"
-                  title="Toeslag toevoegen"
+                  title={getTranslation("addAllowance", language)}
                 >
                   +
                 </button>
@@ -101,7 +101,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                 {/* Regular hours input */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Reguliere Uren
+                    {getTranslation("regularHours", language)}
                   </label>
                   <TimeSelector
                     value={week.regularHours}
@@ -114,7 +114,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                 {/* Paid breaks input */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Betaalde Pauze
+                    {getTranslation("paidBreaks", language)}
                   </label>
                   <TimeSelector
                     value={week.paidBreaks}
@@ -130,7 +130,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="text-sm text-blue-700 font-medium mb-1">
-                          Toeslag 25%
+                          {getTranslation("allowance25", language)}
                         </div>
                         <div className="text-base text-blue-900 font-semibold">
                           {week.allowance25}
@@ -140,14 +140,14 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                         <button
                           onClick={() => handleEditAllowance(index, "25")}
                           className="w-6 h-6 bg-blue-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
-                          title="Bewerken"
+                          title={getTranslation("edit", language)}
                         >
                           ✏️
                         </button>
                         <button
                           onClick={() => handleDeleteAllowance(index, "25")}
                           className="w-6 h-6 bg-red-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-red-600 transition-colors"
-                          title="Verwijderen"
+                          title={getTranslation("delete", language)}
                         >
                           ×
                         </button>
@@ -160,7 +160,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="text-sm text-blue-700 font-medium mb-1">
-                          Toeslag 50%
+                          {getTranslation("allowance50", language)}
                         </div>
                         <div className="text-base text-blue-900 font-semibold">
                           {week.allowance50}
@@ -170,14 +170,14 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                         <button
                           onClick={() => handleEditAllowance(index, "50")}
                           className="w-6 h-6 bg-blue-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
-                          title="Bewerken"
+                          title={getTranslation("edit", language)}
                         >
                           ✏️
                         </button>
                         <button
                           onClick={() => handleDeleteAllowance(index, "50")}
                           className="w-6 h-6 bg-red-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-red-600 transition-colors"
-                          title="Verwijderen"
+                          title={getTranslation("delete", language)}
                         >
                           ×
                         </button>
@@ -190,7 +190,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="text-sm text-blue-700 font-medium mb-1">
-                          Toeslag 100%
+                          {getTranslation("allowance100", language)}
                         </div>
                         <div className="text-base text-blue-900 font-semibold">
                           {week.allowance100}
@@ -200,14 +200,14 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                         <button
                           onClick={() => handleEditAllowance(index, "100")}
                           className="w-6 h-6 bg-blue-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
-                          title="Bewerken"
+                          title={getTranslation("edit", language)}
                         >
                           ✏️
                         </button>
                         <button
                           onClick={() => handleDeleteAllowance(index, "100")}
                           className="w-6 h-6 bg-red-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-red-600 transition-colors"
-                          title="Verwijderen"
+                          title={getTranslation("delete", language)}
                         >
                           ×
                         </button>
@@ -226,15 +226,17 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-sm w-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              {isEditing ? "Toeslag Bewerken" : "Toeslag Toevoegen"} - Week{" "}
-              {selectedWeek! + 1}
+              {isEditing
+                ? getTranslation("editAllowance", language)
+                : getTranslation("addAllowance", language)}{" "}
+              - {getTranslation("week", language)} {selectedWeek! + 1}
             </h3>
 
             <div className="space-y-4">
               {/* Percentage Selection */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Toeslag Percentage
+                  {getTranslation("allowancePercentage", language)}
                 </label>
                 <select
                   value={selectedPercentage}
@@ -250,7 +252,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
               {/* Hours Input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Uren
+                  {getTranslation("allowanceHours", language)}
                 </label>
                 <TimeSelector
                   value={allowanceHours}
@@ -264,13 +266,15 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                 onClick={handleCancelAllowance}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
               >
-                Annuleren
+                {getTranslation("cancel", language)}
               </button>
               <button
                 onClick={handleSaveAllowance}
                 className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                {isEditing ? "Opslaan" : "Toevoegen"}
+                {isEditing
+                  ? getTranslation("save", language)
+                  : getTranslation("addAllowance", language)}
               </button>
             </div>
           </div>

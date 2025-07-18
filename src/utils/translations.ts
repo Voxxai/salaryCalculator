@@ -24,6 +24,15 @@ interface TranslationKeys {
   shiftleader: string;
   customRate: string;
   selectedRate: string;
+  functionBased: string;
+  automaticCalculation: string;
+  customHourlyRate: string;
+  manualInput: string;
+  allInRatesInfo: string;
+  shiftleaderWarning: string;
+  resetAllSettings: string;
+  years: string;
+  year: string;
 
   // Results
   results: string;
@@ -39,6 +48,19 @@ interface TranslationKeys {
   week: string;
   regularHours: string;
   overtimeHours: string;
+  paidBreaks: string;
+  allowance25: string;
+  allowance50: string;
+  allowance100: string;
+  addAllowance: string;
+  editAllowance: string;
+  deleteAllowance: string;
+  allowancePercentage: string;
+  allowanceHours: string;
+  save: string;
+  cancel: string;
+  edit: string;
+  delete: string;
 
   // Footer
   tip: string;
@@ -71,6 +93,17 @@ export const translations: Record<Language, TranslationKeys> = {
     shiftleader: "Shift Leader",
     customRate: "Custom Rate",
     selectedRate: "Selected Hourly Rate",
+    functionBased: "Function-based",
+    automaticCalculation: "Automatic calculation",
+    customHourlyRate: "Custom hourly rate",
+    manualInput: "Manual input",
+    allInRatesInfo:
+      "💡 All wages are all-in rates for contracts under 12 hours per week (including 32.97% allowance)",
+    shiftleaderWarning:
+      "ℹ️ Shift leader function is only available from age 18",
+    resetAllSettings: "Reset All Settings",
+    years: "years",
+    year: "year",
 
     // Results
     results: "📊 Results",
@@ -84,8 +117,21 @@ export const translations: Record<Language, TranslationKeys> = {
     // Hours Registration
     hoursRegistration: "⏰ Hours Registration",
     week: "Week",
-    regularHours: "Regular Hours (HH:MM)",
-    overtimeHours: "Overtime Hours 50 (HH:MM)",
+    regularHours: "Regular Hours",
+    overtimeHours: "Overtime Hours 50",
+    paidBreaks: "Paid Breaks",
+    allowance25: "Allowance 25%",
+    allowance50: "Allowance 50%",
+    allowance100: "Allowance 100%",
+    addAllowance: "Add Allowance",
+    editAllowance: "Edit Allowance",
+    deleteAllowance: "Delete Allowance",
+    allowancePercentage: "Allowance Percentage",
+    allowanceHours: "Allowance Hours",
+    save: "Save",
+    cancel: "Cancel",
+    edit: "Edit",
+    delete: "Delete",
 
     // Footer
     tip: "💡 Tip: Enter hours in HH:MM format (e.g. 8:30 for 8 hours and 30 minutes)",
@@ -118,6 +164,17 @@ export const translations: Record<Language, TranslationKeys> = {
     shiftleader: "Shiftleader",
     customRate: "Aangepast Uurloon",
     selectedRate: "Geselecteerd Uurloon",
+    functionBased: "Functie-gebaseerd",
+    automaticCalculation: "Automatische berekening",
+    customHourlyRate: "Aangepast uurloon",
+    manualInput: "Handmatige invoer",
+    allInRatesInfo:
+      "💡 Alle lonen zijn all-in tarieven voor contracten onder 12 uur per week (inclusief 32.97% toeslag)",
+    shiftleaderWarning:
+      "ℹ️ Shiftleider functie is alleen beschikbaar vanaf 18 jaar",
+    resetAllSettings: "Reset Alle Instellingen",
+    years: "jaar",
+    year: "jaar",
 
     // Results
     results: "📊 Resultaten",
@@ -131,8 +188,21 @@ export const translations: Record<Language, TranslationKeys> = {
     // Hours Registration
     hoursRegistration: "⏰ Urenregistratie",
     week: "Week",
-    regularHours: "Reguliere Uren (HH:MM)",
-    overtimeHours: "Toeslaguren 50 (HH:MM)",
+    regularHours: "Reguliere Uren",
+    overtimeHours: "Toeslaguren 50",
+    paidBreaks: "Betaalde Pauze",
+    allowance25: "Toeslag 25%",
+    allowance50: "Toeslag 50%",
+    allowance100: "Toeslag 100%",
+    addAllowance: "Toeslag Toevoegen",
+    editAllowance: "Toeslag Bewerken",
+    deleteAllowance: "Toeslag Verwijderen",
+    allowancePercentage: "Toeslag Percentage",
+    allowanceHours: "Toeslag Uren",
+    save: "Opslaan",
+    cancel: "Annuleren",
+    edit: "Bewerken",
+    delete: "Verwijderen",
 
     // Footer
     tip: "💡 Tip: Voer uren in het formaat HH:MM in (bijv. 8:30 voor 8 uur en 30 minuten)",

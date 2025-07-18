@@ -99,8 +99,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
             {getTranslation("selectFunction", language)}
           </h3>
           <div className="text-xs text-blue-600 mb-3 bg-blue-100 p-2 rounded border border-blue-200">
-            💡 Alle lonen zijn all-in tarieven voor contracten onder 12 uur per
-            week (inclusief 32.97% toeslag)
+            {getTranslation("allInRatesInfo", language)}
           </div>
 
           <div className="space-y-4">
@@ -128,10 +127,10 @@ const Configuration: React.FC<ConfigurationProps> = ({
                   </div>
                   <div>
                     <div className="font-medium text-gray-900">
-                      Functie-gebaseerd
+                      {getTranslation("functionBased", language)}
                     </div>
                     <div className="text-sm text-gray-600">
-                      Automatische berekening
+                      {getTranslation("automaticCalculation", language)}
                     </div>
                   </div>
                 </div>
@@ -159,10 +158,10 @@ const Configuration: React.FC<ConfigurationProps> = ({
                   </div>
                   <div>
                     <div className="font-medium text-gray-900">
-                      Aangepast uurloon
+                      {getTranslation("customHourlyRate", language)}
                     </div>
                     <div className="text-sm text-gray-600">
-                      Handmatige invoer
+                      {getTranslation("manualInput", language)}
                     </div>
                   </div>
                 </div>
@@ -183,7 +182,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
                   >
                     {getAgeGroups().map((age) => (
                       <option key={age} value={age}>
-                        {age} jaar
+                        {age} {getTranslation("years", language)}
                       </option>
                     ))}
                   </select>
@@ -212,7 +211,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
                   config.ageGroup === "16" ||
                   config.ageGroup === "17" ? (
                     <div className="text-xs text-orange-600 mt-1 bg-orange-50 p-2 rounded border border-orange-200">
-                      ℹ️ Shiftleider functie is alleen beschikbaar vanaf 18 jaar
+                      {getTranslation("shiftleaderWarning", language)}
                     </div>
                   ) : null}
                 </div>
@@ -230,7 +229,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
-                      {getYearsOfServiceOptions(config.ageGroup).map(
+                      {getYearsOfServiceOptions(config.ageGroup, language).map(
                         (option) => (
                           <option key={option.value} value={option.value}>
                             {option.label}
@@ -287,7 +286,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
             onClick={handleReset}
             className="w-full px-4 py-3 text-sm text-red-600 border-2 border-red-300 rounded-lg hover:bg-red-50 transition-colors font-medium"
           >
-            Reset Alle Instellingen
+            {getTranslation("resetAllSettings", language)}
           </button>
         </div>
 

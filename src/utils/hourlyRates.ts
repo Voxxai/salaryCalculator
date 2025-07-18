@@ -37,7 +37,7 @@ export const hourlyRates: HourlyRatesData = {
   // Note: Shiftleider functie is alleen beschikbaar vanaf 18 jaar
   shiftleader: {
     18: {
-      "0": 12.50, // All-in loon voor 18 jaar
+      "0": 12.5, // All-in loon voor 18 jaar
     },
     19: {
       "0": 13.84, // All-in loon voor 19 jaar
@@ -47,11 +47,11 @@ export const hourlyRates: HourlyRatesData = {
     },
     "21+": {
       "0": 19.97, // 21 jaar en ouder (geen functiejaren)
-      "1": 21.40, // 21 jaar (en een functiejaar)
+      "1": 21.4, // 21 jaar (en een functiejaar)
       "2": 21.76, // 21 jaar (en twee functiejaren)
       "3": 22.12, // 21 jaar (en drie functiejaren)
       "4": 22.48, // 21 jaar (en vier functiejaren)
-      "5": 23.20, // 21 jaar (en vijf functiejaren)
+      "5": 23.2, // 21 jaar (en vijf functiejaren)
     },
   },
 };
@@ -114,31 +114,32 @@ export const getJobFunctions = (ageGroup?: AgeGroup): JobFunction[] => {
 };
 
 // Function to get years of service options
-export const getYearsOfServiceOptions = (ageGroup?: AgeGroup): Array<{
+export const getYearsOfServiceOptions = (
+  ageGroup?: AgeGroup,
+  language?: string
+): Array<{
   value: number;
   label: string;
 }> => {
+  const yearLabel = language === "en" ? "year" : "jaar";
+
   // For age groups 18, 19, 20: only 0 years of service
   if (ageGroup === "18" || ageGroup === "19" || ageGroup === "20") {
-    return [
-      { value: 0, label: "0 jaar" },
-    ];
+    return [{ value: 0, label: `0 ${yearLabel}` }];
   }
-  
+
   // For 21+: 0 to 5 years of service
   if (ageGroup === "21+") {
     return [
-      { value: 0, label: "0 jaar" },
-      { value: 1, label: "1 jaar" },
-      { value: 2, label: "2 jaar" },
-      { value: 3, label: "3 jaar" },
-      { value: 4, label: "4 jaar" },
-      { value: 5, label: "5 jaar" },
+      { value: 0, label: `0 ${yearLabel}` },
+      { value: 1, label: `1 ${yearLabel}` },
+      { value: 2, label: `2 ${yearLabel}` },
+      { value: 3, label: `3 ${yearLabel}` },
+      { value: 4, label: `4 ${yearLabel}` },
+      { value: 5, label: `5 ${yearLabel}` },
     ];
   }
-  
+
   // Default for other age groups
-  return [
-    { value: 0, label: "0 jaar" },
-  ];
+  return [{ value: 0, label: `0 ${yearLabel}` }];
 };
