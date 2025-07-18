@@ -64,6 +64,14 @@ const Configuration: React.FC<ConfigurationProps> = ({
     updateConfig,
   ]);
 
+  // Auto-switch to vakkenvuller if shiftleader is not available for selected age group
+  React.useEffect(() => {
+    if (config.jobFunction === "shiftleader" && 
+        (config.ageGroup === "13-15" || config.ageGroup === "16" || config.ageGroup === "17")) {
+      updateConfig("jobFunction", "vakkenvuller");
+    }
+  }, [config.ageGroup, config.jobFunction, updateConfig]);
+
   const handleRateTypeChange = (isFunctionBased: boolean): void => {
     console.log("Changing rate type to:", isFunctionBased);
     console.log("Current config before change:", config.useFunctionBasedRate);
@@ -189,12 +197,18 @@ const Configuration: React.FC<ConfigurationProps> = ({
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    {getJobFunctions().map((func) => (
+                    {getJobFunctions(config.ageGroup).map((func) => (
                       <option key={func} value={func}>
                         {getTranslation(func, language)}
                       </option>
                     ))}
                   </select>
+                  {/* Show warning for shiftleader availability */}
+                  {config.ageGroup === "13-15" || config.ageGroup === "16" || config.ageGroup === "17" ? (
+                    <div className="text-xs text-orange-600 mt-1 bg-orange-50 p-2 rounded border border-orange-200">
+                      ℹ️ Shiftleider functie is alleen beschikbaar vanaf 18 jaar
+                    </div>
+                  ) : null}
                 </div>
 
                 {/* Years of Service (only for shiftleader) */}
@@ -210,7 +224,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
-                      {getYearsOfServiceOptions().map((option) => (
+                      {getYearsOfServiceOptions(config.ageGroup).map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>

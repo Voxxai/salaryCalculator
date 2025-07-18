@@ -129,8 +129,7 @@ function App(): JSX.Element {
   const updateConfig: UpdateConfigFunction = (field, value) => {
     setConfig((prev) => ({
       ...prev,
-      [field]:
-        typeof value === "string" ? value : parseFloat(value.toString()) || 0,
+      [field]: value,
     }));
   };
 
