@@ -66,8 +66,12 @@ const Configuration: React.FC<ConfigurationProps> = ({
 
   // Auto-switch to vakkenvuller if shiftleader is not available for selected age group
   React.useEffect(() => {
-    if (config.jobFunction === "shiftleader" && 
-        (config.ageGroup === "13-15" || config.ageGroup === "16" || config.ageGroup === "17")) {
+    if (
+      config.jobFunction === "shiftleader" &&
+      (config.ageGroup === "13-15" ||
+        config.ageGroup === "16" ||
+        config.ageGroup === "17")
+    ) {
       updateConfig("jobFunction", "vakkenvuller");
     }
   }, [config.ageGroup, config.jobFunction, updateConfig]);
@@ -204,7 +208,9 @@ const Configuration: React.FC<ConfigurationProps> = ({
                     ))}
                   </select>
                   {/* Show warning for shiftleader availability */}
-                  {config.ageGroup === "13-15" || config.ageGroup === "16" || config.ageGroup === "17" ? (
+                  {config.ageGroup === "13-15" ||
+                  config.ageGroup === "16" ||
+                  config.ageGroup === "17" ? (
                     <div className="text-xs text-orange-600 mt-1 bg-orange-50 p-2 rounded border border-orange-200">
                       ℹ️ Shiftleider functie is alleen beschikbaar vanaf 18 jaar
                     </div>
@@ -224,11 +230,13 @@ const Configuration: React.FC<ConfigurationProps> = ({
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
-                      {getYearsOfServiceOptions(config.ageGroup).map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
+                      {getYearsOfServiceOptions(config.ageGroup).map(
+                        (option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        )
+                      )}
                     </select>
                   </div>
                 )}
@@ -265,43 +273,13 @@ const Configuration: React.FC<ConfigurationProps> = ({
           </div>
         </div>
 
-        {/* 2025 Percentages Info */}
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <h3 className="text-sm font-medium text-blue-800 mb-3">
-            2025 Aftrekposten Percentages
-          </h3>
-          <div className="text-sm text-blue-700 space-y-2">
-            <div className="flex justify-between">
-              <span>Pensioen premie:</span>
-              <span className="font-medium">
-                {config.percentagePensioenPremie?.toFixed(2) || "1.59"}%
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>SPAWW.nl:</span>
-              <span className="font-medium">
-                {config.percentageSpaww?.toFixed(2) || "0.10"}%
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>Premie WGA werknemer:</span>
-              <span className="font-medium">
-                {config.percentagePremieWGAWerknemer?.toFixed(2) || "0.47"}%
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>Loonheffing:</span>
-              <span className="font-medium">
-                {config.percentageLoonheffing?.toFixed(2) || "7.81"}%
-                (indicatie)
-              </span>
-            </div>
-          </div>
-          <div className="text-xs text-orange-600 mt-3 font-medium bg-orange-50 p-2 rounded border border-orange-200">
-            ⚠️ Loonheffing is een indicatie gebaseerd op 2025 data en kan sterk
-            afwijken
-          </div>
-        </div>
+        {/* Hidden fixed values - used for calculations but not displayed */}
+        {/* 2025 Aftrekposten Percentages (hidden but used in calculations):
+            - Pensioen premie: {config.percentagePensioenPremie?.toFixed(2) || "1.59"}%
+            - SPAWW.nl: {config.percentageSpaww?.toFixed(2) || "0.10"}%
+            - Premie WGA werknemer: {config.percentagePremieWGAWerknemer?.toFixed(2) || "0.47"}%
+            - Loonheffing: {config.percentageLoonheffing?.toFixed(2) || "7.81"}% (indicatie)
+        */}
 
         {/* Reset Button */}
         <div className="pt-2">
@@ -316,6 +294,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
         {/* Hidden fixed values - used for calculations but not displayed */}
         {/* Overtime Percentage: {config.overtimePercentage}% */}
         {/* Number of Weeks: {config.numberOfWeeks} */}
+        {/* Aftrekposten percentages worden automatisch toegepast in de berekeningen */}
       </div>
     </div>
   );
