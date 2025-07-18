@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 
+interface ScreenSizeReturn {
+  isMobile: boolean;
+  isDesktop: boolean;
+}
+
 // Custom hook to detect screen size and determine layout
-export const useScreenSize = () => {
-  const [isMobile, setIsMobile] = useState(false);
+export const useScreenSize = (): ScreenSizeReturn => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
     // Function to check if screen is mobile size
-    const checkScreenSize = () => {
+    const checkScreenSize = (): void => {
       // Use lg breakpoint (1024px) as the threshold
       setIsMobile(window.innerWidth < 1024);
     };

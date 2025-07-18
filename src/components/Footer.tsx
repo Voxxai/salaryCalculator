@@ -1,8 +1,13 @@
 import React from "react";
 import { getTranslation } from "../utils/translations";
+import { Language } from "../types";
+
+interface FooterProps {
+  language: Language;
+}
 
 // Footer component - Shows tips and information
-const Footer = ({ language }) => {
+const Footer: React.FC<FooterProps> = ({ language }) => {
   return (
     <div className="mt-6 sm:mt-8 text-center text-xs sm:text-sm text-gray-500 px-4">
       <p className="leading-relaxed">{getTranslation("tip", language)}</p>

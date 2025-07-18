@@ -3,9 +3,26 @@ import Configuration from "./Configuration";
 import Results from "./Results";
 import HoursRegistration from "./HoursRegistration";
 import Footer from "./Footer";
+import {
+  Config,
+  Results as ResultsType,
+  WeekHours,
+  Language,
+  UpdateConfigFunction,
+  UpdateHoursPerWeekFunction,
+} from "../types";
+
+interface MobileLayoutProps {
+  config: Config;
+  updateConfig: UpdateConfigFunction;
+  results: ResultsType;
+  hoursPerWeek: WeekHours[];
+  updateHoursPerWeek: UpdateHoursPerWeekFunction;
+  language: Language;
+}
 
 // Mobile Layout component - Logical flow: Config → Hours → Results
-const MobileLayout = ({
+const MobileLayout: React.FC<MobileLayoutProps> = ({
   config,
   updateConfig,
   results,

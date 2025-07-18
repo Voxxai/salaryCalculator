@@ -3,9 +3,26 @@ import Configuration from "./Configuration";
 import Results from "./Results";
 import HoursRegistration from "./HoursRegistration";
 import Footer from "./Footer";
+import {
+  Config,
+  Results as ResultsType,
+  WeekHours,
+  Language,
+  UpdateConfigFunction,
+  UpdateHoursPerWeekFunction,
+} from "../types";
 
-// Desktop Layout component - Side by side configuration and results
-const DesktopLayout = ({
+interface DesktopLayoutProps {
+  config: Config;
+  updateConfig: UpdateConfigFunction;
+  results: ResultsType;
+  hoursPerWeek: WeekHours[];
+  updateHoursPerWeek: UpdateHoursPerWeekFunction;
+  language: Language;
+}
+
+// Desktop Layout component - Optimized for large screens
+const DesktopLayout: React.FC<DesktopLayoutProps> = ({
   config,
   updateConfig,
   results,
@@ -15,8 +32,8 @@ const DesktopLayout = ({
 }) => {
   return (
     <>
-      {/* Configuration and Results side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+      {/* Top section: Configuration and Results side by side with equal width */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         {/* Configuration component */}
         <Configuration
           config={config}
@@ -28,8 +45,8 @@ const DesktopLayout = ({
         <Results results={results} language={language} />
       </div>
 
-      {/* Hours registration component below */}
-      <div className="mt-6 sm:mt-8 lg:mt-8">
+      {/* Hours registration component - full width below */}
+      <div className="mt-8 lg:mt-10">
         <HoursRegistration
           hoursPerWeek={hoursPerWeek}
           updateHoursPerWeek={updateHoursPerWeek}

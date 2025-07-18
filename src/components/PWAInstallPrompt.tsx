@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { getTranslation } from "../utils/translations";
+import { Language } from "../types";
+
+interface PWAInstallPromptProps {
+  language: Language;
+}
+
+interface BeforeInstallPromptEvent extends Event {
+  preventDefault(): void;
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
 
 // PWA Install Prompt component
-const PWAInstallPrompt = ({ language }) => {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({ language }) => {
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [showInstallPrompt, setShowInstallPrompt] = useState<boolean>(false);
 
   useEffect(() => {
     // Listen for the beforeinstallprompt event
-    const handleBeforeInstallPrompt = (e) => {
+    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       // Stash the event so it can be triggered later
@@ -18,25 +30,28 @@ const PWAInstallPrompt = ({ language }) => {
     };
 
     // Listen for the appinstalled event
-    const handleAppInstalled = () => {
+    const handleAppInstalled = (): void => {
       console.log("PWA was installed");
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener(
+      "beforeinstallprompt",
+      handleBeforeInstallPrompt as EventListener
+    );
     window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
-        handleBeforeInstallPrompt
+        handleBeforeInstallPrompt as EventListener
       );
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
-  const handleInstallClick = async () => {
+  const handleInstallClick = async (): Promise<void> => {
     if (!deferredPrompt) return;
 
     // Show the install prompt
@@ -56,7 +71,7 @@ const PWAInstallPrompt = ({ language }) => {
     setShowInstallPrompt(false);
   };
 
-  const handleDismiss = () => {
+  const handleDismiss = (): void => {
     setShowInstallPrompt(false);
   };
 

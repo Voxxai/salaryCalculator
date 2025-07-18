@@ -1,6 +1,54 @@
+import { Language } from "../types";
+
 // Translation utilities for the salary calculator
 
-export const translations = {
+interface TranslationKeys {
+  // Header
+  title: string;
+  subtitle: string;
+
+  // Configuration
+  configuration: string;
+  hourlyRate: string;
+  overtimePercentage: string;
+  numberOfWeeks: string;
+  pensionPercentage: string;
+  weeks: string;
+
+  // Function-based hourly rate
+  selectFunction: string;
+  ageGroup: string;
+  jobFunction: string;
+  yearsOfService: string;
+  vakkenvuller: string;
+  shiftleader: string;
+  customRate: string;
+  selectedRate: string;
+
+  // Results
+  results: string;
+  totalRegularHours: string;
+  totalOvertimeHours: string;
+  estimatedGrossSalary: string;
+  estimatedPension: string;
+  estimatedTax: string;
+  estimatedNetSalary: string;
+
+  // Hours Registration
+  hoursRegistration: string;
+  week: string;
+  regularHours: string;
+  overtimeHours: string;
+
+  // Footer
+  tip: string;
+  disclaimer: string;
+
+  // Language Switch
+  languageSwitch: string;
+}
+
+export const translations: Record<Language, TranslationKeys> = {
   en: {
     // Header
     title: "💰 Salary Calculator",
@@ -13,6 +61,16 @@ export const translations = {
     numberOfWeeks: "Number of weeks in salary period",
     pensionPercentage: "Pension/SPAWW Percentage (%)",
     weeks: "weeks",
+
+    // Function-based hourly rate
+    selectFunction: "Select Function & Age",
+    ageGroup: "Age Group",
+    jobFunction: "Job Function",
+    yearsOfService: "Years of Service",
+    vakkenvuller: "Shelf Stocker",
+    shiftleader: "Shift Leader",
+    customRate: "Custom Rate",
+    selectedRate: "Selected Hourly Rate",
 
     // Results
     results: "📊 Results",
@@ -51,6 +109,16 @@ export const translations = {
     pensionPercentage: "Percentage Pensioen/SPAWW (%)",
     weeks: "weken",
 
+    // Function-based hourly rate
+    selectFunction: "Selecteer Functie & Leeftijd",
+    ageGroup: "Leeftijdsgroep",
+    jobFunction: "Functie",
+    yearsOfService: "Functiejaren",
+    vakkenvuller: "Vakkenvuller",
+    shiftleader: "Shiftleader",
+    customRate: "Aangepast Uurloon",
+    selectedRate: "Geselecteerd Uurloon",
+
     // Results
     results: "📊 Resultaten",
     totalRegularHours: "Totaal Reguliere Uren",
@@ -77,6 +145,9 @@ export const translations = {
 };
 
 // Function to get translation for a specific key and language
-export const getTranslation = (key, language) => {
+export const getTranslation = (
+  key: keyof TranslationKeys,
+  language: Language
+): string => {
   return translations[language]?.[key] || key;
 };

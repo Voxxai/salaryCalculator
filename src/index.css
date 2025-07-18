@@ -2,22 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================= */
+/* == ALBERT HEIJN APP - OFFICIEEL KLEURENPALET == */
+/* ============================================= */
+:root {
+  /* 1. Basis Merkkleuren */
+  --ah-blauw: #00a1e0;
+  --ah-oranje: #ff9e1b;
+
+  /* 2. Neutrale UI Kleuren */
+  --kleur-wit: #ffffff;
+  --kleur-lichtgrijs: #f2f2f2;
+  --kleur-donkergrijs: #4a4a4a;
+
+  /* 3. Functionele Kleuren (gebruik deze in je componenten) */
+  --kleur-primair: var(--ah-blauw);
+  --kleur-accent-bonus: var(--ah-oranje);
+
+  --kleur-achtergrond-app: var(--kleur-wit);
+  --kleur-achtergrond-card: var(--kleur-lichtgrijs);
+
+  --kleur-tekst-standaard: var(--kleur-donkergrijs);
+  --kleur-tekst-op-donker: var(--kleur-wit);
+}
+
+/* Reset default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* Base styles for the entire application */
 body {
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
-  color: #111827;
+  background-color: var(--kleur-achtergrond-app);
+  color: var(--kleur-tekst-standaard);
   /* Prevent horizontal scroll on mobile */
   overflow-x: hidden;
   /* Improve touch scrolling */
   -webkit-overflow-scrolling: touch;
-}
-
-/* Mobile-first responsive design */
-* {
-  box-sizing: border-box;
+  /* Remove default margins */
+  margin: 0;
+  padding: 0;
 }
 
 /* Prevent zoom on input focus (iOS) */
@@ -45,16 +74,17 @@ input[type="reset"] {
 }
 
 ::-webkit-scrollbar-track {
-  background: #ffffff;
+  background: var(--kleur-achtergrond-app);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--kleur-primair);
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--ah-blauw);
+  opacity: 0.8;
 }
 
 /* Mobile-specific styles */
@@ -64,20 +94,23 @@ input[type="reset"] {
     min-height: 48px;
     min-width: 48px;
   }
-  
+
   /* Better spacing for mobile */
   .mobile-spacing {
     padding: 1rem;
   }
-  
+
   /* Optimize text sizes for mobile */
   .mobile-text {
     font-size: 16px;
     line-height: 1.5;
   }
-  
+
   /* Prevent text selection on interactive elements */
-  button, input, select, textarea {
+  button,
+  input,
+  select,
+  textarea {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -85,9 +118,17 @@ input[type="reset"] {
     -ms-user-select: none;
     user-select: none;
   }
-  
+
   /* Allow text selection in content areas */
-  p, h1, h2, h3, h4, h5, h6, span, div {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  span,
+  div {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
@@ -98,7 +139,8 @@ input[type="reset"] {
 /* High DPI display optimization */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   /* Ensure crisp rendering on retina displays */
-  img, svg {
+  img,
+  svg {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
   }
@@ -107,18 +149,18 @@ input[type="reset"] {
 /* Safe area support for notched devices */
 @supports (padding: max(0px)) {
   .safe-area-top {
-    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-top: max(0px, env(safe-area-inset-top));
   }
-  
+
   .safe-area-bottom {
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
   }
-  
+
   .safe-area-left {
-    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-left: max(0px, env(safe-area-inset-left));
   }
-  
+
   .safe-area-right {
-    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-right: max(0px, env(safe-area-inset-right));
   }
 }
