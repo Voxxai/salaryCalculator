@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import DesktopLayout from "./components/DesktopLayout";
 import MobileLayout from "./components/MobileLayout";
-import PWAInstallPrompt from "./components/PWAInstallPrompt";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 // Import custom hooks
@@ -170,9 +169,6 @@ function App(): JSX.Element {
             />
           )}
         </div>
-
-        {/* PWA Install Prompt */}
-        <PWAInstallPrompt language={language} />
       </div>
     </ErrorBoundary>
   );
