@@ -5,8 +5,7 @@ import Header from "./components/Header";
 import DesktopLayout from "./components/DesktopLayout";
 import MobileLayout from "./components/MobileLayout";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
-import SimpleAnalytics from "./components/SimpleAnalytics";
-import SimpleAnalyticsPage from "./components/SimpleAnalyticsPage";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Import custom hooks
 import { useScreenSize } from "./hooks/useScreenSize";
@@ -21,6 +20,7 @@ import {
   saveLanguage,
   loadLanguage,
 } from "./utils/storage";
+import { DEFAULT_CONFIG, DEFAULT_WEEK_HOURS } from "./constants";
 
 // Import types
 import {
@@ -37,46 +37,19 @@ function App(): JSX.Element {
   // State for language selection (load from storage)
   const [language, setLanguage] = useState<Language>(() => loadLanguage());
 
-  // State for analytics page visibility
-  const [showAnalytics, setShowAnalytics] = useState<boolean>(false);
-
   // Detect screen size for layout selection
   const { isMobile } = useScreenSize();
 
   // State for configuration settings (load from storage)
   const [config, setConfig] = useState<Config>(() => {
     const savedConfig = loadConfig();
-    return (
-      savedConfig || {
-        allInHourlyRate: 19.18, // All-in hourly rate in euros
-        ageGroup: "21+", // Age group for function-based rates (default to highest rate)
-        jobFunction: "vakkenvuller", // Job function (vakkenvuller or shiftleader)
-        yearsOfService: 0, // Years of service for shiftleader
-        useFunctionBasedRate: false, // Whether to use function-based rate or custom rate
-        overtimePercentage: 50, // Overtime percentage (e.g. 50 for 50%)
-        numberOfWeeks: 4, // Number of weeks in salary period
-        percentagePensioenPremie: 1.59, // Pensioen premie percentage (2025)
-        percentageSpaww: 0.1, // SPAWW.nl percentage (2025)
-        percentagePremieWGAWerknemer: 0.47, // Premie WGA werknemer percentage (2025)
-        percentageLoonheffing: 7.81, // Loonheffing percentage (2025 - OPTIONAL)
-      }
-    );
+    return savedConfig || DEFAULT_CONFIG;
   });
 
   // State for hours registration per week (load from storage)
   const [hoursPerWeek, setHoursPerWeek] = useState<WeekHours[]>(() => {
     const savedHours = loadHours();
-    return (
-      savedHours || [
-        {
-          regularHours: "0:00",
-          paidBreaks: "0:00",
-          allowance25: "0:00",
-          allowance50: "0:00",
-          allowance100: "0:00",
-        },
-      ]
-    );
+    return savedHours || [DEFAULT_WEEK_HOURS];
   });
 
   // State for calculated results
@@ -109,7 +82,7 @@ function App(): JSX.Element {
     setHoursPerWeek(newHoursPerWeek);
   }, [config.numberOfWeeks]);
 
-    // Effect to recalculate salary when configuration or hours change
+  // Effect to recalculate salary when configuration or hours change
   useEffect(() => {
     const newResults = calculateSalary(config, hoursPerWeek);
     setResults(newResults);
@@ -132,7 +105,7 @@ function App(): JSX.Element {
 
   // Function to update configuration
   const updateConfig: UpdateConfigFunction = (field, value) => {
-    setConfig((prev) => ({
+    setConfig(prev => ({
       ...prev,
       [field]: value,
     }));
@@ -144,7 +117,7 @@ function App(): JSX.Element {
     field,
     value
   ) => {
-    setHoursPerWeek((prev) => {
+    setHoursPerWeek(prev => {
       const newHours = [...prev];
       newHours[weekIndex] = {
         ...newHours[weekIndex],
@@ -155,68 +128,43 @@ function App(): JSX.Element {
   };
 
   // Function to handle language change
-  const handleLanguageChange: HandleLanguageChangeFunction = (newLanguage) => {
+  const handleLanguageChange: HandleLanguageChangeFunction = newLanguage => {
     setLanguage(newLanguage);
   };
 
-  // Function to handle analytics page toggle
-  const handleAnalyticsClick = () => {
-    setShowAnalytics(!showAnalytics);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 font-inter">
-      {/* Show Analytics Page or Main App */}
-      {showAnalytics ? (
-        <>
-          {/* Header component */}
-          <Header
-            language={language}
-            onLanguageChange={handleLanguageChange}
-            onAnalyticsClick={handleAnalyticsClick}
-          />
-          <SimpleAnalyticsPage language={language} />
-        </>
-      ) : (
-        <>
-          {/* Header component */}
-          <Header
-            language={language}
-            onLanguageChange={handleLanguageChange}
-            onAnalyticsClick={handleAnalyticsClick}
-          />
+    <ErrorBoundary language={language}>
+      <div className="min-h-screen bg-gray-50 font-inter">
+        {/* Header component */}
+        <Header language={language} onLanguageChange={handleLanguageChange} />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-            {/* Choose layout based on screen size */}
-                    {isMobile ? (
-          <MobileLayout
-            config={config}
-            updateConfig={updateConfig}
-            results={results}
-            hoursPerWeek={hoursPerWeek}
-            updateHoursPerWeek={updateHoursPerWeek}
-            language={language}
-          />
-        ) : (
-          <DesktopLayout
-            config={config}
-            updateConfig={updateConfig}
-            results={results}
-            hoursPerWeek={hoursPerWeek}
-            updateHoursPerWeek={updateHoursPerWeek}
-            language={language}
-          />
-        )}
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+          {/* Choose layout based on screen size */}
+          {isMobile ? (
+            <MobileLayout
+              config={config}
+              updateConfig={updateConfig}
+              results={results}
+              hoursPerWeek={hoursPerWeek}
+              updateHoursPerWeek={updateHoursPerWeek}
+              language={language}
+            />
+          ) : (
+            <DesktopLayout
+              config={config}
+              updateConfig={updateConfig}
+              results={results}
+              hoursPerWeek={hoursPerWeek}
+              updateHoursPerWeek={updateHoursPerWeek}
+              language={language}
+            />
+          )}
+        </div>
 
-          {/* PWA Install Prompt */}
-          <PWAInstallPrompt language={language} />
-
-          {/* Simple Analytics Tracking */}
-          <SimpleAnalytics />
-        </>
-      )}
-    </div>
+        {/* PWA Install Prompt */}
+        <PWAInstallPrompt language={language} />
+      </div>
+    </ErrorBoundary>
   );
 }
 

@@ -1,12 +1,7 @@
 import { Config, WeekHours, Language } from "../types";
+import { STORAGE_KEYS } from "../constants";
 
 // Local Storage utilities for the salary calculator
-
-const STORAGE_KEYS = {
-  CONFIG: "salary_calculator_config",
-  HOURS: "salary_calculator_hours",
-  LANGUAGE: "salary_calculator_language",
-} as const;
 
 // Migrate old config format to new 2025 format with function-based rates
 const migrateConfig = (oldConfig: any): Config | null => {
@@ -120,7 +115,7 @@ export const loadLanguage = (): Language => {
 // Clear all stored data
 export const clearAllData = (): boolean => {
   try {
-    Object.values(STORAGE_KEYS).forEach((key) => {
+    Object.values(STORAGE_KEYS).forEach(key => {
       localStorage.removeItem(key);
     });
     return true;

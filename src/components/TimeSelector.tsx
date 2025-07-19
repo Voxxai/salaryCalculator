@@ -49,10 +49,10 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
       {/* Hours dropdown */}
       <select
         value={hours}
-        onChange={(e) => handleHourChange(parseInt(e.target.value))}
+        onChange={e => handleHourChange(parseInt(e.target.value))}
         className="flex-1 px-3 py-3 sm:py-2 text-sm border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 touch-target"
       >
-        {hourOptions.map((hour) => (
+        {hourOptions.map(hour => (
           <option key={hour} value={hour}>
             {hour}
           </option>
@@ -65,10 +65,10 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
       {/* Minutes dropdown */}
       <select
         value={minutes}
-        onChange={(e) => handleMinuteChange(parseInt(e.target.value))}
+        onChange={e => handleMinuteChange(parseInt(e.target.value))}
         className="flex-1 px-3 py-3 sm:py-2 text-sm border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 touch-target"
       >
-        {minuteOptions.map((minute) => (
+        {minuteOptions.map(minute => (
           <option key={minute} value={minute}>
             {minute.toString().padStart(2, "0")}
           </option>

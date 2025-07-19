@@ -69,12 +69,52 @@ interface TranslationKeys {
   // Language Switch
   languageSwitch: string;
 
-  // Analytics
-  analytics: string;
-  analyticsDescription: string;
-  noAnalyticsData: string;
-  loadingAnalytics: string;
-  clearAnalyticsConfirm: string;
+  // Error Boundary
+  errorTitle: string;
+  errorMessage: string;
+  reloadPage: string;
+  showErrorDetails: string;
+
+  // Feedback Form
+  feedbackButton: string;
+  feedbackTitle: string;
+  feedbackSubtitle: string;
+  feedbackType: string;
+  featureRequest: string;
+  bugReport: string;
+  improvement: string;
+  other: string;
+  feature: string;
+  bug: string;
+  feedbackTitleLabel: string;
+  feedbackTitlePlaceholder: string;
+  feedbackDescription: string;
+  feedbackDescriptionPlaceholder: string;
+  feedbackPriority: string;
+  low: string;
+  medium: string;
+  high: string;
+  feedbackEmail: string;
+  optional: string;
+  feedbackEmailPlaceholder: string;
+  submitFeedback: string;
+  submitting: string;
+  feedbackSubmitted: string;
+  feedbackThankYou: string;
+
+  // Admin Panel
+  adminButton: string;
+  feedbackAdminTitle: string;
+  feedbackAdminSubtitle: string;
+  filterByType: string;
+  allTypes: string;
+  sortBy: string;
+  sortByDate: string;
+  sortByPriority: string;
+  noFeedback: string;
+  deleteFeedback: string;
+  clearAllFeedback: string;
+  close: string;
 }
 
 export const translations: Record<Language, TranslationKeys> = {
@@ -148,12 +188,55 @@ export const translations: Record<Language, TranslationKeys> = {
     // Language Switch
     languageSwitch: "🌍 Language",
 
-    // Analytics
-    analytics: "Analytics",
-    analyticsDescription: "Track app usage and user behavior",
-    noAnalyticsData: "No analytics data available yet",
-    loadingAnalytics: "Loading analytics data...",
-    clearAnalyticsConfirm: "Are you sure you want to clear all analytics data?",
+    // Error Boundary
+    errorTitle: "Something went wrong",
+    errorMessage:
+      "An unexpected error occurred. Please try reloading the page.",
+    reloadPage: "Reload Page",
+    showErrorDetails: "Show Error Details",
+
+    // Feedback Form
+    feedbackButton: "Send Feedback",
+    feedbackTitle: "Send Feedback",
+    feedbackSubtitle: "Help us improve the app with your suggestions",
+    feedbackType: "Feedback Type",
+    featureRequest: "Feature Request",
+    bugReport: "Bug Report",
+    improvement: "Improvement",
+    other: "Other",
+    feature: "Feature",
+    bug: "Bug",
+    feedbackTitleLabel: "Title",
+    feedbackTitlePlaceholder: "Brief description of your feedback",
+    feedbackDescription: "Description",
+    feedbackDescriptionPlaceholder:
+      "Please provide detailed information about your feedback...",
+    feedbackPriority: "Priority",
+    low: "Low",
+    medium: "Medium",
+    high: "High",
+    feedbackEmail: "Email (Optional)",
+    optional: "Optional",
+    feedbackEmailPlaceholder: "your.email@example.com",
+    submitFeedback: "Submit Feedback",
+    submitting: "Submitting...",
+    feedbackSubmitted: "Feedback Submitted!",
+    feedbackThankYou:
+      "Thank you for your feedback! We'll review it and get back to you if needed.",
+
+    // Admin Panel
+    adminButton: "Admin Panel",
+    feedbackAdminTitle: "Feedback Management",
+    feedbackAdminSubtitle: "View and manage user feedback",
+    filterByType: "Filter by Type",
+    allTypes: "All Types",
+    sortBy: "Sort By",
+    sortByDate: "Date",
+    sortByPriority: "Priority",
+    noFeedback: "No feedback submitted yet",
+    deleteFeedback: "Delete Feedback",
+    clearAllFeedback: "Clear All Feedback",
+    close: "Close",
   },
 
   nl: {
@@ -226,12 +309,55 @@ export const translations: Record<Language, TranslationKeys> = {
     // Language Switch
     languageSwitch: "🌍 Taal",
 
-    // Analytics
-    analytics: "Analytics",
-    analyticsDescription: "Volg app gebruik en gebruikersgedrag",
-    noAnalyticsData: "Nog geen analytics data beschikbaar",
-    loadingAnalytics: "Analytics data laden...",
-    clearAnalyticsConfirm: "Weet je zeker dat je alle analytics data wilt wissen?",
+    // Error Boundary
+    errorTitle: "Er is iets misgegaan",
+    errorMessage:
+      "Er is een onverwachte fout opgetreden. Probeer de pagina opnieuw te laden.",
+    reloadPage: "Pagina Herladen",
+    showErrorDetails: "Toon Foutdetails",
+
+    // Feedback Form
+    feedbackButton: "Feedback Sturen",
+    feedbackTitle: "Feedback Sturen",
+    feedbackSubtitle: "Help ons de app te verbeteren met je suggesties",
+    feedbackType: "Type Feedback",
+    featureRequest: "Feature Verzoek",
+    bugReport: "Bug Rapport",
+    improvement: "Verbetering",
+    other: "Anders",
+    feature: "Feature",
+    bug: "Bug",
+    feedbackTitleLabel: "Titel",
+    feedbackTitlePlaceholder: "Korte beschrijving van je feedback",
+    feedbackDescription: "Beschrijving",
+    feedbackDescriptionPlaceholder:
+      "Geef gedetailleerde informatie over je feedback...",
+    feedbackPriority: "Prioriteit",
+    low: "Laag",
+    medium: "Gemiddeld",
+    high: "Hoog",
+    feedbackEmail: "E-mail (Optioneel)",
+    optional: "Optioneel",
+    feedbackEmailPlaceholder: "jouw.email@voorbeeld.nl",
+    submitFeedback: "Feedback Versturen",
+    submitting: "Versturen...",
+    feedbackSubmitted: "Feedback Verstuurd!",
+    feedbackThankYou:
+      "Bedankt voor je feedback! We bekijken het en nemen contact op indien nodig.",
+
+    // Admin Panel
+    adminButton: "Admin Paneel",
+    feedbackAdminTitle: "Feedback Beheer",
+    feedbackAdminSubtitle: "Bekijk en beheer gebruikersfeedback",
+    filterByType: "Filter op Type",
+    allTypes: "Alle Types",
+    sortBy: "Sorteer Op",
+    sortByDate: "Datum",
+    sortByPriority: "Prioriteit",
+    noFeedback: "Nog geen feedback ingediend",
+    deleteFeedback: "Feedback Verwijderen",
+    clearAllFeedback: "Alle Feedback Wissen",
+    close: "Sluiten",
   },
 };
 

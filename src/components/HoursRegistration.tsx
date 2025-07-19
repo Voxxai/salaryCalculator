@@ -105,7 +105,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                   </label>
                   <TimeSelector
                     value={week.regularHours}
-                    onChange={(value) =>
+                    onChange={value =>
                       updateHoursPerWeek(index, "regularHours", value)
                     }
                   />
@@ -118,7 +118,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                   </label>
                   <TimeSelector
                     value={week.paidBreaks}
-                    onChange={(value) =>
+                    onChange={value =>
                       updateHoursPerWeek(index, "paidBreaks", value)
                     }
                   />
@@ -240,7 +240,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                 </label>
                 <select
                   value={selectedPercentage}
-                  onChange={(e) => setSelectedPercentage(e.target.value)}
+                  onChange={e => setSelectedPercentage(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="25">25%</option>

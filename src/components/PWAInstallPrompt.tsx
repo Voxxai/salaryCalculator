@@ -65,8 +65,6 @@ const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({ language }) => {
       console.log("User accepted the install prompt");
     } else {
       console.log("User dismissed the install prompt");
-
-
     }
 
     // Clear the deferredPrompt

@@ -8,6 +8,7 @@ import {
   getYearsOfServiceOptions,
 } from "../utils/hourlyRates";
 import { Config, Language, UpdateConfigFunction } from "../types";
+import { AGE_GROUPS_WITHOUT_SHIFTLEADER } from "../constants";
 
 interface ConfigurationProps {
   config: Config;
@@ -37,15 +38,6 @@ const Configuration: React.FC<ConfigurationProps> = ({
     ? getHourlyRate(config.jobFunction, config.ageGroup, config.yearsOfService)
     : config.allInHourlyRate;
 
-  // Debug logging
-  console.log("Config state:", {
-    useFunctionBasedRate: config.useFunctionBasedRate,
-    ageGroup: config.ageGroup,
-    jobFunction: config.jobFunction,
-    yearsOfService: config.yearsOfService,
-    selectedHourlyRate: selectedHourlyRate,
-  });
-
   // Update the hourly rate when function-based selection changes
   React.useEffect(() => {
     if (config.useFunctionBasedRate) {
@@ -68,23 +60,14 @@ const Configuration: React.FC<ConfigurationProps> = ({
   React.useEffect(() => {
     if (
       config.jobFunction === "shiftleader" &&
-      (config.ageGroup === "13-15" ||
-        config.ageGroup === "16" ||
-        config.ageGroup === "17")
+      AGE_GROUPS_WITHOUT_SHIFTLEADER.includes(config.ageGroup as any)
     ) {
       updateConfig("jobFunction", "vakkenvuller");
     }
   }, [config.ageGroup, config.jobFunction, updateConfig]);
 
   const handleRateTypeChange = (isFunctionBased: boolean): void => {
-    console.log("Changing rate type to:", isFunctionBased);
-    console.log("Current config before change:", config.useFunctionBasedRate);
     updateConfig("useFunctionBasedRate", isFunctionBased);
-
-    // Force a re-render by updating a different field temporarily
-    setTimeout(() => {
-      console.log("Config after change:", config.useFunctionBasedRate);
-    }, 100);
   };
 
   return (
@@ -178,10 +161,10 @@ const Configuration: React.FC<ConfigurationProps> = ({
                   </label>
                   <select
                     value={config.ageGroup}
-                    onChange={(e) => updateConfig("ageGroup", e.target.value)}
+                    onChange={e => updateConfig("ageGroup", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    {getAgeGroups().map((age) => (
+                    {getAgeGroups().map(age => (
                       <option key={age} value={age}>
                         {age} {getTranslation("years", language)}
                       </option>
@@ -196,12 +179,10 @@ const Configuration: React.FC<ConfigurationProps> = ({
                   </label>
                   <select
                     value={config.jobFunction}
-                    onChange={(e) =>
-                      updateConfig("jobFunction", e.target.value)
-                    }
+                    onChange={e => updateConfig("jobFunction", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    {getJobFunctions(config.ageGroup).map((func) => (
+                    {getJobFunctions(config.ageGroup).map(func => (
                       <option key={func} value={func}>
                         {getTranslation(func, language)}
                       </option>
@@ -225,13 +206,13 @@ const Configuration: React.FC<ConfigurationProps> = ({
                     </label>
                     <select
                       value={config.yearsOfService}
-                      onChange={(e) =>
+                      onChange={e =>
                         updateConfig("yearsOfService", parseInt(e.target.value))
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       {getYearsOfServiceOptions(config.ageGroup, language).map(
-                        (option) => (
+                        option => (
                           <option key={option.value} value={option.value}>
                             {option.label}
                           </option>
@@ -262,7 +243,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
                   step="0.01"
                   min="0"
                   value={config.allInHourlyRate}
-                  onChange={(e) =>
+                  onChange={e =>
                     updateConfig("allInHourlyRate", e.target.value)
                   }
                   className="w-full px-4 py-3 border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 touch-target text-lg"

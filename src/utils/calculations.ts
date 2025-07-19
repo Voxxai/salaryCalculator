@@ -1,8 +1,9 @@
 import { Config, WeekHours, Results } from "../types";
+import { ALLOWANCE_MULTIPLIERS, TIME_REGEX } from "../constants";
 
 // Function to convert HH:MM format to decimal hours
 export const timeToDecimal = (timeString: string): number => {
-  if (!timeString || timeString === "0:00") return 0;
+  if (!timeString || timeString === "0:00" || timeString === "0") return 0;
 
   const [hours, minutes] = timeString.split(":").map(Number);
   return hours + minutes / 60;
@@ -29,7 +30,7 @@ export const calculateSalary = (
   let totalAllowance50Decimal = 0;
   let totalAllowance100Decimal = 0;
 
-  hoursPerWeek.forEach((week) => {
+  hoursPerWeek.forEach(week => {
     totalRegularHoursDecimal += timeToDecimal(week.regularHours);
     totalPaidBreaksDecimal += timeToDecimal(week.paidBreaks);
     totalAllowance25Decimal += timeToDecimal(week.allowance25);
@@ -40,9 +41,12 @@ export const calculateSalary = (
   // Calculate hourly rates
   const regularHourlyRate = config.allInHourlyRate;
   const paidBreaksHourlyRate = config.allInHourlyRate; // Paid breaks are at regular rate
-  const allowance25HourlyRate = config.allInHourlyRate * 1.25; // 25% extra
-  const allowance50HourlyRate = config.allInHourlyRate * 1.5; // 50% extra
-  const allowance100HourlyRate = config.allInHourlyRate * 2.0; // 100% extra
+  const allowance25HourlyRate =
+    config.allInHourlyRate * ALLOWANCE_MULTIPLIERS.TWENTY_FIVE;
+  const allowance50HourlyRate =
+    config.allInHourlyRate * ALLOWANCE_MULTIPLIERS.FIFTY;
+  const allowance100HourlyRate =
+    config.allInHourlyRate * ALLOWANCE_MULTIPLIERS.HUNDRED;
 
   // Calculate income for each category
   const regularHoursIncome = totalRegularHoursDecimal * regularHourlyRate;
@@ -106,6 +110,5 @@ export const calculateSalary = (
 
 // Function to validate time input (HH:MM format)
 export const validateTimeInput = (value: string): boolean => {
-  const timeRegex = /^([0-9]|[0-1][0-9]|2[0-3]):([0-5][0-9])$/;
-  return timeRegex.test(value) || value === "";
+  return TIME_REGEX.test(value) || value === "";
 };
