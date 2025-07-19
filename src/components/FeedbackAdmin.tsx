@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { getTranslation } from "../utils/translations";
 import { Language } from "../types";
+import {
+  feedbackService,
+  FeedbackData as SupabaseFeedbackData,
+} from "../utils/supabase";
 
-interface FeedbackData {
-  id: number;
-  type: "feature" | "bug" | "improvement" | "other";
-  title: string;
-  description: string;
-  priority: "low" | "medium" | "high";
+// Local interface that includes both Supabase and localStorage fields
+interface FeedbackData extends SupabaseFeedbackData {
+  timestamp?: string;
   contactEmail?: string;
-  timestamp: string;
 }
 
 interface FeedbackAdminProps {
@@ -25,11 +25,46 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
   const [sortBy, setSortBy] = useState<"date" | "priority">("date");
 
   useEffect(() => {
-    // Load feedback from localStorage
-    const storedFeedback = JSON.parse(
-      localStorage.getItem("user_feedback") || "[]"
-    );
-    setFeedback(storedFeedback);
+    // Load feedback from Supabase and localStorage
+    const loadFeedback = async () => {
+      try {
+        // Try to load from Supabase first
+        const supabaseResult = await feedbackService.getAllFeedback();
+
+        if (supabaseResult.data) {
+          // Transform Supabase data to match our format
+          const transformedData = supabaseResult.data.map(item => ({
+            id: item.id,
+            type: item.type,
+            title: item.title,
+            description: item.description,
+            priority: item.priority,
+            contactEmail: item.contact_email,
+            timestamp: item.created_at || new Date().toISOString(),
+          }));
+          setFeedback(transformedData);
+        } else {
+          // Fallback to localStorage
+          console.warn(
+            "Supabase failed, using localStorage:",
+            supabaseResult.error
+          );
+          const storedFeedback = JSON.parse(
+            localStorage.getItem("user_feedback") || "[]"
+          );
+          setFeedback(storedFeedback);
+        }
+      } catch (error) {
+        console.error("Error loading feedback:", error);
+        // Fallback to localStorage
+        const storedFeedback = JSON.parse(
+          localStorage.getItem("user_feedback") || "[]"
+        );
+        setFeedback(storedFeedback);
+      }
+    };
+
+    loadFeedback();
   }, []);
 
   const filteredFeedback = feedback
@@ -37,7 +72,8 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
     .sort((a, b) => {
       if (sortBy === "date") {
         return (
-          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          new Date(b.created_at || b.timestamp || "").getTime() -
+          new Date(a.created_at || a.timestamp || "").getTime()
         );
       } else {
         const priorityOrder = { high: 3, medium: 2, low: 1 };
@@ -45,10 +81,30 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
       }
     });
 
-  const handleDelete = (id: number): void => {
-    const updatedFeedback = feedback.filter(item => item.id !== id);
-    setFeedback(updatedFeedback);
-    localStorage.setItem("user_feedback", JSON.stringify(updatedFeedback));
+  const handleDelete = async (id: number): Promise<void> => {
+    try {
+      // Try to delete from Supabase first
+      const result = await feedbackService.deleteFeedback(id);
+
+      if (result.success) {
+        // Also update localStorage
+        const updatedFeedback = feedback.filter(item => item.id !== id);
+        setFeedback(updatedFeedback);
+        localStorage.setItem("user_feedback", JSON.stringify(updatedFeedback));
+      } else {
+        console.warn("Supabase delete failed:", result.error);
+        // Fallback to localStorage only
+        const updatedFeedback = feedback.filter(item => item.id !== id);
+        setFeedback(updatedFeedback);
+        localStorage.setItem("user_feedback", JSON.stringify(updatedFeedback));
+      }
+    } catch (error) {
+      console.error("Error deleting feedback:", error);
+      // Fallback to localStorage only
+      const updatedFeedback = feedback.filter(item => item.id !== id);
+      setFeedback(updatedFeedback);
+      localStorage.setItem("user_feedback", JSON.stringify(updatedFeedback));
+    }
   };
 
   const getPriorityColor = (priority: string): string => {
@@ -203,7 +259,9 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
                     </div>
                     <p className="text-gray-600 mb-3">{item.description}</p>
                     <div className="flex items-center gap-4 text-sm text-gray-500">
-                      <span>{formatDate(item.timestamp)}</span>
+                      <span>
+                        {formatDate(item.created_at || item.timestamp || "")}
+                      </span>
                       {item.contactEmail && <span>📧 {item.contactEmail}</span>}
                       <span className="capitalize">
                         {getTranslation(
@@ -218,7 +276,7 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
                     </div>
                   </div>
                   <button
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => item.id && handleDelete(item.id)}
                     className="text-red-500 hover:text-red-700 transition-colors ml-4"
                     title={getTranslation("deleteFeedback", language)}
                   >
@@ -245,12 +303,29 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
         {/* Footer */}
         <div className="flex justify-between items-center pt-6 border-t border-gray-200">
           <button
-            onClick={() => {
+            onClick={async () => {
               if (
                 window.confirm(getTranslation("clearAllFeedback", language))
               ) {
-                setFeedback([]);
-                localStorage.removeItem("user_feedback");
+                try {
+                  // Try to clear from Supabase first
+                  const result = await feedbackService.clearAllFeedback();
+
+                  if (result.success) {
+                    setFeedback([]);
+                    localStorage.removeItem("user_feedback");
+                  } else {
+                    console.warn("Supabase clear failed:", result.error);
+                    // Fallback to localStorage only
+                    setFeedback([]);
+                    localStorage.removeItem("user_feedback");
+                  }
+                } catch (error) {
+                  console.error("Error clearing feedback:", error);
+                  // Fallback to localStorage only
+                  setFeedback([]);
+                  localStorage.removeItem("user_feedback");
+                }
               }
             }}
             className="text-red-600 hover:text-red-800 transition-colors"

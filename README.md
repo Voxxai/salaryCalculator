@@ -8,6 +8,13 @@ Een React web- en mobiele applicatie voor het berekenen van salaris met toeslage
 
 De app wordt automatisch gedeployed naar GitHub Pages bij elke push naar de master branch!
 
+### 🆕 Nieuw: Feedback Systeem
+
+- **💬 User Feedback**: Gebruikers kunnen feature requests en bug reports indienen
+- **🗄️ Database Integration**: Optionele Supabase database voor cross-device sync
+- **👨‍💼 Admin Panel**: Bekijk en beheer feedback (alleen in development mode)
+- **📱 Cross-Device**: Feedback zichtbaar op alle apparaten via database
+
 ### 1. Configuratie Sectie
 
 #### Uurloon Berekening
@@ -45,7 +52,6 @@ De app wordt automatisch gedeployed naar GitHub Pages bij elke push naar de mast
 ## 🧮 Berekeningslogica (2025)
 
 1. **Uurloon Berekening**:
-
    - Reguliere uren: `All-in Uurloon`
    - Betaalde pauzes: `All-in Uurloon`
    - 25% Toeslag: `All-in Uurloon × 1.25`
@@ -55,7 +61,6 @@ De app wordt automatisch gedeployed naar GitHub Pages bij elke push naar de mast
 2. **Bruto Salaris**: Som van alle inkomsten per categorie
 
 3. **Aftrekposten**:
-
    - **Pensioen premie**: `Bruto Salaris × Percentage Pensioen premie`
    - **SPAWW.nl**: `Bruto Salaris × Percentage SPAWW`
    - **Loon voor Loonheffing**: `Bruto Salaris - Pensioen premie - SPAWW`
@@ -117,6 +122,21 @@ De applicatie is volledig responsief en werkt optimaal op:
 - Loonheffing is optioneel en standaard uitgeschakeld
 - De app is specifiek ontwikkeld voor Albert Heijn medewerkers
 
+## 🗄️ Database Setup (Optioneel)
+
+Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
+
+1. **Volg de setup guide**: Zie `SUPABASE_SETUP.md` voor gedetailleerde instructies
+2. **Maak een `.env` bestand**: Kopieer `env.example` naar `.env` en vul je Supabase credentials in
+3. **Test de setup**: Start de app en verstuur test feedback
+
+**Voordelen:**
+
+- ✅ **Gratis tier**: 500MB database, 50MB bestanden
+- ✅ **Real-time sync**: Feedback verschijnt direct op alle apparaten
+- ✅ **Backup systeem**: Fallback naar localStorage als database niet beschikbaar is
+- ✅ **Secure**: HTTPS en API key authenticatie
+
 ## 🔧 Technische Details
 
 - **React**: Functionele componenten met hooks
@@ -127,6 +147,9 @@ De applicatie is volledig responsief en werkt optimaal op:
 - **PWA**: Service Worker voor offline functionaliteit
 - **TypeScript**: Volledig getypeerde code
 - **Local Storage**: Automatische opslag van instellingen
+- **Database**: Supabase PostgreSQL database (optioneel)
+- **Feedback System**: User feedback met admin panel
+- **Error Handling**: Error boundaries en fallback systemen
 
 ## 📄 Licentie
 

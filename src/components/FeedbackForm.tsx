@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getTranslation } from "../utils/translations";
 import { Language } from "../types";
+import { feedbackService } from "../utils/supabase";
 
 interface FeedbackFormProps {
   language: Language;
@@ -32,10 +33,52 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call - in real app, send to your backend
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Try to submit to Supabase first
+      const result = await feedbackService.submitFeedback({
+        type: feedback.type,
+        title: feedback.title,
+        description: feedback.description,
+        priority: feedback.priority,
+        contact_email: feedback.contactEmail || undefined,
+      });
 
-      // Store feedback in localStorage for demo purposes
+      if (result.success) {
+        // Also store in localStorage as backup
+        const existingFeedback = JSON.parse(
+          localStorage.getItem("user_feedback") || "[]"
+        );
+        existingFeedback.push({
+          ...feedback,
+          timestamp: new Date().toISOString(),
+          id: Date.now(),
+        });
+        localStorage.setItem("user_feedback", JSON.stringify(existingFeedback));
+
+        setIsSubmitted(true);
+        setTimeout(() => {
+          onClose();
+        }, 2000);
+      } else {
+        // Fallback to localStorage only if Supabase fails
+        console.warn("Supabase failed, using localStorage:", result.error);
+        const existingFeedback = JSON.parse(
+          localStorage.getItem("user_feedback") || "[]"
+        );
+        existingFeedback.push({
+          ...feedback,
+          timestamp: new Date().toISOString(),
+          id: Date.now(),
+        });
+        localStorage.setItem("user_feedback", JSON.stringify(existingFeedback));
+
+        setIsSubmitted(true);
+        setTimeout(() => {
+          onClose();
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      // Fallback to localStorage
       const existingFeedback = JSON.parse(
         localStorage.getItem("user_feedback") || "[]"
       );
@@ -50,8 +93,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
       setTimeout(() => {
         onClose();
       }, 2000);
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
     } finally {
       setIsSubmitting(false);
     }
