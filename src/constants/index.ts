@@ -7,11 +7,11 @@ export const ALLOWANCE_MULTIPLIERS = {
 } as const;
 
 export const DEFAULT_CONFIG = {
-  allInHourlyRate: 19.18,
-  ageGroup: "21+" as const,
+  allInHourlyRate: 6.15,
+  ageGroup: "13-15" as const,
   jobFunction: "vakkenvuller" as const,
   yearsOfService: 0,
-  useFunctionBasedRate: false,
+  useFunctionBasedRate: true,
   overtimePercentage: 50,
   numberOfWeeks: 4,
   percentagePensioenPremie: 1.59,

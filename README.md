@@ -21,8 +21,9 @@ De app wordt automatisch gedeployed naar GitHub Pages bij elke push naar de mast
 
 - **Functie-gebaseerd Uurloon**: Automatische berekening op basis van leeftijd, functie en dienstjaren
   - **Leeftijdsgroepen**: 13-15, 16, 17, 18, 19, 20, 21+ jaar
-  - **Functies**: Vakkenvuller, Kassa, Shiftleader
+  - **Functies**: Vakkenvuller, Shiftleader
   - **Dienstjaren**: 0, 1, 2, 3, 4, 5+ jaar
+  - **Standaard**: 15-jarige vakkenvuller (€6.15/uur)
 - **Handmatig Uurloon**: Voer je eigen all-in uurloon in euro's in
 
 #### Algemene Instellingen
