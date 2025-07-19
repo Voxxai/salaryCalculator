@@ -150,12 +150,12 @@ De app wordt automatisch gedeployed naar GitHub Pages via GitHub Actions:
 2. **GitHub Pages instellingen**:
    - Ga naar repository Settings → Pages
    - Source: "GitHub Actions"
-   - De workflow deployt automatisch naar gh-pages branch
+   - De workflow gebruikt officiële GitHub Pages deployment
 
 3. **Automatische deployment**:
    - Elke push naar `master` branch triggert automatische deployment
    - GitHub Actions buildt de app met environment variables
-   - Deployt naar `gh-pages` branch
+   - Gebruikt officiële GitHub Pages deployment service
 
 4. **Live URL**: https://voxxai.github.io/salaryCalculator/
 
