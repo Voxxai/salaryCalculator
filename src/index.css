@@ -68,6 +68,53 @@ input[type="reset"] {
   min-width: 44px;
 }
 
+/* Accessibility improvements */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--kleur-primair);
+  outline-offset: 2px;
+}
+
+/* Skip to content link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--kleur-primair);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --kleur-primair: #0066cc;
+    --kleur-accent-bonus: #cc6600;
+    --kleur-tekst-standaard: #000000;
+    --kleur-achtergrond-app: #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Mobile-optimized scrollbar */
 ::-webkit-scrollbar {
   width: 4px;

@@ -72,7 +72,11 @@ interface TranslationKeys {
   // Error Boundary
   errorTitle: string;
   errorMessage: string;
+  calculationError: string;
+  storageError: string;
+  networkError: string;
   reloadPage: string;
+  clearStorageAndReload: string;
   showErrorDetails: string;
 
   // Feedback Form
@@ -192,7 +196,12 @@ export const translations: Record<Language, TranslationKeys> = {
     errorTitle: "Something went wrong",
     errorMessage:
       "An unexpected error occurred. Please try reloading the page.",
+    calculationError:
+      "A calculation error occurred. Please check your input values.",
+    storageError: "A storage error occurred. Your data may be corrupted.",
+    networkError: "A network error occurred. Please check your connection.",
     reloadPage: "Reload Page",
+    clearStorageAndReload: "Clear Storage & Reload",
     showErrorDetails: "Show Error Details",
 
     // Feedback Form
@@ -313,7 +322,13 @@ export const translations: Record<Language, TranslationKeys> = {
     errorTitle: "Er is iets misgegaan",
     errorMessage:
       "Er is een onverwachte fout opgetreden. Probeer de pagina opnieuw te laden.",
+    calculationError:
+      "Er is een berekeningsfout opgetreden. Controleer je invoerwaarden.",
+    storageError:
+      "Er is een opslagfout opgetreden. Je gegevens kunnen beschadigd zijn.",
+    networkError: "Er is een netwerkfout opgetreden. Controleer je verbinding.",
     reloadPage: "Pagina Herladen",
+    clearStorageAndReload: "Opslag Wissen & Herladen",
     showErrorDetails: "Toon Foutdetails",
 
     // Feedback Form

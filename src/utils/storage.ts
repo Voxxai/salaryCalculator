@@ -12,7 +12,7 @@ const migrateConfig = (oldConfig: any): Config | null => {
     oldConfig.pensionPercentage !== undefined ||
     oldConfig.taxPercentage !== undefined
   ) {
-    console.log("Migrating old config to 2025 format");
+    // Migrating old config to 2025 format
 
     return {
       allInHourlyRate: oldConfig.allInHourlyRate || 19.18,
@@ -33,7 +33,7 @@ const migrateConfig = (oldConfig: any): Config | null => {
 
   // Check if this is missing the new function-based fields
   if (oldConfig.ageGroup === undefined) {
-    console.log("Adding missing function-based rate fields");
+    // Adding missing function-based rate fields
     return {
       ...oldConfig,
       ageGroup: "21+",

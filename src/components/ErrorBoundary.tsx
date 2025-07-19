@@ -10,6 +10,7 @@ interface Props {
 interface State {
   hasError: boolean;
   error?: Error;
+  errorType?: "calculation" | "storage" | "network" | "general";
 }
 
 class ErrorBoundary extends Component<Props, State> {
@@ -19,15 +20,71 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+    // Determine error type based on error message or name
+    let errorType: "calculation" | "storage" | "network" | "general" =
+      "general";
+
+    if (
+      error.message.includes("calculation") ||
+      error.message.includes("NaN")
+    ) {
+      errorType = "calculation";
+    } else if (
+      error.message.includes("localStorage") ||
+      error.message.includes("storage")
+    ) {
+      errorType = "storage";
+    } else if (
+      error.message.includes("fetch") ||
+      error.message.includes("network")
+    ) {
+      errorType = "network";
+    }
+
+    return { hasError: true, error, errorType };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error("Error caught by boundary:", error, errorInfo);
+
+    // Log to console with more details in development
+    if (process.env.NODE_ENV === "development") {
+      console.group("Error Details");
+      console.error("Error:", error);
+      console.error("Error Info:", errorInfo);
+      console.error("Component Stack:", errorInfo.componentStack);
+      console.groupEnd();
+    }
   }
 
   handleReload = (): void => {
     window.location.reload();
+  };
+
+  handleClearStorage = (): void => {
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to clear storage:", error);
+      window.location.reload();
+    }
+  };
+
+  getErrorMessage = (): string => {
+    const { errorType } = this.state;
+
+    switch (errorType) {
+      case "calculation":
+        return getTranslation("calculationError", this.props.language);
+      case "storage":
+        return getTranslation("storageError", this.props.language);
+      case "network":
+        return getTranslation("networkError", this.props.language);
+      default:
+        return getTranslation("errorMessage", this.props.language);
+    }
   };
 
   render(): ReactNode {
@@ -39,15 +96,26 @@ class ErrorBoundary extends Component<Props, State> {
             <h1 className="text-xl font-bold text-gray-900 mb-2">
               {getTranslation("errorTitle", this.props.language)}
             </h1>
-            <p className="text-gray-600 mb-6">
-              {getTranslation("errorMessage", this.props.language)}
-            </p>
-            <button
-              onClick={this.handleReload}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-            >
-              {getTranslation("reloadPage", this.props.language)}
-            </button>
+            <p className="text-gray-600 mb-6">{this.getErrorMessage()}</p>
+
+            <div className="space-y-3">
+              <button
+                onClick={this.handleReload}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              >
+                {getTranslation("reloadPage", this.props.language)}
+              </button>
+
+              {this.state.errorType === "storage" && (
+                <button
+                  onClick={this.handleClearStorage}
+                  className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                >
+                  {getTranslation("clearStorageAndReload", this.props.language)}
+                </button>
+              )}
+            </div>
+
             {process.env.NODE_ENV === "development" && this.state.error && (
               <details className="mt-4 text-left">
                 <summary className="cursor-pointer text-sm text-gray-500">

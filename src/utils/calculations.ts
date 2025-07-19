@@ -108,6 +108,18 @@ export const calculateSalary = (
   };
 };
 
+// Function to validate numeric input (prevent negative values)
+export const validateNumericInput = (
+  value: string,
+  min: number = 0
+): number => {
+  const numValue = parseFloat(value);
+  if (isNaN(numValue) || numValue < min) {
+    return min;
+  }
+  return numValue;
+};
+
 // Function to validate time input (HH:MM format)
 export const validateTimeInput = (value: string): boolean => {
   return TIME_REGEX.test(value) || value === "";

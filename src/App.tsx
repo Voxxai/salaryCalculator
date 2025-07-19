@@ -69,18 +69,20 @@ function App(): JSX.Element {
 
   // Effect to adjust hours registration when number of weeks changes
   useEffect(() => {
-    const newHoursPerWeek: WeekHours[] = [];
-    for (let i = 0; i < config.numberOfWeeks; i++) {
-      newHoursPerWeek.push({
-        regularHours: hoursPerWeek[i]?.regularHours || "0:00",
-        paidBreaks: hoursPerWeek[i]?.paidBreaks || "0:00",
-        allowance25: hoursPerWeek[i]?.allowance25 || "0:00",
-        allowance50: hoursPerWeek[i]?.allowance50 || "0:00",
-        allowance100: hoursPerWeek[i]?.allowance100 || "0:00",
-      });
+    if (hoursPerWeek.length !== config.numberOfWeeks) {
+      const newHoursPerWeek: WeekHours[] = [];
+      for (let i = 0; i < config.numberOfWeeks; i++) {
+        newHoursPerWeek.push({
+          regularHours: hoursPerWeek[i]?.regularHours || "0:00",
+          paidBreaks: hoursPerWeek[i]?.paidBreaks || "0:00",
+          allowance25: hoursPerWeek[i]?.allowance25 || "0:00",
+          allowance50: hoursPerWeek[i]?.allowance50 || "0:00",
+          allowance100: hoursPerWeek[i]?.allowance100 || "0:00",
+        });
+      }
+      setHoursPerWeek(newHoursPerWeek);
     }
-    setHoursPerWeek(newHoursPerWeek);
-  }, [config.numberOfWeeks]);
+  }, [config.numberOfWeeks, hoursPerWeek.length]);
 
   // Effect to recalculate salary when configuration or hours change
   useEffect(() => {
@@ -135,10 +137,18 @@ function App(): JSX.Element {
   return (
     <ErrorBoundary language={language}>
       <div className="min-h-screen bg-gray-50 font-inter">
+        {/* Skip to content link for accessibility */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+
         {/* Header component */}
         <Header language={language} onLanguageChange={handleLanguageChange} />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div
+          id="main-content"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8"
+        >
           {/* Choose layout based on screen size */}
           {isMobile ? (
             <MobileLayout

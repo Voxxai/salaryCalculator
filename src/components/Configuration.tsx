@@ -53,7 +53,6 @@ const Configuration: React.FC<ConfigurationProps> = ({
     config.jobFunction,
     config.ageGroup,
     config.yearsOfService,
-    updateConfig,
   ]);
 
   // Auto-switch to vakkenvuller if shiftleader is not available for selected age group
@@ -64,7 +63,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
     ) {
       updateConfig("jobFunction", "vakkenvuller");
     }
-  }, [config.ageGroup, config.jobFunction, updateConfig]);
+  }, [config.ageGroup, config.jobFunction]);
 
   const handleRateTypeChange = (isFunctionBased: boolean): void => {
     updateConfig("useFunctionBasedRate", isFunctionBased);

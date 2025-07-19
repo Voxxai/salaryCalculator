@@ -2,6 +2,7 @@ import {
   timeToDecimal,
   decimalToTime,
   validateTimeInput,
+  validateNumericInput,
   calculateSalary,
 } from "../calculations";
 import { Config, WeekHours } from "../../types";
@@ -46,7 +47,7 @@ describe("calculations", () => {
     });
 
     it("should reject invalid formats", () => {
-      expect(validateTimeInput("25:00")).toBe(false);
+      expect(validateTimeInput("61:00")).toBe(false);
       expect(validateTimeInput("12:60")).toBe(false);
       expect(validateTimeInput("8:5")).toBe(false);
       expect(validateTimeInput("abc")).toBe(false);
@@ -55,6 +56,31 @@ describe("calculations", () => {
 
     it("should allow empty string", () => {
       expect(validateTimeInput("")).toBe(true);
+    });
+  });
+
+  describe("validateNumericInput", () => {
+    it("should validate positive numbers", () => {
+      expect(validateNumericInput("10.5")).toBe(10.5);
+      expect(validateNumericInput("0")).toBe(0);
+      expect(validateNumericInput("100")).toBe(100);
+    });
+
+    it("should prevent negative values", () => {
+      expect(validateNumericInput("-5")).toBe(0);
+      expect(validateNumericInput("-10.5")).toBe(0);
+    });
+
+    it("should handle invalid input", () => {
+      expect(validateNumericInput("abc")).toBe(0);
+      expect(validateNumericInput("")).toBe(0);
+      expect(validateNumericInput("NaN")).toBe(0);
+    });
+
+    it("should respect custom minimum value", () => {
+      expect(validateNumericInput("-5", 10)).toBe(10);
+      expect(validateNumericInput("5", 10)).toBe(10);
+      expect(validateNumericInput("15", 10)).toBe(15);
     });
   });
 

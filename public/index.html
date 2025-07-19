@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
   <head>
     <meta charset="utf-8" />
@@ -35,7 +35,7 @@
       property="og:description"
       content="Bereken je salaris met toeslagen en aftrekposten"
     />
-    <meta property="og:image" content="%PUBLIC_URL%/logo192.png" />
+    <meta property="og:image" content="%PUBLIC_URL%/favicon.svg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -45,33 +45,34 @@
       property="twitter:description"
       content="Bereken je salaris met toeslagen en aftrekposten"
     />
-    <meta property="twitter:image" content="%PUBLIC_URL%/logo192.png" />
+    <meta property="twitter:image" content="%PUBLIC_URL%/favicon.svg" />
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
     <link
       rel="apple-touch-icon"
       sizes="152x152"
-      href="%PUBLIC_URL%/logo192.png"
+      href="%PUBLIC_URL%/favicon.svg"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="%PUBLIC_URL%/logo192.png"
+      href="%PUBLIC_URL%/favicon.svg"
     />
     <link
       rel="apple-touch-icon"
       sizes="167x167"
-      href="%PUBLIC_URL%/logo192.png"
+      href="%PUBLIC_URL%/favicon.svg"
     />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Salariscalculator" />
 
     <!-- Microsoft Tiles -->
-    <meta name="msapplication-TileImage" content="%PUBLIC_URL%/logo192.png" />
+    <meta name="msapplication-TileImage" content="%PUBLIC_URL%/favicon.svg" />
     <meta
       name="msapplication-config"
       content="%PUBLIC_URL%/browserconfig.xml"
@@ -98,32 +99,22 @@
     >
     <div id="root"></div>
 
-    <!-- PWA Service Worker Registration -->
+    <!-- PWA Service Worker Registration - Temporarily disabled -->
+    <!--
     <script>
       if ("serviceWorker" in navigator) {
-        // Clear old caches first
-        caches.keys().then((cacheNames) => {
-          return Promise.all(
-            cacheNames.map((cacheName) => {
-              if (cacheName !== "salary-calculator-v2") {
-                console.log("Deleting old cache:", cacheName);
-                return caches.delete(cacheName);
-              }
-            })
-          );
-        });
-
         window.addEventListener("load", () => {
           navigator.serviceWorker
-            .register("/sw.js")
-            .then((registration) => {
-              console.log("SW registered: ", registration);
+            .register("/sw.js", { scope: "/" })
+            .then(() => {
+              // Silent success
             })
-            .catch((registrationError) => {
-              console.log("SW registration failed: ", registrationError);
+            .catch(() => {
+              // Silent failure
             });
         });
       }
     </script>
+    -->
   </body>
 </html>
