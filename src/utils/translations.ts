@@ -149,7 +149,7 @@ export const translations: Record<Language, TranslationKeys> = {
     customHourlyRate: "Custom hourly rate",
     manualInput: "Manual input",
     allInRatesInfo:
-      "💡 All wages are all-in rates for contracts under 12 hours per week (including 32.97% allowance)",
+      "💡 All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
     shiftleaderWarning:
       "ℹ️ Shift leader function is only available from age 18",
     resetAllSettings: "Reset All Settings",
@@ -187,7 +187,7 @@ export const translations: Record<Language, TranslationKeys> = {
     // Footer
     tip: "💡 Tip: Enter hours in HH:MM format (e.g. 8:30 for 8 hours and 30 minutes)",
     disclaimer:
-      "All calculations are estimates and may differ from your actual payslip.",
+      "⚠️ IMPORTANT: All calculations are estimates only. Your actual salary may differ due to individual circumstances, collective agreements, or company policies. Always verify with your employer or payslip.",
 
     // Language Switch
     languageSwitch: "🌍 Language",
@@ -275,7 +275,7 @@ export const translations: Record<Language, TranslationKeys> = {
     customHourlyRate: "Aangepast uurloon",
     manualInput: "Handmatige invoer",
     allInRatesInfo:
-      "💡 Alle lonen zijn all-in tarieven voor contracten onder 12 uur per week (inclusief 32.97% toeslag)",
+      "💡 All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
     shiftleaderWarning:
       "ℹ️ Shiftleider functie is alleen beschikbaar vanaf 18 jaar",
     resetAllSettings: "Reset Alle Instellingen",
@@ -313,7 +313,7 @@ export const translations: Record<Language, TranslationKeys> = {
     // Footer
     tip: "💡 Tip: Voer uren in het formaat HH:MM in (bijv. 8:30 voor 8 uur en 30 minuten)",
     disclaimer:
-      "Alle berekeningen zijn geschat en kunnen afwijken van je daadwerkelijke salarisstrook.",
+      "⚠️ BELANGRIJK: Alle berekeningen zijn slechts schattingen. Je daadwerkelijke salaris kan afwijken door individuele omstandigheden, cao's of bedrijfsbeleid. Controleer altijd bij je werkgever of salarisstrook.",
 
     // Language Switch
     languageSwitch: "🌍 Taal",

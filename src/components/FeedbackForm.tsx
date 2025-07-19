@@ -282,8 +282,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
           {/* Contact Email (Optional) */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              {getTranslation("feedbackEmail", language)} (
-              {getTranslation("optional", language)})
+              {getTranslation("feedbackEmail", language)}
             </label>
             <input
               type="email"
