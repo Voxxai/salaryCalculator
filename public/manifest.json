@@ -1,6 +1,6 @@
 {
-  "short_name": "Salariscalculator",
-  "name": "Salariscalculator - Bereken je Salaris",
+  "short_name": "Loon Calculator",
+  "name": "Loon Calculator - Bereken je Salaris",
   "description": "Bereken je salaris met toeslagen en aftrekposten. Gratis en eenvoudig te gebruiken.",
   "icons": [
     {
