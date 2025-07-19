@@ -10,10 +10,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build -b master",
     "format": "prettier --write src/**/*.{ts,tsx}",
     "format:check": "prettier --check src/**/*.{ts,tsx}",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "setup-db": "node scripts/setup_database.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.52.0",
@@ -27,6 +28,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.14",
+    "dotenv": "^17.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
     "gh-pages": "^6.3.0",

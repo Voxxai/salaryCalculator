@@ -1,12 +1,24 @@
 import { createClient } from "@supabase/supabase-js";
 
 // Supabase configuration
-// You'll need to replace these with your actual Supabase credentials
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || "";
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-// Create Supabase client
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Validate environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn(
+    "⚠️  Supabase credentials not found in environment variables. Database features will be disabled."
+  );
+  console.warn(
+    "💡 Make sure you have a .env file with REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY"
+  );
+}
+
+// Create Supabase client (only if credentials are available)
+export const supabase =
+  supabaseUrl && supabaseAnonKey
+    ? createClient(supabaseUrl, supabaseAnonKey)
+    : null;
 
 // Feedback table interface
 export interface FeedbackData {
@@ -27,6 +39,11 @@ export const feedbackService = {
   async submitFeedback(
     feedback: Omit<FeedbackData, "id" | "created_at">
   ): Promise<{ success: boolean; error?: string }> {
+    // Check if Supabase is configured
+    if (!supabase) {
+      return { success: false, error: "Database not configured" };
+    }
+
     try {
       const { data, error } = await supabase
         .from("feedback")
@@ -56,6 +73,11 @@ export const feedbackService = {
     data: FeedbackData[] | null;
     error?: string;
   }> {
+    // Check if Supabase is configured
+    if (!supabase) {
+      return { data: null, error: "Database not configured" };
+    }
+
     try {
       const { data, error } = await supabase
         .from("feedback")
@@ -78,6 +100,11 @@ export const feedbackService = {
   async deleteFeedback(
     id: number
   ): Promise<{ success: boolean; error?: string }> {
+    // Check if Supabase is configured
+    if (!supabase) {
+      return { success: false, error: "Database not configured" };
+    }
+
     try {
       const { error } = await supabase.from("feedback").delete().eq("id", id);
 
@@ -95,6 +122,11 @@ export const feedbackService = {
 
   // Clear all feedback (for admin)
   async clearAllFeedback(): Promise<{ success: boolean; error?: string }> {
+    // Check if Supabase is configured
+    if (!supabase) {
+      return { success: false, error: "Database not configured" };
+    }
+
     try {
       const { error } = await supabase.from("feedback").delete().neq("id", 0); // Delete all records
 

@@ -126,7 +126,7 @@ De applicatie is volledig responsief en werkt optimaal op:
 
 Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
 
-1. **Volg de setup guide**: Zie `SUPABASE_SETUP.md` voor gedetailleerde instructies
+1. **Volg de setup guide**: Zie `docs/SUPABASE_SETUP.md` voor gedetailleerde instructies
 2. **Maak een `.env` bestand**: Kopieer `env.example` naar `.env` en vul je Supabase credentials in
 3. **Test de setup**: Start de app en verstuur test feedback
 
@@ -136,6 +136,33 @@ Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
 - ✅ **Real-time sync**: Feedback verschijnt direct op alle apparaten
 - ✅ **Backup systeem**: Fallback naar localStorage als database niet beschikbaar is
 - ✅ **Secure**: HTTPS en API key authenticatie
+
+## 🚀 Deployment & GitHub Pages
+
+### Automatische Deployment
+De app wordt automatisch gedeployed naar GitHub Pages via GitHub Actions:
+
+1. **GitHub Secrets configureren**:
+   - Ga naar repository Settings → Secrets and variables → Actions
+   - Voeg `REACT_APP_SUPABASE_URL` en `REACT_APP_SUPABASE_ANON_KEY` toe
+
+2. **Automatische deployment**:
+   - Elke push naar `master` branch triggert automatische deployment
+   - GitHub Actions buildt de app met environment variables
+   - Deployt naar `gh-pages` branch
+
+3. **Live URL**: https://voxxai.github.io/salaryCalculator/
+
+### Lokale Development
+```bash
+# Start development server (gebruikt .env bestand)
+npm start
+
+# Build voor lokale testing
+npm run build
+```
+
+**Zie `docs/DEPLOYMENT_GUIDE.md` voor gedetailleerde instructies.**
 
 ## 🔧 Technische Details
 
