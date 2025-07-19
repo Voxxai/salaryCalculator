@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getTranslation } from "../utils/translations";
-import { Language } from "../types";
 import { feedbackService } from "../utils/supabase";
+import { Language } from "../types";
 
 interface FeedbackFormProps {
   language: Language;
@@ -16,6 +16,47 @@ interface FeedbackData {
   contactEmail?: string;
 }
 
+// Rate limiting utility
+const RATE_LIMIT_KEY = "feedback_rate_limit";
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_SUBMISSIONS = 3; // Max 3 submissions per minute
+
+const checkRateLimit = (): boolean => {
+  const now = Date.now();
+  const rateLimitData = localStorage.getItem(RATE_LIMIT_KEY);
+
+  if (!rateLimitData) {
+    localStorage.setItem(
+      RATE_LIMIT_KEY,
+      JSON.stringify({ count: 1, firstSubmission: now })
+    );
+    return true;
+  }
+
+  const { count, firstSubmission } = JSON.parse(rateLimitData);
+
+  // Reset if window has passed
+  if (now - firstSubmission > RATE_LIMIT_WINDOW) {
+    localStorage.setItem(
+      RATE_LIMIT_KEY,
+      JSON.stringify({ count: 1, firstSubmission: now })
+    );
+    return true;
+  }
+
+  // Check if limit exceeded
+  if (count >= MAX_SUBMISSIONS) {
+    return false;
+  }
+
+  // Increment count
+  localStorage.setItem(
+    RATE_LIMIT_KEY,
+    JSON.stringify({ count: count + 1, firstSubmission })
+  );
+  return true;
+};
+
 const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
   const [feedback, setFeedback] = useState<FeedbackData>({
     type: "feature",
@@ -27,9 +68,20 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
+    setError("");
+
+    // Check rate limit
+    if (!checkRateLimit()) {
+      setError(
+        "Too many submissions. Please wait a minute before trying again."
+      );
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -60,7 +112,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
         }, 2000);
       } else {
         // Fallback to localStorage only if Supabase fails
-        console.warn("Supabase failed, using localStorage:", result.error);
         const existingFeedback = JSON.parse(
           localStorage.getItem("user_feedback") || "[]"
         );
@@ -77,7 +128,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
         }, 2000);
       }
     } catch (error) {
-      console.error("Error submitting feedback:", error);
       // Fallback to localStorage
       const existingFeedback = JSON.parse(
         localStorage.getItem("user_feedback") || "[]"
@@ -292,6 +342,9 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
               placeholder={getTranslation("feedbackEmailPlaceholder", language)}
             />
           </div>
+
+          {/* Error Message */}
+          {error && <div className="text-red-500 text-sm">{error}</div>}
 
           {/* Submit Button */}
           <div className="flex space-x-3 pt-4">

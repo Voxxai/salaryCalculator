@@ -15,10 +15,8 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
 
-  // Check if user is admin (developer mode)
-  const isAdmin =
-    process.env.NODE_ENV === "development" ||
-    localStorage.getItem("admin_mode") === "true";
+  // Check if user is admin (development mode only)
+  const isAdmin = process.env.NODE_ENV === "development";
   return (
     <header className="bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg border-b-2 border-blue-800 relative safe-area-top">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">

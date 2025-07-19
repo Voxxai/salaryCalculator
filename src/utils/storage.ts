@@ -52,7 +52,6 @@ export const saveConfig = (config: Config): boolean => {
     localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config));
     return true;
   } catch (error) {
-    console.error("Error saving config:", error);
     return false;
   }
 };
@@ -64,7 +63,6 @@ export const loadConfig = (): Config | null => {
     const parsed = saved ? JSON.parse(saved) : null;
     return migrateConfig(parsed);
   } catch (error) {
-    console.error("Error loading config:", error);
     return null;
   }
 };
@@ -75,7 +73,6 @@ export const saveHours = (hours: WeekHours[]): boolean => {
     localStorage.setItem(STORAGE_KEYS.HOURS, JSON.stringify(hours));
     return true;
   } catch (error) {
-    console.error("Error saving hours:", error);
     return false;
   }
 };
@@ -86,7 +83,6 @@ export const loadHours = (): WeekHours[] | null => {
     const saved = localStorage.getItem(STORAGE_KEYS.HOURS);
     return saved ? JSON.parse(saved) : null;
   } catch (error) {
-    console.error("Error loading hours:", error);
     return null;
   }
 };
@@ -97,7 +93,6 @@ export const saveLanguage = (language: Language): boolean => {
     localStorage.setItem(STORAGE_KEYS.LANGUAGE, language);
     return true;
   } catch (error) {
-    console.error("Error saving language:", error);
     return false;
   }
 };
@@ -107,7 +102,6 @@ export const loadLanguage = (): Language => {
   try {
     return (localStorage.getItem(STORAGE_KEYS.LANGUAGE) as Language) || "nl";
   } catch (error) {
-    console.error("Error loading language:", error);
     return "nl";
   }
 };
@@ -120,7 +114,6 @@ export const clearAllData = (): boolean => {
     });
     return true;
   } catch (error) {
-    console.error("Error clearing data:", error);
     return false;
   }
 };

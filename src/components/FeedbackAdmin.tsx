@@ -45,17 +45,12 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
           setFeedback(transformedData);
         } else {
           // Fallback to localStorage
-          console.warn(
-            "Supabase failed, using localStorage:",
-            supabaseResult.error
-          );
           const storedFeedback = JSON.parse(
             localStorage.getItem("user_feedback") || "[]"
           );
           setFeedback(storedFeedback);
         }
       } catch (error) {
-        console.error("Error loading feedback:", error);
         // Fallback to localStorage
         const storedFeedback = JSON.parse(
           localStorage.getItem("user_feedback") || "[]"
@@ -92,14 +87,12 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
         setFeedback(updatedFeedback);
         localStorage.setItem("user_feedback", JSON.stringify(updatedFeedback));
       } else {
-        console.warn("Supabase delete failed:", result.error);
         // Fallback to localStorage only
         const updatedFeedback = feedback.filter(item => item.id !== id);
         setFeedback(updatedFeedback);
         localStorage.setItem("user_feedback", JSON.stringify(updatedFeedback));
       }
     } catch (error) {
-      console.error("Error deleting feedback:", error);
       // Fallback to localStorage only
       const updatedFeedback = feedback.filter(item => item.id !== id);
       setFeedback(updatedFeedback);
@@ -315,13 +308,11 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = ({ language, onClose }) => {
                     setFeedback([]);
                     localStorage.removeItem("user_feedback");
                   } else {
-                    console.warn("Supabase clear failed:", result.error);
                     // Fallback to localStorage only
                     setFeedback([]);
                     localStorage.removeItem("user_feedback");
                   }
                 } catch (error) {
-                  console.error("Error clearing feedback:", error);
                   // Fallback to localStorage only
                   setFeedback([]);
                   localStorage.removeItem("user_feedback");

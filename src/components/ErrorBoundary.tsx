@@ -45,16 +45,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error("Error caught by boundary:", error, errorInfo);
-
-    // Log to console with more details in development
-    if (process.env.NODE_ENV === "development") {
-      console.group("Error Details");
-      console.error("Error:", error);
-      console.error("Error Info:", errorInfo);
-      console.error("Component Stack:", errorInfo.componentStack);
-      console.groupEnd();
-    }
+    // Silent error handling - no console logs in any environment
   }
 
   handleReload = (): void => {
@@ -67,7 +58,6 @@ class ErrorBoundary extends Component<Props, State> {
       sessionStorage.clear();
       window.location.reload();
     } catch (error) {
-      console.error("Failed to clear storage:", error);
       window.location.reload();
     }
   };
@@ -116,16 +106,7 @@ class ErrorBoundary extends Component<Props, State> {
               )}
             </div>
 
-            {process.env.NODE_ENV === "development" && this.state.error && (
-              <details className="mt-4 text-left">
-                <summary className="cursor-pointer text-sm text-gray-500">
-                  {getTranslation("showErrorDetails", this.props.language)}
-                </summary>
-                <pre className="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded overflow-auto">
-                  {this.state.error.toString()}
-                </pre>
-              </details>
-            )}
+            {/* Error details removed for production */}
           </div>
         </div>
       );

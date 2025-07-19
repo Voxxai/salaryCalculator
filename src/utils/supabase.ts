@@ -1,17 +1,21 @@
 import { createClient } from "@supabase/supabase-js";
 
+// Input sanitization function to prevent XSS
+const sanitizeInput = (input: string): string => {
+  return input
+    .replace(/[<>]/g, "") // Remove < and > characters
+    .replace(/javascript:/gi, "") // Remove javascript: protocol
+    .replace(/on\w+=/gi, "") // Remove event handlers
+    .trim(); // Remove leading/trailing whitespace
+};
+
 // Supabase configuration
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 // Validate environment variables
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
-    "⚠️  Supabase credentials not found in environment variables. Database features will be disabled."
-  );
-  console.warn(
-    "💡 Make sure you have a .env file with REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY"
-  );
+  // Database features will be disabled silently
 }
 
 // Create Supabase client (only if credentials are available)
@@ -45,25 +49,29 @@ export const feedbackService = {
     }
 
     try {
+      // Sanitize user input
+      const sanitizedFeedback = {
+        ...feedback,
+        title: sanitizeInput(feedback.title),
+        description: sanitizeInput(feedback.description),
+        contact_email: feedback.contact_email
+          ? sanitizeInput(feedback.contact_email)
+          : undefined,
+        device_info: `${window.screen.width}x${window.screen.height}`,
+        user_agent: navigator.userAgent,
+      };
+
       const { data, error } = await supabase
         .from("feedback")
-        .insert([
-          {
-            ...feedback,
-            device_info: `${window.screen.width}x${window.screen.height}`,
-            user_agent: navigator.userAgent,
-          },
-        ])
+        .insert([sanitizedFeedback])
         .select();
 
       if (error) {
-        console.error("Error submitting feedback:", error);
         return { success: false, error: error.message };
       }
 
       return { success: true };
     } catch (error) {
-      console.error("Error submitting feedback:", error);
       return { success: false, error: "Failed to submit feedback" };
     }
   },
@@ -85,13 +93,11 @@ export const feedbackService = {
         .order("created_at", { ascending: false });
 
       if (error) {
-        console.error("Error fetching feedback:", error);
         return { data: null, error: error.message };
       }
 
       return { data };
     } catch (error) {
-      console.error("Error fetching feedback:", error);
       return { data: null, error: "Failed to fetch feedback" };
     }
   },
@@ -109,13 +115,11 @@ export const feedbackService = {
       const { error } = await supabase.from("feedback").delete().eq("id", id);
 
       if (error) {
-        console.error("Error deleting feedback:", error);
         return { success: false, error: error.message };
       }
 
       return { success: true };
     } catch (error) {
-      console.error("Error deleting feedback:", error);
       return { success: false, error: "Failed to delete feedback" };
     }
   },
@@ -131,13 +135,11 @@ export const feedbackService = {
       const { error } = await supabase.from("feedback").delete().neq("id", 0); // Delete all records
 
       if (error) {
-        console.error("Error clearing feedback:", error);
         return { success: false, error: error.message };
       }
 
       return { success: true };
     } catch (error) {
-      console.error("Error clearing feedback:", error);
       return { success: false, error: "Failed to clear feedback" };
     }
   },
