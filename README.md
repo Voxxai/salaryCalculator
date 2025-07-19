@@ -140,6 +140,7 @@ Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
 ## 🚀 Deployment & GitHub Pages
 
 ### Automatische Deployment
+
 De app wordt automatisch gedeployed naar GitHub Pages via GitHub Actions:
 
 1. **GitHub Secrets configureren**:
@@ -148,20 +149,20 @@ De app wordt automatisch gedeployed naar GitHub Pages via GitHub Actions:
 
 2. **GitHub Pages instellingen**:
    - Ga naar repository Settings → Pages
-   - Source: "Deploy from a branch"
-   - Branch: "master"
-   - Folder: "/ (root)" of "/docs"
+   - Source: "GitHub Actions"
+   - De workflow deployt automatisch naar gh-pages branch
 
 3. **Automatische deployment**:
    - Elke push naar `master` branch triggert automatische deployment
    - GitHub Actions buildt de app met environment variables
-   - Deployt naar `master` branch
+   - Deployt naar `gh-pages` branch
 
 4. **Live URL**: https://voxxai.github.io/salaryCalculator/
 
 **⚠️ Belangrijk**: De standaard GitHub Pages workflow is uitgeschakeld in favor van onze custom workflow voor betere controle.
 
 ### Lokale Development
+
 ```bash
 # Start development server (gebruikt .env bestand)
 npm start
