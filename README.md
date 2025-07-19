@@ -146,12 +146,20 @@ De app wordt automatisch gedeployed naar GitHub Pages via GitHub Actions:
    - Ga naar repository Settings → Secrets and variables → Actions
    - Voeg `REACT_APP_SUPABASE_URL` en `REACT_APP_SUPABASE_ANON_KEY` toe
 
-2. **Automatische deployment**:
+2. **GitHub Pages instellingen**:
+   - Ga naar repository Settings → Pages
+   - Source: "Deploy from a branch"
+   - Branch: "master"
+   - Folder: "/ (root)" of "/docs"
+
+3. **Automatische deployment**:
    - Elke push naar `master` branch triggert automatische deployment
    - GitHub Actions buildt de app met environment variables
-   - Deployt naar `gh-pages` branch
+   - Deployt naar `master` branch
 
-3. **Live URL**: https://voxxai.github.io/salaryCalculator/
+4. **Live URL**: https://voxxai.github.io/salaryCalculator/
+
+**⚠️ Belangrijk**: De standaard GitHub Pages workflow is uitgeschakeld in favor van onze custom workflow voor betere controle.
 
 ### Lokale Development
 ```bash
