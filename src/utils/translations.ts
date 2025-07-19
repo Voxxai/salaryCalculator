@@ -185,7 +185,7 @@ export const translations: Record<Language, TranslationKeys> = {
     delete: "Delete",
 
     // Footer
-    tip: "💡 Tip: Enter hours in HH:MM format (e.g. 8:30 for 8 hours and 30 minutes)",
+    tip: "💡 Tip: Type hours (1-99) and select minutes from dropdown (00, 15, 30, 45)",
     disclaimer:
       "⚠️ IMPORTANT: All calculations are estimates only. Your actual salary may differ due to individual circumstances, collective agreements, or company policies. Always verify with your employer or payslip.",
 
@@ -311,7 +311,7 @@ export const translations: Record<Language, TranslationKeys> = {
     delete: "Verwijderen",
 
     // Footer
-    tip: "💡 Tip: Voer uren in het formaat HH:MM in (bijv. 8:30 voor 8 uur en 30 minuten)",
+    tip: "💡 Tip: Type uren (1-99) en selecteer minuten uit dropdown (00, 15, 30, 45)",
     disclaimer:
       "⚠️ BELANGRIJK: Alle berekeningen zijn slechts schattingen. Je daadwerkelijke salaris kan afwijken door individuele omstandigheden, cao's of bedrijfsbeleid. Controleer altijd bij je werkgever of salarisstrook.",
 

@@ -10,14 +10,14 @@ interface ResultsProps {
 // Results component - Displays only the final net salary result
 const Results: React.FC<ResultsProps> = ({ results, language }) => {
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-blue-200 p-6 lg:p-8">
+    <div className="bg-white rounded-xl shadow-lg border border-blue-200 p-6 lg:p-8 flex flex-col h-full">
       <h2 className="text-lg sm:text-xl font-semibold text-blue-800 mb-6 flex items-center">
         {getTranslation("results", language)}
       </h2>
 
-      <div className="space-y-6">
-        {/* Net salary - ONLY VISIBLE RESULT */}
-        <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-6 border-2 border-orange-300">
+      <div className="space-y-6 flex-grow flex flex-col justify-center">
+        {/* Net salary - Het hoofdresultaat */}
+        <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-6 border-2 border-orange-300 text-center">
           <p className="text-sm text-orange-700 mb-2">
             {getTranslation("estimatedNetSalary", language)}
           </p>
@@ -26,19 +26,12 @@ const Results: React.FC<ResultsProps> = ({ results, language }) => {
           </p>
         </div>
 
-        {/* Disclaimer */}
-        <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-          <p className="text-sm text-blue-700 text-center">
+        {/* Disclaimer direct onder het resultaat voor maximale duidelijkheid */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+          <p className="text-yellow-800 font-medium leading-relaxed text-xs text-center">
             ⚠️ {getTranslation("disclaimer", language)}
           </p>
         </div>
-
-        {/* Hidden intermediate calculations - used for calculations but not displayed */}
-        {/* Total Regular Hours: {results.totalRegularHours} */}
-        {/* Total Overtime Hours: {results.totalOvertimeHours} */}
-        {/* Gross Salary: € {results.estimatedGrossSalary.toFixed(2)} */}
-        {/* Pension Deduction: € {results.estimatedPension.toFixed(2)} */}
-        {/* Tax Deduction: € {results.estimatedTax.toFixed(2)} */}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getTranslation } from "../utils/translations";
-import TimeSelector from "./TimeSelector";
+import TimeInput from "./TimeInput";
 import { WeekHours, Language, UpdateHoursPerWeekFunction } from "../types";
 
 interface HoursRegistrationProps {
@@ -103,7 +103,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     {getTranslation("regularHours", language)}
                   </label>
-                  <TimeSelector
+                  <TimeInput
                     value={week.regularHours}
                     onChange={value =>
                       updateHoursPerWeek(index, "regularHours", value)
@@ -116,7 +116,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     {getTranslation("paidBreaks", language)}
                   </label>
-                  <TimeSelector
+                  <TimeInput
                     value={week.paidBreaks}
                     onChange={value =>
                       updateHoursPerWeek(index, "paidBreaks", value)
@@ -254,7 +254,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = ({
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   {getTranslation("allowanceHours", language)}
                 </label>
-                <TimeSelector
+                <TimeInput
                   value={allowanceHours}
                   onChange={setAllowanceHours}
                 />
