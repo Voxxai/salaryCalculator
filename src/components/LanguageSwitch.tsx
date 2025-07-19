@@ -14,6 +14,7 @@ const LanguageSwitch: React.FC<LanguageSwitchProps> = ({
 }) => {
   const handleLanguageToggle = (): void => {
     const newLanguage: Language = language === "nl" ? "en" : "nl";
+
     onLanguageChange(newLanguage);
   };
 

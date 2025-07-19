@@ -68,6 +68,13 @@ interface TranslationKeys {
 
   // Language Switch
   languageSwitch: string;
+
+  // Analytics
+  analytics: string;
+  analyticsDescription: string;
+  noAnalyticsData: string;
+  loadingAnalytics: string;
+  clearAnalyticsConfirm: string;
 }
 
 export const translations: Record<Language, TranslationKeys> = {
@@ -140,6 +147,13 @@ export const translations: Record<Language, TranslationKeys> = {
 
     // Language Switch
     languageSwitch: "🌍 Language",
+
+    // Analytics
+    analytics: "Analytics",
+    analyticsDescription: "Track app usage and user behavior",
+    noAnalyticsData: "No analytics data available yet",
+    loadingAnalytics: "Loading analytics data...",
+    clearAnalyticsConfirm: "Are you sure you want to clear all analytics data?",
   },
 
   nl: {
@@ -211,6 +225,13 @@ export const translations: Record<Language, TranslationKeys> = {
 
     // Language Switch
     languageSwitch: "🌍 Taal",
+
+    // Analytics
+    analytics: "Analytics",
+    analyticsDescription: "Volg app gebruik en gebruikersgedrag",
+    noAnalyticsData: "Nog geen analytics data beschikbaar",
+    loadingAnalytics: "Analytics data laden...",
+    clearAnalyticsConfirm: "Weet je zeker dat je alle analytics data wilt wissen?",
   },
 };
 

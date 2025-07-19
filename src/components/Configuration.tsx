@@ -80,6 +80,7 @@ const Configuration: React.FC<ConfigurationProps> = ({
     console.log("Changing rate type to:", isFunctionBased);
     console.log("Current config before change:", config.useFunctionBasedRate);
     updateConfig("useFunctionBasedRate", isFunctionBased);
+
     // Force a re-render by updating a different field temporarily
     setTimeout(() => {
       console.log("Config after change:", config.useFunctionBasedRate);

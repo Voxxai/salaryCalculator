@@ -5,6 +5,8 @@ import Header from "./components/Header";
 import DesktopLayout from "./components/DesktopLayout";
 import MobileLayout from "./components/MobileLayout";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
+import SimpleAnalytics from "./components/SimpleAnalytics";
+import SimpleAnalyticsPage from "./components/SimpleAnalyticsPage";
 
 // Import custom hooks
 import { useScreenSize } from "./hooks/useScreenSize";
@@ -34,6 +36,9 @@ import {
 function App(): JSX.Element {
   // State for language selection (load from storage)
   const [language, setLanguage] = useState<Language>(() => loadLanguage());
+
+  // State for analytics page visibility
+  const [showAnalytics, setShowAnalytics] = useState<boolean>(false);
 
   // Detect screen size for layout selection
   const { isMobile } = useScreenSize();
@@ -104,7 +109,7 @@ function App(): JSX.Element {
     setHoursPerWeek(newHoursPerWeek);
   }, [config.numberOfWeeks]);
 
-  // Effect to recalculate salary when configuration or hours change
+    // Effect to recalculate salary when configuration or hours change
   useEffect(() => {
     const newResults = calculateSalary(config, hoursPerWeek);
     setResults(newResults);
@@ -154,14 +159,36 @@ function App(): JSX.Element {
     setLanguage(newLanguage);
   };
 
+  // Function to handle analytics page toggle
+  const handleAnalyticsClick = () => {
+    setShowAnalytics(!showAnalytics);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
-      {/* Header component */}
-      <Header language={language} onLanguageChange={handleLanguageChange} />
+      {/* Show Analytics Page or Main App */}
+      {showAnalytics ? (
+        <>
+          {/* Header component */}
+          <Header
+            language={language}
+            onLanguageChange={handleLanguageChange}
+            onAnalyticsClick={handleAnalyticsClick}
+          />
+          <SimpleAnalyticsPage language={language} />
+        </>
+      ) : (
+        <>
+          {/* Header component */}
+          <Header
+            language={language}
+            onLanguageChange={handleLanguageChange}
+            onAnalyticsClick={handleAnalyticsClick}
+          />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-        {/* Choose layout based on screen size */}
-        {isMobile ? (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+            {/* Choose layout based on screen size */}
+                    {isMobile ? (
           <MobileLayout
             config={config}
             updateConfig={updateConfig}
@@ -180,10 +207,15 @@ function App(): JSX.Element {
             language={language}
           />
         )}
-      </div>
+          </div>
 
-      {/* PWA Install Prompt */}
-      <PWAInstallPrompt language={language} />
+          {/* PWA Install Prompt */}
+          <PWAInstallPrompt language={language} />
+
+          {/* Simple Analytics Tracking */}
+          <SimpleAnalytics />
+        </>
+      )}
     </div>
   );
 }

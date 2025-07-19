@@ -6,10 +6,15 @@ import { Language, HandleLanguageChangeFunction } from "../types";
 interface HeaderProps {
   language: Language;
   onLanguageChange: HandleLanguageChangeFunction;
+  onAnalyticsClick?: () => void;
 }
 
 // Header component - Shows the official AH logo and compact title
-const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
+const Header: React.FC<HeaderProps> = ({
+  language,
+  onLanguageChange,
+  onAnalyticsClick,
+}) => {
   return (
     <header className="bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg border-b-2 border-blue-800 relative safe-area-top">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
@@ -33,8 +38,17 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
             </p>
           </div>
 
-          {/* Language Switch - Right */}
-          <div className="flex items-center">
+          {/* Language Switch and Analytics - Right */}
+          <div className="flex items-center space-x-3">
+            {onAnalyticsClick && (
+              <button
+                onClick={onAnalyticsClick}
+                className="text-white hover:text-blue-100 transition-colors p-2"
+                title="Analytics"
+              >
+                📊
+              </button>
+            )}
             <LanguageSwitch
               language={language}
               onLanguageChange={onLanguageChange}
