@@ -39,9 +39,6 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
             <h1 className="text-lg sm:text-xl font-bold text-white">
               {getTranslation("title", language)}
             </h1>
-            <p className="text-sm text-blue-200">
-              {getTranslation("subtitle", language)}
-            </p>
           </div>
 
           {/* Language Switch, Feedback and Admin - Right */}
@@ -56,7 +53,9 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
               title={getTranslation("feedbackButton", language)}
               aria-label={getTranslation("feedbackButton", language)}
             >
-              <span aria-hidden="true">💬</span>
+              <span aria-hidden="true" className="text-xl sm:text-2xl">
+                💬
+              </span>
             </button>
             {isAdmin && (
               <button
@@ -65,7 +64,9 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
                 title={getTranslation("adminButton", language)}
                 aria-label={getTranslation("adminButton", language)}
               >
-                <span aria-hidden="true">⚙️</span>
+                <span aria-hidden="true" className="text-xl sm:text-2xl">
+                  ⚙️
+                </span>
               </button>
             )}
             <LanguageSwitch

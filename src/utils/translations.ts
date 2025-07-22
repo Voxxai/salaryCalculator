@@ -125,7 +125,7 @@ interface TranslationKeys {
 export const translations: Record<Language, TranslationKeys> = {
   en: {
     // Header
-    title: "💰 Salary Calculator",
+    title: "Salary Calculator",
     subtitle: "Calculate your salary with overtime and deductions",
 
     // Configuration
@@ -253,7 +253,7 @@ export const translations: Record<Language, TranslationKeys> = {
 
   nl: {
     // Header
-    title: "💰 Salariscalculator",
+    title: "Salariscalculator",
     subtitle: "Bereken je salaris met toeslagen en aftrekposten",
 
     // Configuration
