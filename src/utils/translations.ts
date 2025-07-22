@@ -120,6 +120,16 @@ interface TranslationKeys {
   deleteFeedback: string;
   clearAllFeedback: string;
   close: string;
+
+  // Admin Login
+  adminLogin: string;
+  adminLoginSubtitle: string;
+  password: string;
+  enterPassword: string;
+  incorrectPassword: string;
+  loggingIn: string;
+  login: string;
+  adminPasswordHint: string;
 }
 
 export const translations: Record<Language, TranslationKeys> = {
@@ -129,7 +139,7 @@ export const translations: Record<Language, TranslationKeys> = {
     subtitle: "Calculate your salary with overtime and deductions",
 
     // Configuration
-    configuration: "⚙️ Configuration",
+    configuration: "💰 Your Pay Rate",
     hourlyRate: "Your All-in Hourly Rate (€)",
     overtimePercentage: "Overtime Percentage (%)",
     numberOfWeeks: "Number of weeks in salary period",
@@ -249,6 +259,16 @@ export const translations: Record<Language, TranslationKeys> = {
     deleteFeedback: "Delete Feedback",
     clearAllFeedback: "Clear All Feedback",
     close: "Close",
+
+    // Admin Login
+    adminLogin: "Admin Login",
+    adminLoginSubtitle: "Enter password to access admin panel",
+    password: "Password",
+    enterPassword: "Enter password",
+    incorrectPassword: "Incorrect password. Please try again.",
+    loggingIn: "Logging in...",
+    login: "Login",
+    adminPasswordHint: "Hint: admin123",
   },
 
   nl: {
@@ -257,7 +277,7 @@ export const translations: Record<Language, TranslationKeys> = {
     subtitle: "Bereken je salaris met toeslagen en aftrekposten",
 
     // Configuration
-    configuration: "⚙️ Configuratie",
+    configuration: "💰 Jouw Uurloon",
     hourlyRate: "Jouw All-in Uurloon (€)",
     overtimePercentage: "Toeslagpercentage (%)",
     numberOfWeeks: "Aantal weken in salarisperiode",
@@ -378,6 +398,17 @@ export const translations: Record<Language, TranslationKeys> = {
     deleteFeedback: "Feedback Verwijderen",
     clearAllFeedback: "Alle Feedback Wissen",
     close: "Sluiten",
+
+    // Admin Login
+    adminLogin: "Admin Login",
+    adminLoginSubtitle:
+      "Voer wachtwoord in om toegang te krijgen tot admin paneel",
+    password: "Wachtwoord",
+    enterPassword: "Voer wachtwoord in",
+    incorrectPassword: "Onjuist wachtwoord. Probeer het opnieuw.",
+    loggingIn: "Inloggen...",
+    login: "Inloggen",
+    adminPasswordHint: "Hint: admin123",
   },
 };
 

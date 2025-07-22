@@ -83,18 +83,15 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
     );
 
     return (
-      <div className="bg-white rounded-xl shadow-lg border border-blue-200 p-6 lg:p-8">
-        <h2 className="text-lg sm:text-xl font-semibold text-blue-800 mb-6 flex items-center">
+      <div className="bg-white rounded-xl shadow-xl border border-blue-200 p-6 lg:p-8">
+        <h2 className="text-lg sm:text-xl font-semibold text-blue-800 mb-6 flex items-center text-center justify-center">
           {getTranslation("configuration", language)}
         </h2>
 
         <div className="space-y-6">
           {/* Function-based or Custom Rate Selection */}
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <h3 className="text-sm font-medium text-blue-800 mb-3">
-              {getTranslation("selectFunction", language)}
-            </h3>
-            <div className="text-xs text-blue-600 mb-3 bg-blue-100 p-2 rounded border border-blue-200">
+          <div className="text-center">
+            <div className="text-xs text-blue-600 mb-4 bg-blue-100 p-2 rounded border border-blue-200">
               {getTranslation("allInRatesInfo", language)}
             </div>
 
@@ -102,16 +99,16 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
               {/* Beautiful Radio Buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div
-                  className={`p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer ${
+                  className={`p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer text-center ${
                     config.useFunctionBasedRate === true
                       ? "border-blue-500 bg-blue-50 shadow-md"
                       : "border-gray-200 bg-white hover:border-blue-300"
                   }`}
                   onClick={() => handleRateTypeChange(true)}
                 >
-                  <div className="flex items-center">
+                  <div className="flex flex-col items-center">
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all duration-200 ${
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mb-2 transition-all duration-200 ${
                         config.useFunctionBasedRate === true
                           ? "border-blue-500 bg-blue-500"
                           : "border-gray-300 bg-white"
@@ -121,7 +118,7 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                         <div className="w-2 h-2 rounded-full bg-white transition-all duration-200"></div>
                       )}
                     </div>
-                    <div>
+                    <div className="text-center">
                       <div className="font-medium text-gray-900">
                         {getTranslation("functionBased", language)}
                       </div>
@@ -133,16 +130,16 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                 </div>
 
                 <div
-                  className={`p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer ${
+                  className={`p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer text-center ${
                     config.useFunctionBasedRate === false
                       ? "border-blue-500 bg-blue-50 shadow-md"
                       : "border-gray-200 bg-white hover:border-blue-300"
                   }`}
                   onClick={() => handleRateTypeChange(false)}
                 >
-                  <div className="flex items-center">
+                  <div className="flex flex-col items-center">
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all duration-200 ${
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mb-2 transition-all duration-200 ${
                         config.useFunctionBasedRate === false
                           ? "border-blue-500 bg-blue-500"
                           : "border-gray-300 bg-white"
@@ -152,7 +149,7 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                         <div className="w-2 h-2 rounded-full bg-white transition-all duration-200"></div>
                       )}
                     </div>
-                    <div>
+                    <div className="text-center">
                       <div className="font-medium text-gray-900">
                         {getTranslation("customHourlyRate", language)}
                       </div>
@@ -165,57 +162,61 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
               </div>
 
               {config.useFunctionBasedRate ? (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {/* Age Group Selection */}
                   <div>
                     <label
                       htmlFor="age-group"
-                      className="block text-sm font-medium text-gray-700 mb-2"
+                      className="block text-sm font-medium text-gray-700 mb-2 text-center"
                     >
                       {getTranslation("ageGroup", language)}
                     </label>
-                    <select
-                      id="age-group"
-                      value={config.ageGroup}
-                      onChange={e => updateConfig("ageGroup", e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                      {getAgeGroups().map(age => (
-                        <option key={age} value={age}>
-                          {age} {getTranslation("years", language)}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex justify-center">
+                      <select
+                        id="age-group"
+                        value={config.ageGroup}
+                        onChange={e => updateConfig("ageGroup", e.target.value)}
+                        className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
+                      >
+                        {getAgeGroups().map(age => (
+                          <option key={age} value={age}>
+                            {age} {getTranslation("years", language)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   {/* Job Function Selection */}
                   <div>
                     <label
                       htmlFor="job-function"
-                      className="block text-sm font-medium text-gray-700 mb-2"
+                      className="block text-sm font-medium text-gray-700 mb-2 text-center"
                     >
                       {getTranslation("jobFunction", language)}
                     </label>
-                    <select
-                      id="job-function"
-                      value={config.jobFunction}
-                      onChange={e =>
-                        updateConfig("jobFunction", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                      {getJobFunctions(config.ageGroup).map(func => (
-                        <option key={func} value={func}>
-                          {getTranslation(func, language)}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex justify-center">
+                      <select
+                        id="job-function"
+                        value={config.jobFunction}
+                        onChange={e =>
+                          updateConfig("jobFunction", e.target.value)
+                        }
+                        className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
+                      >
+                        {getJobFunctions(config.ageGroup).map(func => (
+                          <option key={func} value={func}>
+                            {getTranslation(func, language)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                     {/* Show warning for shiftleader availability */}
                     {config.ageGroup === "13-15" ||
                     config.ageGroup === "16" ||
                     config.ageGroup === "17" ? (
                       <div
-                        className="text-xs text-orange-600 mt-1 bg-orange-50 p-2 rounded border border-orange-200"
+                        className="text-xs text-orange-600 mt-2 bg-orange-50 p-2 rounded border border-orange-200 text-center"
                         role="alert"
                       >
                         {getTranslation("shiftleaderWarning", language)}
@@ -228,42 +229,44 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                     <div>
                       <label
                         htmlFor="years-service"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className="block text-sm font-medium text-gray-700 mb-2 text-center"
                       >
                         {getTranslation("yearsOfService", language)}
                       </label>
-                      <select
-                        id="years-service"
-                        value={config.yearsOfService}
-                        onChange={e =>
-                          updateConfig(
-                            "yearsOfService",
-                            parseInt(e.target.value)
-                          )
-                        }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      >
-                        {getYearsOfServiceOptions(
-                          config.ageGroup,
-                          language
-                        ).map(option => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="flex justify-center">
+                        <select
+                          id="years-service"
+                          value={config.yearsOfService}
+                          onChange={e =>
+                            updateConfig(
+                              "yearsOfService",
+                              parseInt(e.target.value)
+                            )
+                          }
+                          className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
+                        >
+                          {getYearsOfServiceOptions(
+                            config.ageGroup,
+                            language
+                          ).map(option => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   )}
 
                   {/* Selected Rate Display */}
                   <div
-                    className="bg-green-50 p-3 rounded-lg border border-green-200"
+                    className="bg-green-50 p-4 rounded-lg border border-green-200 text-center"
                     role="status"
                   >
-                    <div className="text-sm text-green-700 font-medium mb-1">
+                    <div className="text-sm text-green-700 font-medium mb-2">
                       {getTranslation("selectedRate", language)}:
                     </div>
-                    <div className="text-lg font-bold text-green-900">
+                    <div className="text-xl font-bold text-green-900">
                       € {selectedHourlyRate.toFixed(2)}
                     </div>
                   </div>
@@ -273,22 +276,27 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                 <div>
                   <label
                     htmlFor="custom-rate"
-                    className="block text-sm font-medium text-gray-700 mb-2"
+                    className="block text-sm font-medium text-gray-700 mb-2 text-center"
                   >
                     {getTranslation("hourlyRate", language)}
                   </label>
-                  <input
-                    id="custom-rate"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={config.allInHourlyRate}
-                    onChange={e =>
-                      updateConfig("allInHourlyRate", e.target.value)
-                    }
-                    className="w-full px-4 py-3 border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 touch-target text-lg"
-                    inputMode="decimal"
-                  />
+                  <div className="flex justify-center">
+                    <input
+                      id="custom-rate"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={config.allInHourlyRate}
+                      onChange={e =>
+                        updateConfig(
+                          "allInHourlyRate",
+                          parseFloat(e.target.value) || 0
+                        )
+                      }
+                      className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
+                      placeholder="0.00"
+                    />
+                  </div>
                 </div>
               )}
             </div>

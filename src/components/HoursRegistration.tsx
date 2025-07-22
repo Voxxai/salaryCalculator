@@ -74,8 +74,8 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
 
     return (
       <>
-        <div className="mt-6 sm:mt-8 bg-white rounded-xl shadow-lg border border-blue-200 p-6 lg:p-8">
-          <h2 className="text-lg sm:text-xl font-semibold text-blue-800 mb-4 sm:mb-6 flex items-center">
+        <div className="mt-6 sm:mt-8 bg-white rounded-xl shadow-xl border border-blue-200 p-6 lg:p-8">
+          <h2 className="text-lg sm:text-xl font-semibold text-blue-800 mb-4 sm:mb-6 flex items-center text-center justify-center">
             {getTranslation("hoursRegistration", language)}
           </h2>
 
@@ -83,53 +83,59 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
             {hoursPerWeek.map((week, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg p-4 border border-blue-200"
+                className="bg-white rounded-lg p-4 border border-blue-200 text-center shadow-md hover:shadow-lg transition-shadow"
               >
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-sm font-medium text-blue-700">
+                <div className="mb-4">
+                  <h3 className="text-base sm:text-lg font-bold text-blue-800 text-center mb-2">
                     {getTranslation("week", language)} {index + 1}
                   </h3>
-                  <button
-                    onClick={() => handleAddAllowance(index)}
-                    className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold hover:bg-blue-600 transition-colors"
-                    title={getTranslation("addAllowance", language)}
-                  >
-                    +
-                  </button>
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => handleAddAllowance(index)}
+                      className="px-2 py-1 sm:px-3 sm:py-1.5 bg-blue-500 text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors"
+                      title={getTranslation("addAllowance", language)}
+                    >
+                      {getTranslation("addAllowance", language)}
+                    </button>
+                  </div>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {/* Regular hours input */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
                       {getTranslation("regularHours", language)}
                     </label>
-                    <TimeInput
-                      value={week.regularHours}
-                      onChange={value =>
-                        updateHoursPerWeek(index, "regularHours", value)
-                      }
-                    />
+                    <div className="flex justify-center">
+                      <TimeInput
+                        value={week.regularHours}
+                        onChange={value =>
+                          updateHoursPerWeek(index, "regularHours", value)
+                        }
+                      />
+                    </div>
                   </div>
 
                   {/* Paid breaks input */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
                       {getTranslation("paidBreaks", language)}
                     </label>
-                    <TimeInput
-                      value={week.paidBreaks}
-                      onChange={value =>
-                        updateHoursPerWeek(index, "paidBreaks", value)
-                      }
-                    />
+                    <div className="flex justify-center">
+                      <TimeInput
+                        value={week.paidBreaks}
+                        onChange={value =>
+                          updateHoursPerWeek(index, "paidBreaks", value)
+                        }
+                      />
+                    </div>
                   </div>
 
                   {/* Display existing allowances with edit/delete options */}
                   {week.allowance25 && week.allowance25 !== "0:00" && (
-                    <div className="bg-blue-50 p-2 rounded-lg border border-blue-200">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
+                    <div className="bg-blue-50 p-2 rounded-lg border border-blue-200 text-center">
+                      <div className="flex flex-col items-center">
+                        <div className="text-center mb-2">
                           <div className="text-sm text-blue-700 font-medium mb-1">
                             {getTranslation("allowance25", language)}
                           </div>
@@ -137,7 +143,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
                             {week.allowance25}
                           </div>
                         </div>
-                        <div className="flex space-x-2 ml-3">
+                        <div className="flex space-x-2">
                           <button
                             onClick={() => handleEditAllowance(index, "25")}
                             className="w-6 h-6 bg-blue-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
@@ -157,9 +163,9 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
                     </div>
                   )}
                   {week.allowance50 && week.allowance50 !== "0:00" && (
-                    <div className="bg-blue-50 p-2 rounded-lg border border-blue-200">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
+                    <div className="bg-blue-50 p-2 rounded-lg border border-blue-200 text-center">
+                      <div className="flex flex-col items-center">
+                        <div className="text-center mb-2">
                           <div className="text-sm text-blue-700 font-medium mb-1">
                             {getTranslation("allowance50", language)}
                           </div>
@@ -167,7 +173,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
                             {week.allowance50}
                           </div>
                         </div>
-                        <div className="flex space-x-2 ml-3">
+                        <div className="flex space-x-2">
                           <button
                             onClick={() => handleEditAllowance(index, "50")}
                             className="w-6 h-6 bg-blue-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
@@ -187,9 +193,9 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
                     </div>
                   )}
                   {week.allowance100 && week.allowance100 !== "0:00" && (
-                    <div className="bg-blue-50 p-2 rounded-lg border border-blue-200">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
+                    <div className="bg-blue-50 p-2 rounded-lg border border-blue-200 text-center">
+                      <div className="flex flex-col items-center">
+                        <div className="text-center mb-2">
                           <div className="text-sm text-blue-700 font-medium mb-1">
                             {getTranslation("allowance100", language)}
                           </div>
@@ -197,7 +203,7 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
                             {week.allowance100}
                           </div>
                         </div>
-                        <div className="flex space-x-2 ml-3">
+                        <div className="flex space-x-2">
                           <button
                             onClick={() => handleEditAllowance(index, "100")}
                             className="w-6 h-6 bg-blue-500 text-white rounded-lg text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
@@ -262,16 +268,16 @@ const HoursRegistration: React.FC<HoursRegistrationProps> = React.memo(
                 </div>
               </div>
 
-              <div className="flex space-x-3 mt-6">
+              <div className="flex justify-center space-x-3 mt-6">
                 <button
                   onClick={handleCancelAllowance}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   {getTranslation("cancel", language)}
                 </button>
                 <button
                   onClick={handleSaveAllowance}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   {isEditing
                     ? getTranslation("save", language)

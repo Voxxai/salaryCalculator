@@ -5,6 +5,7 @@ import {
   feedbackService,
   FeedbackData as SupabaseFeedbackData,
 } from "../utils/supabase";
+import { adminAuthService } from "../utils/adminAuth";
 
 // Local interface that includes both Supabase and localStorage fields
 interface FeedbackData extends SupabaseFeedbackData {
@@ -15,10 +16,11 @@ interface FeedbackData extends SupabaseFeedbackData {
 interface FeedbackAdminProps {
   language: Language;
   onClose: () => void;
+  onLogout?: () => void;
 }
 
 const FeedbackAdmin: React.FC<FeedbackAdminProps> = React.memo(
-  ({ language, onClose }) => {
+  ({ language, onClose, onLogout }) => {
     const [feedback, setFeedback] = useState<FeedbackData[]>([]);
     const [filter, setFilter] = useState<
       "all" | "feature" | "bug" | "improvement" | "other"
@@ -171,24 +173,50 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = React.memo(
                 {filteredFeedback.length})
               </p>
             </div>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex items-center gap-2">
+              {onLogout && (
+                <button
+                  onClick={() => {
+                    adminAuthService.logout();
+                    onLogout();
+                  }}
+                  className="text-gray-500 hover:text-gray-700 transition-colors p-2"
+                  title="Logout"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                </button>
+              )}
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Filters */}

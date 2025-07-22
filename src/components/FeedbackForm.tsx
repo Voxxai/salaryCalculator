@@ -275,49 +275,56 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
           <div>
             <label
               htmlFor="feedback-title-input"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 mb-2 text-center"
             >
               {getTranslation("feedbackTitleLabel", language)}
             </label>
-            <input
-              id="feedback-title-input"
-              type="text"
-              value={feedback.title}
-              onChange={e => handleInputChange("title", e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder={getTranslation("feedbackTitlePlaceholder", language)}
-              required
-            />
+            <div className="flex justify-center">
+              <input
+                id="feedback-title-input"
+                type="text"
+                value={feedback.title}
+                onChange={e => handleInputChange("title", e.target.value)}
+                className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder={getTranslation(
+                  "feedbackTitlePlaceholder",
+                  language
+                )}
+                required
+              />
+            </div>
           </div>
 
           {/* Description */}
           <div>
             <label
               htmlFor="feedback-description"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 mb-2 text-center"
             >
               {getTranslation("feedbackDescription", language)}
             </label>
-            <textarea
-              id="feedback-description"
-              value={feedback.description}
-              onChange={e => handleInputChange("description", e.target.value)}
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder={getTranslation(
-                "feedbackDescriptionPlaceholder",
-                language
-              )}
-              required
-            />
+            <div className="flex justify-center">
+              <textarea
+                id="feedback-description"
+                value={feedback.description}
+                onChange={e => handleInputChange("description", e.target.value)}
+                rows={4}
+                className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder={getTranslation(
+                  "feedbackDescriptionPlaceholder",
+                  language
+                )}
+                required
+              />
+            </div>
           </div>
 
           {/* Priority */}
           <fieldset>
-            <legend className="block text-sm font-medium text-gray-700 mb-3">
+            <legend className="block text-sm font-medium text-gray-700 mb-3 text-center">
               {getTranslation("feedbackPriority", language)}
             </legend>
-            <div className="flex space-x-3">
+            <div className="flex justify-center space-x-3">
               {[
                 {
                   value: "low" as const,
@@ -356,30 +363,37 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
           <div>
             <label
               htmlFor="feedback-email"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 mb-2 text-center"
             >
               {getTranslation("feedbackEmail", language)}
             </label>
-            <input
-              id="feedback-email"
-              type="email"
-              value={feedback.contactEmail}
-              onChange={e => handleInputChange("contactEmail", e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder={getTranslation("feedbackEmailPlaceholder", language)}
-            />
+            <div className="flex justify-center">
+              <input
+                id="feedback-email"
+                type="email"
+                value={feedback.contactEmail}
+                onChange={e =>
+                  handleInputChange("contactEmail", e.target.value)
+                }
+                className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder={getTranslation(
+                  "feedbackEmailPlaceholder",
+                  language
+                )}
+              />
+            </div>
           </div>
 
           {/* Error Message */}
           {error && (
-            <div className="text-red-500 text-sm" role="alert">
+            <div className="text-red-500 text-sm text-center" role="alert">
               {error}
             </div>
           )}
 
           {/* Privacy Notice */}
           <div
-            className="bg-blue-50 border border-blue-200 rounded-lg p-3"
+            className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center"
             role="note"
           >
             <p className="text-blue-800 text-xs leading-relaxed">
@@ -388,11 +402,11 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
           </div>
 
           {/* Submit Button */}
-          <div className="flex space-x-3 pt-4">
+          <div className="flex justify-center space-x-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
             >
               {getTranslation("cancel", language)}
             </button>
@@ -401,7 +415,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
               disabled={
                 isSubmitting || !feedback.title || !feedback.description
               }
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">

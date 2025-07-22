@@ -34,7 +34,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = React.memo(
     return (
       <>
         {/* Logical mobile flow: Configuration first */}
-        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+        <div className="space-y-4 sm:space-y-5 lg:space-y-6">
           {/* Configuration component */}
           <Configuration
             config={config}

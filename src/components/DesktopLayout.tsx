@@ -47,7 +47,7 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(
         </div>
 
         {/* Hours registration component - full width below */}
-        <div className="mt-8 lg:mt-10">
+        <div className="mt-6 lg:mt-8">
           <HoursRegistration
             hoursPerWeek={hoursPerWeek}
             updateHoursPerWeek={updateHoursPerWeek}

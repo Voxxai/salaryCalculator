@@ -11,13 +11,13 @@ interface ResultsProps {
 const Results: React.FC<ResultsProps> = ({ results, language }) => {
   return (
     <div
-      className="bg-white rounded-xl shadow-lg border border-blue-200 p-6 lg:p-8 flex flex-col h-full"
+      className="bg-white rounded-xl shadow-xl border border-blue-200 p-6 lg:p-8 flex flex-col h-full"
       role="region"
       aria-labelledby="results-heading"
     >
       <h2
         id="results-heading"
-        className="text-lg sm:text-xl font-semibold text-blue-800 mb-6 flex items-center"
+        className="text-lg sm:text-xl font-semibold text-blue-800 mb-6 flex items-center text-center justify-center"
       >
         {getTranslation("results", language)}
       </h2>

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getTranslation } from "../utils/translations";
 import LanguageSwitch from "./LanguageSwitch";
 import FeedbackForm from "./FeedbackForm";
 import FeedbackAdmin from "./FeedbackAdmin";
+import AdminLogin from "./AdminLogin";
+import AdminSetup from "./AdminSetup";
+import { adminAuthService } from "../utils/adminAuth";
 import { Language, HandleLanguageChangeFunction } from "../types";
 
 interface HeaderProps {
@@ -14,9 +17,65 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [showAdminSetup, setShowAdminSetup] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isPasswordConfigured, setIsPasswordConfigured] = useState(false);
 
-  // Check if user is admin (development mode only)
-  const isAdmin = process.env.NODE_ENV === "development";
+  // Check authentication status and password configuration on component mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        // Check if password is configured
+        const configured = await adminAuthService.isPasswordConfigured();
+        setIsPasswordConfigured(configured);
+
+        // Check if authenticated
+        if (
+          adminAuthService.isAuthenticated() &&
+          !adminAuthService.isSessionExpired()
+        ) {
+          setIsAuthenticated(true);
+        } else if (adminAuthService.isSessionExpired()) {
+          // Clear expired session
+          adminAuthService.logout();
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const handleAdminClick = async () => {
+    if (isAuthenticated) {
+      setShowAdmin(true);
+    } else if (!isPasswordConfigured) {
+      setShowAdminSetup(true);
+    } else {
+      setShowAdminLogin(true);
+    }
+  };
+
+  const handleAdminLogin = () => {
+    setIsAuthenticated(true);
+    setShowAdminLogin(false);
+    setShowAdmin(true);
+  };
+
+  const handleAdminSetup = () => {
+    setIsPasswordConfigured(true);
+    setShowAdminSetup(false);
+    setShowAdminLogin(true);
+  };
+
+  const handleAdminLogout = () => {
+    adminAuthService.logout();
+    setIsAuthenticated(false);
+    setShowAdmin(false);
+  };
   return (
     <header
       className="bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg border-b-2 border-blue-800 relative safe-area-top"
@@ -57,18 +116,17 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
                 💬
               </span>
             </button>
-            {isAdmin && (
-              <button
-                onClick={() => setShowAdmin(true)}
-                className="text-white hover:text-blue-100 transition-colors p-2"
-                title={getTranslation("adminButton", language)}
-                aria-label={getTranslation("adminButton", language)}
-              >
-                <span aria-hidden="true" className="text-xl sm:text-2xl">
-                  ⚙️
-                </span>
-              </button>
-            )}
+            {/* Admin button - always visible, but requires authentication */}
+            <button
+              onClick={handleAdminClick}
+              className="text-white hover:text-blue-100 transition-colors p-2"
+              title={getTranslation("adminButton", language)}
+              aria-label={getTranslation("adminButton", language)}
+            >
+              <span aria-hidden="true" className="text-xl sm:text-2xl">
+                ⚙️
+              </span>
+            </button>
             <LanguageSwitch
               language={language}
               onLanguageChange={onLanguageChange}
@@ -85,11 +143,30 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
         />
       )}
 
+      {/* Admin Setup Modal */}
+      {showAdminSetup && (
+        <AdminSetup
+          language={language}
+          onSetupComplete={handleAdminSetup}
+          onCancel={() => setShowAdminSetup(false)}
+        />
+      )}
+
+      {/* Admin Login Modal */}
+      {showAdminLogin && (
+        <AdminLogin
+          language={language}
+          onLogin={handleAdminLogin}
+          onCancel={() => setShowAdminLogin(false)}
+        />
+      )}
+
       {/* Admin Panel Modal */}
       {showAdmin && (
         <FeedbackAdmin
           language={language}
           onClose={() => setShowAdmin(false)}
+          onLogout={handleAdminLogout}
         />
       )}
     </header>
