@@ -22,6 +22,12 @@ describe("calculations", () => {
       expect(timeToDecimal("")).toBe(0);
       expect(timeToDecimal("0")).toBe(0);
     });
+
+    it("should handle large hour values (0-99 range)", () => {
+      expect(timeToDecimal("99:00")).toBe(99);
+      expect(timeToDecimal("99:30")).toBe(99.5);
+      expect(timeToDecimal("99:59")).toBe(99.983333333333334);
+    });
   });
 
   describe("decimalToTime", () => {
@@ -36,6 +42,12 @@ describe("calculations", () => {
       expect(decimalToTime(0)).toBe("00:00");
       expect(decimalToTime(1)).toBe("01:00");
     });
+
+    it("should handle large hour values", () => {
+      expect(decimalToTime(99)).toBe("99:00");
+      expect(decimalToTime(99.5)).toBe("99:30");
+      expect(decimalToTime(99.983333333333334)).toBe("99:59");
+    });
   });
 
   describe("validateTimeInput", () => {
@@ -44,18 +56,37 @@ describe("calculations", () => {
       expect(validateTimeInput("12:00")).toBe(true);
       expect(validateTimeInput("23:59")).toBe(true);
       expect(validateTimeInput("0:00")).toBe(true);
+      expect(validateTimeInput("99:59")).toBe(true); // Allow up to 99 hours
     });
 
     it("should reject invalid formats", () => {
-      expect(validateTimeInput("61:00")).toBe(false);
-      expect(validateTimeInput("12:60")).toBe(false);
-      expect(validateTimeInput("8:5")).toBe(false);
+      expect(validateTimeInput("100:00")).toBe(false); // Over 99 hours
+      expect(validateTimeInput("12:60")).toBe(false); // Invalid minutes
+      expect(validateTimeInput("8:5")).toBe(false); // Minutes must be 2 digits
       expect(validateTimeInput("abc")).toBe(false);
       expect(validateTimeInput("8")).toBe(false);
+      expect(validateTimeInput("8:")).toBe(false);
+      expect(validateTimeInput(":30")).toBe(false);
     });
 
     it("should allow empty string", () => {
       expect(validateTimeInput("")).toBe(true);
+    });
+
+    it("should handle edge cases for hours 0-99", () => {
+      expect(validateTimeInput("0:00")).toBe(true);
+      expect(validateTimeInput("1:00")).toBe(true);
+      expect(validateTimeInput("99:00")).toBe(true);
+      expect(validateTimeInput("99:59")).toBe(true);
+    });
+
+    it("should handle boundary conditions", () => {
+      expect(validateTimeInput("0:00")).toBe(true);
+      expect(validateTimeInput("0:59")).toBe(true);
+      expect(validateTimeInput("99:00")).toBe(true);
+      expect(validateTimeInput("99:59")).toBe(true);
+      expect(validateTimeInput("100:00")).toBe(false);
+      expect(validateTimeInput("0:60")).toBe(false);
     });
   });
 
@@ -81,6 +112,12 @@ describe("calculations", () => {
       expect(validateNumericInput("-5", 10)).toBe(10);
       expect(validateNumericInput("5", 10)).toBe(10);
       expect(validateNumericInput("15", 10)).toBe(15);
+    });
+
+    it("should handle decimal precision", () => {
+      expect(validateNumericInput("10.123")).toBe(10.123);
+      expect(validateNumericInput("0.001")).toBe(0.001);
+      expect(validateNumericInput("999.999")).toBe(999.999);
     });
   });
 
@@ -155,6 +192,62 @@ describe("calculations", () => {
 
       expect(result.estimatedGrossSalary).toBe(0);
       expect(result.estimatedNetSalary).toBe(0);
+    });
+
+    it("should handle large hour values (0-99 range)", () => {
+      const largeHours: WeekHours[] = [
+        {
+          regularHours: "99:00",
+          paidBreaks: "0:00",
+          allowance25: "0:00",
+          allowance50: "0:00",
+          allowance100: "0:00",
+        },
+      ];
+
+      const result = calculateSalary(mockConfig, largeHours);
+
+      // 99 hours * 20 = 1980
+      expect(result.estimatedGrossSalary).toBe(1980);
+      expect(result.totalRegularHours).toBe("99:00");
+    });
+
+    it("should handle all allowance types", () => {
+      const allAllowances: WeekHours[] = [
+        {
+          regularHours: "8:00",
+          paidBreaks: "0:30",
+          allowance25: "1:00",
+          allowance50: "2:00",
+          allowance100: "3:00",
+        },
+      ];
+
+      const result = calculateSalary(mockConfig, allAllowances);
+
+      // Regular hours: 8 * 20 = 160
+      // Paid breaks: 0.5 * 20 = 10
+      // Allowance 25%: 1 * 20 * 1.25 = 25
+      // Allowance 50%: 2 * 20 * 1.5 = 60
+      // Allowance 100%: 3 * 20 * 2 = 120
+      // Total: 160 + 10 + 25 + 60 + 120 = 375
+      expect(result.estimatedGrossSalary).toBe(375);
+    });
+
+    it("should return all required result fields", () => {
+      const result = calculateSalary(mockConfig, mockHours);
+
+      expect(result).toHaveProperty("totalRegularHours");
+      expect(result).toHaveProperty("totalPaidBreaks");
+      expect(result).toHaveProperty("totalAllowance25");
+      expect(result).toHaveProperty("totalAllowance50");
+      expect(result).toHaveProperty("totalAllowance100");
+      expect(result).toHaveProperty("estimatedGrossSalary");
+      expect(result).toHaveProperty("estimatedPensioenPremie");
+      expect(result).toHaveProperty("estimatedSpaww");
+      expect(result).toHaveProperty("estimatedPremieWGAWerknemer");
+      expect(result).toHaveProperty("estimatedLoonheffing");
+      expect(result).toHaveProperty("estimatedNetSalary");
     });
   });
 });
