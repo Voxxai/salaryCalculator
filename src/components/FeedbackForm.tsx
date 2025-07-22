@@ -175,12 +175,20 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="feedback-title"
+    >
       <div className="bg-white rounded-xl shadow-2xl p-6 lg:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2
+              id="feedback-title"
+              className="text-2xl font-bold text-gray-900"
+            >
               {getTranslation("feedbackTitle", language)}
             </h2>
             <p className="text-gray-600 mt-1">
@@ -190,12 +198,14 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Close feedback form"
           >
             <svg
               className="w-6 h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -210,10 +220,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Feedback Type */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+          <fieldset>
+            <legend className="block text-sm font-medium text-gray-700 mb-3">
               {getTranslation("feedbackType", language)}
-            </label>
+            </legend>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               {[
                 {
@@ -237,32 +247,40 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
                   icon: "💬",
                 },
               ].map(type => (
-                <div
+                <button
                   key={type.value}
+                  type="button"
                   className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
                     feedback.type === type.value
                       ? "border-blue-500 bg-blue-50"
                       : "border-gray-200 hover:border-blue-300"
                   }`}
                   onClick={() => handleInputChange("type", type.value)}
+                  aria-pressed={feedback.type === type.value}
                 >
                   <div className="text-center">
-                    <div className="text-2xl mb-1">{type.icon}</div>
+                    <div className="text-2xl mb-1" aria-hidden="true">
+                      {type.icon}
+                    </div>
                     <div className="text-sm font-medium text-gray-900">
                       {getTranslation(type.label, language)}
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
-          </div>
+          </fieldset>
 
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="feedback-title-input"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               {getTranslation("feedbackTitleLabel", language)}
             </label>
             <input
+              id="feedback-title-input"
               type="text"
               value={feedback.title}
               onChange={e => handleInputChange("title", e.target.value)}
@@ -274,10 +292,14 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="feedback-description"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               {getTranslation("feedbackDescription", language)}
             </label>
             <textarea
+              id="feedback-description"
               value={feedback.description}
               onChange={e => handleInputChange("description", e.target.value)}
               rows={4}
@@ -291,10 +313,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
           </div>
 
           {/* Priority */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+          <fieldset>
+            <legend className="block text-sm font-medium text-gray-700 mb-3">
               {getTranslation("feedbackPriority", language)}
-            </label>
+            </legend>
             <div className="flex space-x-3">
               {[
                 {
@@ -322,19 +344,24 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
                       ? `border-${priority.color}-500 bg-${priority.color}-50 text-${priority.color}-700`
                       : "border-gray-200 hover:border-gray-300 text-gray-700"
                   }`}
+                  aria-pressed={feedback.priority === priority.value}
                 >
                   {getTranslation(priority.label, language)}
                 </button>
               ))}
             </div>
-          </div>
+          </fieldset>
 
           {/* Contact Email (Optional) */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="feedback-email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               {getTranslation("feedbackEmail", language)}
             </label>
             <input
+              id="feedback-email"
               type="email"
               value={feedback.contactEmail}
               onChange={e => handleInputChange("contactEmail", e.target.value)}
@@ -344,7 +371,21 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
           </div>
 
           {/* Error Message */}
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {error && (
+            <div className="text-red-500 text-sm" role="alert">
+              {error}
+            </div>
+          )}
+
+          {/* Privacy Notice */}
+          <div
+            className="bg-blue-50 border border-blue-200 rounded-lg p-3"
+            role="note"
+          >
+            <p className="text-blue-800 text-xs leading-relaxed">
+              {getTranslation("privacyDisclaimer", language)}
+            </p>
+          </div>
 
           {/* Submit Button */}
           <div className="flex space-x-3 pt-4">
@@ -364,7 +405,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ language, onClose }) => {
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  <div
+                    className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"
+                    aria-hidden="true"
+                  ></div>
                   {getTranslation("submitting", language)}
                 </div>
               ) : (

@@ -22,42 +22,46 @@ interface DesktopLayoutProps {
 }
 
 // Desktop Layout component - Optimized for large screens
-const DesktopLayout: React.FC<DesktopLayoutProps> = ({
-  config,
-  updateConfig,
-  results,
-  hoursPerWeek,
-  updateHoursPerWeek,
-  language,
-}) => {
-  return (
-    <>
-      {/* Top section: Configuration and Results side by side with equal width */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        {/* Configuration component */}
-        <Configuration
-          config={config}
-          updateConfig={updateConfig}
-          language={language}
-        />
+const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(
+  ({
+    config,
+    updateConfig,
+    results,
+    hoursPerWeek,
+    updateHoursPerWeek,
+    language,
+  }) => {
+    return (
+      <>
+        {/* Top section: Configuration and Results side by side with equal width */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* Configuration component */}
+          <Configuration
+            config={config}
+            updateConfig={updateConfig}
+            language={language}
+          />
 
-        {/* Results component */}
-        <Results results={results} language={language} />
-      </div>
+          {/* Results component */}
+          <Results results={results} language={language} />
+        </div>
 
-      {/* Hours registration component - full width below */}
-      <div className="mt-8 lg:mt-10">
-        <HoursRegistration
-          hoursPerWeek={hoursPerWeek}
-          updateHoursPerWeek={updateHoursPerWeek}
-          language={language}
-        />
-      </div>
+        {/* Hours registration component - full width below */}
+        <div className="mt-8 lg:mt-10">
+          <HoursRegistration
+            hoursPerWeek={hoursPerWeek}
+            updateHoursPerWeek={updateHoursPerWeek}
+            language={language}
+          />
+        </div>
 
-      {/* Footer component */}
-      <Footer language={language} />
-    </>
-  );
-};
+        {/* Footer component */}
+        <Footer language={language} />
+      </>
+    );
+  }
+);
+
+DesktopLayout.displayName = "DesktopLayout";
 
 export default DesktopLayout;

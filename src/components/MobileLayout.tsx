@@ -22,40 +22,44 @@ interface MobileLayoutProps {
 }
 
 // Mobile Layout component - Logical flow: Config → Hours → Results
-const MobileLayout: React.FC<MobileLayoutProps> = ({
-  config,
-  updateConfig,
-  results,
-  hoursPerWeek,
-  updateHoursPerWeek,
-  language,
-}) => {
-  return (
-    <>
-      {/* Logical mobile flow: Configuration first */}
-      <div className="space-y-4 sm:space-y-6 lg:space-y-8">
-        {/* Configuration component */}
-        <Configuration
-          config={config}
-          updateConfig={updateConfig}
-          language={language}
-        />
+const MobileLayout: React.FC<MobileLayoutProps> = React.memo(
+  ({
+    config,
+    updateConfig,
+    results,
+    hoursPerWeek,
+    updateHoursPerWeek,
+    language,
+  }) => {
+    return (
+      <>
+        {/* Logical mobile flow: Configuration first */}
+        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+          {/* Configuration component */}
+          <Configuration
+            config={config}
+            updateConfig={updateConfig}
+            language={language}
+          />
 
-        {/* Hours registration component */}
-        <HoursRegistration
-          hoursPerWeek={hoursPerWeek}
-          updateHoursPerWeek={updateHoursPerWeek}
-          language={language}
-        />
+          {/* Hours registration component */}
+          <HoursRegistration
+            hoursPerWeek={hoursPerWeek}
+            updateHoursPerWeek={updateHoursPerWeek}
+            language={language}
+          />
 
-        {/* Results component */}
-        <Results results={results} language={language} />
-      </div>
+          {/* Results component */}
+          <Results results={results} language={language} />
+        </div>
 
-      {/* Footer component */}
-      <Footer language={language} />
-    </>
-  );
-};
+        {/* Footer component */}
+        <Footer language={language} />
+      </>
+    );
+  }
+);
+
+MobileLayout.displayName = "MobileLayout";
 
 export default MobileLayout;

@@ -34,7 +34,7 @@ export const STORAGE_KEYS = {
   LANGUAGE: "salary_calculator_language",
 } as const;
 
-export const TIME_REGEX = /^([0-9]|[1-5][0-9]|60):([0-5][0-9])$/;
+export const TIME_REGEX = /^([0-9]|[1-9][0-9]):([0-5][0-9])$/;
 
 export const MIN_AGE_FOR_SHIFTLEADER = 18;
 

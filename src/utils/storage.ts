@@ -3,6 +3,40 @@ import { STORAGE_KEYS } from "../constants";
 
 // Local Storage utilities for the salary calculator
 
+// Debounce utility for storage operations
+const debounce = (func: Function, wait: number) => {
+  let timeout: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(null, args), wait);
+  };
+};
+
+// Debounced storage functions to prevent excessive writes
+const debouncedSaveConfig = debounce((config: Config) => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config));
+  } catch (error) {
+    console.warn("Failed to save config to localStorage:", error);
+  }
+}, 300);
+
+const debouncedSaveHours = debounce((hours: WeekHours[]) => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.HOURS, JSON.stringify(hours));
+  } catch (error) {
+    console.warn("Failed to save hours to localStorage:", error);
+  }
+}, 300);
+
+const debouncedSaveLanguage = debounce((language: Language) => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.LANGUAGE, language);
+  } catch (error) {
+    console.warn("Failed to save language to localStorage:", error);
+  }
+}, 300);
+
 // Migrate old config format to new 2025 format with function-based rates
 const migrateConfig = (oldConfig: any): Config | null => {
   if (!oldConfig) return null;
@@ -46,74 +80,69 @@ const migrateConfig = (oldConfig: any): Config | null => {
   return oldConfig;
 };
 
-// Save configuration to local storage
-export const saveConfig = (config: Config): boolean => {
-  try {
-    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config));
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
-// Load configuration from local storage
+// Load config from local storage
 export const loadConfig = (): Config | null => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEYS.CONFIG);
-    const parsed = saved ? JSON.parse(saved) : null;
+    const stored = localStorage.getItem(STORAGE_KEYS.CONFIG);
+    if (!stored) return null;
+
+    const parsed = JSON.parse(stored);
     return migrateConfig(parsed);
   } catch (error) {
+    console.warn("Failed to load config from localStorage:", error);
     return null;
   }
 };
 
-// Save hours data to local storage
-export const saveHours = (hours: WeekHours[]): boolean => {
-  try {
-    localStorage.setItem(STORAGE_KEYS.HOURS, JSON.stringify(hours));
-    return true;
-  } catch (error) {
-    return false;
-  }
+// Save config to local storage (debounced)
+export const saveConfig = (config: Config): boolean => {
+  debouncedSaveConfig(config);
+  return true;
 };
 
-// Load hours data from local storage
+// Load hours from local storage
 export const loadHours = (): WeekHours[] | null => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEYS.HOURS);
-    return saved ? JSON.parse(saved) : null;
+    const stored = localStorage.getItem(STORAGE_KEYS.HOURS);
+    return stored ? JSON.parse(stored) : null;
   } catch (error) {
+    console.warn("Failed to load hours from localStorage:", error);
     return null;
   }
 };
 
-// Save language preference to local storage
-export const saveLanguage = (language: Language): boolean => {
-  try {
-    localStorage.setItem(STORAGE_KEYS.LANGUAGE, language);
-    return true;
-  } catch (error) {
-    return false;
-  }
+// Save hours to local storage (debounced)
+export const saveHours = (hours: WeekHours[]): boolean => {
+  debouncedSaveHours(hours);
+  return true;
 };
 
-// Load language preference from local storage
+// Load language from local storage
 export const loadLanguage = (): Language => {
   try {
-    return (localStorage.getItem(STORAGE_KEYS.LANGUAGE) as Language) || "nl";
+    const stored = localStorage.getItem(STORAGE_KEYS.LANGUAGE);
+    return (stored as Language) || "nl";
   } catch (error) {
+    console.warn("Failed to load language from localStorage:", error);
     return "nl";
   }
 };
 
-// Clear all stored data
+// Save language to local storage (debounced)
+export const saveLanguage = (language: Language): boolean => {
+  debouncedSaveLanguage(language);
+  return true;
+};
+
+// Clear all data from local storage
 export const clearAllData = (): boolean => {
   try {
-    Object.values(STORAGE_KEYS).forEach(key => {
-      localStorage.removeItem(key);
-    });
+    localStorage.removeItem(STORAGE_KEYS.CONFIG);
+    localStorage.removeItem(STORAGE_KEYS.HOURS);
+    localStorage.removeItem(STORAGE_KEYS.LANGUAGE);
     return true;
   } catch (error) {
+    console.warn("Failed to clear localStorage:", error);
     return false;
   }
 };

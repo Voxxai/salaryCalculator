@@ -65,6 +65,7 @@ interface TranslationKeys {
   // Footer
   tip: string;
   disclaimer: string;
+  privacyDisclaimer: string;
 
   // Language Switch
   languageSwitch: string;
@@ -188,6 +189,8 @@ export const translations: Record<Language, TranslationKeys> = {
     tip: "💡 Tip: Type hours (1-99) and select minutes from dropdown (00, 15, 30, 45)",
     disclaimer:
       "⚠️ IMPORTANT: All calculations are estimates only. Your actual salary may differ due to individual circumstances, collective agreements, or company policies. Always verify with your employer or payslip.",
+    privacyDisclaimer:
+      "🔒 PRIVACY: Your salary data stays on your device. Only feedback submissions are sent to me. No personal information is collected or stored.",
 
     // Language Switch
     languageSwitch: "🌍 Language",
@@ -224,14 +227,14 @@ export const translations: Record<Language, TranslationKeys> = {
     low: "Low",
     medium: "Medium",
     high: "High",
-    feedbackEmail: "Email (Optional)",
+    feedbackEmail: "Contact Email (Optional)",
     optional: "Optional",
     feedbackEmailPlaceholder: "your.email@example.com",
     submitFeedback: "Submit Feedback",
     submitting: "Submitting...",
     feedbackSubmitted: "Feedback Submitted!",
     feedbackThankYou:
-      "Thank you for your feedback! We'll review it and get back to you if needed.",
+      "Thank you for your feedback. We'll review it and get back to you if needed.",
 
     // Admin Panel
     adminButton: "Admin Panel",
@@ -314,6 +317,8 @@ export const translations: Record<Language, TranslationKeys> = {
     tip: "💡 Tip: Type uren (1-99) en selecteer minuten uit dropdown (00, 15, 30, 45)",
     disclaimer:
       "⚠️ BELANGRIJK: Alle berekeningen zijn slechts schattingen. Je daadwerkelijke salaris kan afwijken door individuele omstandigheden, cao's of bedrijfsbeleid. Controleer altijd bij je werkgever of salarisstrook.",
+    privacyDisclaimer:
+      "🔒 PRIVACY: Je salarisgegevens blijven op je apparaat. Alleen feedback wordt naar mij verzonden. Er worden geen persoonlijke gegevens verzameld of opgeslagen.",
 
     // Language Switch
     languageSwitch: "🌍 Taal",
@@ -351,14 +356,14 @@ export const translations: Record<Language, TranslationKeys> = {
     low: "Laag",
     medium: "Gemiddeld",
     high: "Hoog",
-    feedbackEmail: "E-mail (Optioneel)",
-    optional: "Optioneel",
+    feedbackEmail: "Contact Email (Optioneel)",
     feedbackEmailPlaceholder: "jouw.email@voorbeeld.nl",
+    optional: "Optioneel",
     submitFeedback: "Feedback Versturen",
     submitting: "Versturen...",
     feedbackSubmitted: "Feedback Verstuurd!",
     feedbackThankYou:
-      "Bedankt voor je feedback! We bekijken het en nemen contact op indien nodig.",
+      "Bedankt voor je feedback. We bekijken het en nemen contact op indien nodig.",
 
     // Admin Panel
     adminButton: "Admin Paneel",

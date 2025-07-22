@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 // Import all components
 import Header from "./components/Header";
@@ -51,20 +51,10 @@ function App(): JSX.Element {
     return savedHours || [DEFAULT_WEEK_HOURS];
   });
 
-  // State for calculated results
-  const [results, setResults] = useState<Results>({
-    totalRegularHours: "0:00",
-    totalPaidBreaks: "0:00",
-    totalAllowance25: "0:00",
-    totalAllowance50: "0:00",
-    totalAllowance100: "0:00",
-    estimatedGrossSalary: 0,
-    estimatedPensioenPremie: 0,
-    estimatedSpaww: 0,
-    estimatedPremieWGAWerknemer: 0,
-    estimatedLoonheffing: 0,
-    estimatedNetSalary: 0,
-  });
+  // Memoize the salary calculation to prevent unnecessary recalculations
+  const results = useMemo(() => {
+    return calculateSalary(config, hoursPerWeek);
+  }, [config, hoursPerWeek]);
 
   // Effect to adjust hours registration when number of weeks changes
   useEffect(() => {
@@ -85,8 +75,8 @@ function App(): JSX.Element {
 
   // Effect to recalculate salary when configuration or hours change
   useEffect(() => {
-    const newResults = calculateSalary(config, hoursPerWeek);
-    setResults(newResults);
+    // const newResults = calculateSalary(config, hoursPerWeek);
+    // setResults(newResults);
   }, [config, hoursPerWeek]);
 
   // Effect to save config to local storage when it changes
@@ -104,34 +94,34 @@ function App(): JSX.Element {
     saveLanguage(language);
   }, [language]);
 
-  // Function to update configuration
-  const updateConfig: UpdateConfigFunction = (field, value) => {
+  // Memoize update functions to prevent unnecessary re-renders
+  const updateConfig: UpdateConfigFunction = useCallback((field, value) => {
     setConfig(prev => ({
       ...prev,
       [field]: value,
     }));
-  };
+  }, []);
 
-  // Function to update hours per week
-  const updateHoursPerWeek: UpdateHoursPerWeekFunction = (
-    weekIndex,
-    field,
-    value
-  ) => {
-    setHoursPerWeek(prev => {
-      const newHours = [...prev];
-      newHours[weekIndex] = {
-        ...newHours[weekIndex],
-        [field]: value,
-      };
-      return newHours;
-    });
-  };
+  const updateHoursPerWeek: UpdateHoursPerWeekFunction = useCallback(
+    (weekIndex, field, value) => {
+      setHoursPerWeek(prev => {
+        const newHours = [...prev];
+        newHours[weekIndex] = {
+          ...newHours[weekIndex],
+          [field]: value,
+        };
+        return newHours;
+      });
+    },
+    []
+  );
 
-  // Function to handle language change
-  const handleLanguageChange: HandleLanguageChangeFunction = newLanguage => {
-    setLanguage(newLanguage);
-  };
+  const handleLanguageChange: HandleLanguageChangeFunction = useCallback(
+    newLanguage => {
+      setLanguage(newLanguage);
+    },
+    []
+  );
 
   return (
     <ErrorBoundary language={language}>
