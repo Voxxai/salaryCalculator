@@ -11,13 +11,6 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
   return (
     <footer className="mt-6 sm:mt-8 text-center text-xs sm:text-sm text-gray-500 px-4">
       <div className="space-y-4">
-        {/* Privacy Disclaimer */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-          <p className="leading-relaxed text-blue-800 text-xs">
-            {getTranslation("privacyDisclaimer", language)}
-          </p>
-        </div>
-
         {/* Tips */}
         <div>
           <p className="leading-relaxed text-gray-600">
