@@ -175,4 +175,6 @@ const AdminSetup: React.FC<AdminSetupProps> = React.memo(
   }
 );
 
+AdminSetup.displayName = "AdminSetup";
+
 export default AdminSetup;

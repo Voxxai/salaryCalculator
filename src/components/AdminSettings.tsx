@@ -175,4 +175,6 @@ const AdminSettings: React.FC<AdminSettingsProps> = React.memo(({ language, onCl
   );
 });
 
+AdminSettings.displayName = "AdminSettings";
+
 export default AdminSettings;
