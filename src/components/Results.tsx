@@ -8,7 +8,7 @@ interface ResultsProps {
 }
 
 // Results component - Displays only the final net salary result
-const Results: React.FC<ResultsProps> = ({ results, language }) => {
+const Results: React.FC<ResultsProps> = React.memo(({ results, language }) => {
   return (
     <div
       className="bg-white rounded-xl shadow-xl border border-blue-200 p-6 lg:p-8 flex flex-col h-full"
@@ -58,6 +58,8 @@ const Results: React.FC<ResultsProps> = ({ results, language }) => {
       </div>
     </div>
   );
-};
+});
+
+Results.displayName = "Results";
 
 export default Results;

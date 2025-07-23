@@ -7,7 +7,7 @@ interface FooterProps {
 }
 
 // Footer component - Shows tips, information and credits
-const Footer: React.FC<FooterProps> = ({ language }) => {
+const Footer: React.FC<FooterProps> = React.memo(({ language }) => {
   return (
     <footer className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-500 px-4">
       <div className="space-y-3">
@@ -31,6 +31,8 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;

@@ -412,10 +412,24 @@ export const translations: Record<Language, TranslationKeys> = {
   },
 };
 
+// Translation cache for performance optimization
+const translationCache = new Map<string, string>();
+
 // Function to get translation for a specific key and language
 export const getTranslation = (
   key: keyof TranslationKeys,
   language: Language
 ): string => {
-  return translations[language]?.[key] || key;
+  const cacheKey = `${language}:${key}`;
+
+  // Check cache first
+  if (translationCache.has(cacheKey)) {
+    return translationCache.get(cacheKey)!;
+  }
+
+  // Get translation and cache it
+  const translation = translations[language]?.[key] || key;
+  translationCache.set(cacheKey, translation);
+
+  return translation;
 };

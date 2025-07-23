@@ -7,35 +7,29 @@ interface LanguageSwitchProps {
   onLanguageChange: HandleLanguageChangeFunction;
 }
 
-// Language Switch component - Allows users to toggle between languages by clicking the flag
-const LanguageSwitch: React.FC<LanguageSwitchProps> = ({
-  language,
-  onLanguageChange,
-}) => {
-  const handleLanguageToggle = (): void => {
-    const newLanguage: Language = language === "nl" ? "en" : "nl";
+// Language Switch component - Toggle between Dutch and English
+const LanguageSwitch: React.FC<LanguageSwitchProps> = React.memo(
+  ({ language, onLanguageChange }) => {
+    const handleLanguageChange = (): void => {
+      const newLanguage: Language = language === "nl" ? "en" : "nl";
+      onLanguageChange(newLanguage);
+    };
 
-    onLanguageChange(newLanguage);
-  };
+    return (
+      <button
+        onClick={handleLanguageChange}
+        className="text-white hover:text-blue-100 transition-colors p-2"
+        title={getTranslation("languageSwitch", language)}
+        aria-label={getTranslation("languageSwitch", language)}
+      >
+        <span aria-hidden="true" className="text-xl sm:text-2xl">
+          🌍
+        </span>
+      </button>
+    );
+  }
+);
 
-  return (
-    <button
-      onClick={handleLanguageToggle}
-      className="flex items-center justify-center sm:justify-start space-x-1 sm:space-x-1 px-2 sm:px-2 py-1 text-xs sm:text-xs border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-blue-700 touch-target hover:bg-blue-50 transition-colors min-w-[44px] sm:min-w-[40px]"
-      title={language === "nl" ? "Switch to English" : "Wissel naar Nederlands"}
-      aria-label={
-        language === "nl" ? "Switch to English" : "Wissel naar Nederlands"
-      }
-      aria-pressed={false}
-    >
-      <span className="text-base sm:text-lg sm:hidden" aria-hidden="true">
-        {language === "nl" ? "🇳🇱" : "🇬🇧"}
-      </span>
-      <span className="hidden sm:inline">
-        {language === "nl" ? "NL" : "ENG"}
-      </span>
-    </button>
-  );
-};
+LanguageSwitch.displayName = "LanguageSwitch";
 
 export default LanguageSwitch;

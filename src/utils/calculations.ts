@@ -1,21 +1,45 @@
 import { Config, WeekHours, Results } from "../types";
 import { ALLOWANCE_MULTIPLIERS, TIME_REGEX } from "../constants";
 
+// Cache for time conversions to improve performance
+const timeToDecimalCache = new Map<string, number>();
+const decimalToTimeCache = new Map<number, string>();
+
 // Function to convert HH:MM format to decimal hours
 export const timeToDecimal = (timeString: string): number => {
   if (!timeString || timeString === "0:00" || timeString === "0") return 0;
 
+  // Check cache first
+  if (timeToDecimalCache.has(timeString)) {
+    return timeToDecimalCache.get(timeString)!;
+  }
+
   const [hours, minutes] = timeString.split(":").map(Number);
-  return hours + minutes / 60;
+  const result = hours + minutes / 60;
+
+  // Cache the result
+  timeToDecimalCache.set(timeString, result);
+
+  return result;
 };
 
 // Function to convert decimal hours to HH:MM format
 export const decimalToTime = (decimalHours: number): string => {
+  // Check cache first
+  if (decimalToTimeCache.has(decimalHours)) {
+    return decimalToTimeCache.get(decimalHours)!;
+  }
+
   const hours = Math.floor(decimalHours);
   const minutes = Math.round((decimalHours - hours) * 60);
-  return `${hours.toString().padStart(2, "0")}:${minutes
+  const result = `${hours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")}`;
+
+  // Cache the result
+  decimalToTimeCache.set(decimalHours, result);
+
+  return result;
 };
 
 // Function to calculate salary according to 2025 logic

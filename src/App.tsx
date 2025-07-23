@@ -73,12 +73,6 @@ function App(): JSX.Element {
     }
   }, [config.numberOfWeeks, hoursPerWeek.length]);
 
-  // Effect to recalculate salary when configuration or hours change
-  useEffect(() => {
-    // const newResults = calculateSalary(config, hoursPerWeek);
-    // setResults(newResults);
-  }, [config, hoursPerWeek]);
-
   // Effect to save config to local storage when it changes
   useEffect(() => {
     saveConfig(config);
