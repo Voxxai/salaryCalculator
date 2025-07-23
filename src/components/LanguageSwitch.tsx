@@ -7,20 +7,21 @@ interface LanguageSwitchProps {
   onLanguageChange: HandleLanguageChangeFunction;
 }
 
-// Language Switch component - Toggle between Dutch and English
+// Language Switch component - Disabled, always returns Dutch
 const LanguageSwitch: React.FC<LanguageSwitchProps> = React.memo(
   ({ language, onLanguageChange }) => {
     const handleLanguageChange = (): void => {
-      const newLanguage: Language = language === "nl" ? "en" : "nl";
-      onLanguageChange(newLanguage);
+      // Always set to Dutch when clicked (disabled functionality)
+      onLanguageChange("nl");
     };
 
     return (
       <button
         onClick={handleLanguageChange}
-        className="text-white hover:text-blue-100 transition-colors p-2"
-        title={getTranslation("languageSwitch", language)}
-        aria-label={getTranslation("languageSwitch", language)}
+        className="text-white opacity-50 cursor-not-allowed transition-colors p-2"
+        title="Taal switch is uitgeschakeld"
+        aria-label="Taal switch is uitgeschakeld"
+        disabled
       >
         <span aria-hidden="true" className="text-xl sm:text-2xl">
           🌍

@@ -33,8 +33,8 @@ import {
 } from "./types";
 
 function App(): JSX.Element {
-  // State for language selection (load from storage)
-  const [language, setLanguage] = useState<Language>(() => loadLanguage());
+  // State for language selection (always Dutch)
+  const [language, setLanguage] = useState<Language>("nl");
 
   // Detect screen size for layout selection
   const { isMobile } = useScreenSize();
@@ -83,10 +83,7 @@ function App(): JSX.Element {
     saveHours(hoursPerWeek);
   }, [hoursPerWeek]);
 
-  // Effect to save language to local storage when it changes
-  useEffect(() => {
-    saveLanguage(language);
-  }, [language]);
+
 
   // Memoize update functions to prevent unnecessary re-renders
   const updateConfig: UpdateConfigFunction = useCallback((field, value) => {

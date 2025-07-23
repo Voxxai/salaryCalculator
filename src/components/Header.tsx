@@ -128,10 +128,10 @@ const Header: React.FC<HeaderProps> = React.memo(
                   ⚙️
                 </span>
               </button>
-              <LanguageSwitch
+              {/* <LanguageSwitch
                 language={language}
                 onLanguageChange={onLanguageChange}
-              />
+              /> */}
             </div>
           </div>
         </div>
