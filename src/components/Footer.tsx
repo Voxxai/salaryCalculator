@@ -22,9 +22,29 @@ const Footer: React.FC<FooterProps> = React.memo(({ language }) => {
         <div className="border-t border-gray-200 pt-3">
           <p className="leading-relaxed text-center">
             {language === "nl" ? (
-              <>💻 Ontwikkeld door Voxxai</>
+              <>
+                💻 Ontwikkeld door{" "}
+                <a
+                  href="https://github.com/voxxai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 underline transition-colors"
+                >
+                  Voxxai
+                </a>
+              </>
             ) : (
-              <>💻 Developed by Voxxai</>
+              <>
+                💻 Developed by{" "}
+                <a
+                  href="https://github.com/voxxai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 underline transition-colors"
+                >
+                  Voxxai
+                </a>
+              </>
             )}
           </p>
         </div>
