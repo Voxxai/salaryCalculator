@@ -13,7 +13,6 @@ interface FeedbackData {
   title: string;
   description: string;
   priority: "low" | "medium" | "high";
-  contactEmail?: string;
 }
 
 // Rate limiting utility
@@ -64,7 +63,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = React.memo(
       title: "",
       description: "",
       priority: "medium",
-      contactEmail: "",
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,7 +90,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = React.memo(
           title: feedback.title,
           description: feedback.description,
           priority: feedback.priority,
-          contact_email: feedback.contactEmail || undefined,
+          contact_email: null, // Always use null for email
         });
 
         if (result.success) {
@@ -369,31 +367,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = React.memo(
                 ))}
               </div>
             </fieldset>
-
-            {/* Contact Email (Optional) */}
-            <div>
-              <label
-                htmlFor="feedback-email"
-                className="block text-sm font-medium text-gray-700 mb-2 text-center"
-              >
-                {getTranslation("feedbackEmail", language)}
-              </label>
-              <div className="flex justify-center">
-                <input
-                  id="feedback-email"
-                  type="email"
-                  value={feedback.contactEmail}
-                  onChange={e =>
-                    handleInputChange("contactEmail", e.target.value)
-                  }
-                  className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder={getTranslation(
-                    "feedbackEmailPlaceholder",
-                    language
-                  )}
-                />
-              </div>
-            </div>
 
             {/* Error Message */}
             {error && (

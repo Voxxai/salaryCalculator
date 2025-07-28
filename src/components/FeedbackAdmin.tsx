@@ -11,7 +11,7 @@ import AdminSettings from "./AdminSettings";
 // Local interface that includes both Supabase and localStorage fields
 interface FeedbackData extends SupabaseFeedbackData {
   timestamp?: string;
-  contactEmail?: string;
+  contactEmail?: string | null;
 }
 
 interface FeedbackAdminProps {
@@ -44,7 +44,7 @@ const FeedbackAdmin: React.FC<FeedbackAdminProps> = React.memo(
               title: item.title,
               description: item.description,
               priority: item.priority,
-              contactEmail: item.contact_email,
+              contactEmail: item.contact_email || null,
               timestamp: item.created_at || new Date().toISOString(),
             }));
             setFeedback(transformedData);

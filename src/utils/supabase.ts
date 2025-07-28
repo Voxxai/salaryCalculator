@@ -24,14 +24,14 @@ export const supabase =
     ? createClient(supabaseUrl, supabaseAnonKey)
     : null;
 
-// Feedback table interface
+// Feedback data interface
 export interface FeedbackData {
   id?: number;
   type: "feature" | "bug" | "improvement" | "other";
   title: string;
   description: string;
   priority: "low" | "medium" | "high";
-  contact_email?: string;
+  contact_email?: string | null;
   created_at?: string;
   device_info?: string;
   user_agent?: string;
@@ -54,9 +54,7 @@ export const feedbackService = {
         ...feedback,
         title: sanitizeInput(feedback.title),
         description: sanitizeInput(feedback.description),
-        contact_email: feedback.contact_email
-          ? sanitizeInput(feedback.contact_email)
-          : undefined,
+        contact_email: null, // Always use null for email
         device_info: `${window.screen.width}x${window.screen.height}`,
         user_agent: navigator.userAgent,
       };

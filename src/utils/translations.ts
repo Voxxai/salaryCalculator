@@ -99,9 +99,6 @@ interface TranslationKeys {
   low: string;
   medium: string;
   high: string;
-  feedbackEmail: string;
-  optional: string;
-  feedbackEmailPlaceholder: string;
   submitFeedback: string;
   submitting: string;
   feedbackSubmitted: string;
@@ -237,9 +234,6 @@ export const translations: Record<Language, TranslationKeys> = {
     low: "Low",
     medium: "Medium",
     high: "High",
-    feedbackEmail: "Contact Email (Optional)",
-    optional: "Optional",
-    feedbackEmailPlaceholder: "your.email@example.com",
     submitFeedback: "Submit Feedback",
     submitting: "Submitting...",
     feedbackSubmitted: "Feedback Submitted!",
@@ -376,9 +370,6 @@ export const translations: Record<Language, TranslationKeys> = {
     low: "Laag",
     medium: "Gemiddeld",
     high: "Hoog",
-    feedbackEmail: "Contact Email (Optioneel)",
-    feedbackEmailPlaceholder: "jouw.email@voorbeeld.nl",
-    optional: "Optioneel",
     submitFeedback: "Feedback Versturen",
     submitting: "Versturen...",
     feedbackSubmitted: "Feedback Verstuurd!",

@@ -27,9 +27,9 @@ CREATE INDEX IF NOT EXISTS idx_feedback_priority ON feedback(priority);
 
 -- Insert some sample data (optional)
 INSERT INTO feedback (type, title, description, priority, contact_email, device_info, user_agent) VALUES
-('feature', 'Dark Mode Support', 'Would love to have a dark mode option for better visibility at night', 'medium', 'user@example.com', '1920x1080', 'Mozilla/5.0...'),
-('bug', 'Time Input Validation', 'The time input sometimes accepts invalid formats', 'high', 'tester@example.com', '1366x768', 'Chrome/91.0...'),
-('improvement', 'Export to PDF', 'Add ability to export salary calculations to PDF', 'low', 'admin@example.com', '2560x1440', 'Safari/14.0...');
+('feature', 'Dark Mode Support', 'Would love to have a dark mode option for better visibility at night', 'medium', NULL, '1920x1080', 'Mozilla/5.0...'),
+('bug', 'Time Input Validation', 'The time input sometimes accepts invalid formats', 'high', NULL, '1366x768', 'Chrome/91.0...'),
+('improvement', 'Export to PDF', 'Add ability to export salary calculations to PDF', 'low', NULL, '2560x1440', 'Safari/14.0...');
 
 -- Verify the table was created
 SELECT * FROM feedback ORDER BY created_at DESC LIMIT 5; 

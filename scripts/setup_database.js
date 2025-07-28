@@ -84,7 +84,7 @@ CREATE INDEX IF NOT EXISTS idx_feedback_priority ON feedback(priority);
         description:
           "Would love to have a dark mode option for better visibility at night",
         priority: "medium",
-        contact_email: "user@example.com",
+        contact_email: null,
         device_info: "1920x1080",
         user_agent:
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
@@ -94,7 +94,7 @@ CREATE INDEX IF NOT EXISTS idx_feedback_priority ON feedback(priority);
         title: "Time Input Validation",
         description: "The time input sometimes accepts invalid formats",
         priority: "high",
-        contact_email: "tester@example.com",
+        contact_email: null,
         device_info: "1366x768",
         user_agent: "Chrome/91.0.4472.124 Safari/537.36",
       },
@@ -103,7 +103,7 @@ CREATE INDEX IF NOT EXISTS idx_feedback_priority ON feedback(priority);
         title: "Export to PDF",
         description: "Add ability to export salary calculations to PDF",
         priority: "low",
-        contact_email: "admin@example.com",
+        contact_email: null,
         device_info: "2560x1440",
         user_agent: "Safari/14.0.3",
       },
