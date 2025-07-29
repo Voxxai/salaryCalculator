@@ -67,8 +67,7 @@ interface TranslationKeys {
   disclaimer: string;
   privacyDisclaimer: string;
 
-  // Language Switch
-  languageSwitch: string;
+
 
   // Error Boundary
   errorTitle: string;
@@ -79,30 +78,6 @@ interface TranslationKeys {
   reloadPage: string;
   clearStorageAndReload: string;
   showErrorDetails: string;
-
-  // Feedback Form
-  feedbackButton: string;
-  feedbackTitle: string;
-  feedbackSubtitle: string;
-  feedbackType: string;
-  featureRequest: string;
-  bugReport: string;
-  improvement: string;
-  other: string;
-  feature: string;
-  bug: string;
-  feedbackTitleLabel: string;
-  feedbackTitlePlaceholder: string;
-  feedbackDescription: string;
-  feedbackDescriptionPlaceholder: string;
-  feedbackPriority: string;
-  low: string;
-  medium: string;
-  high: string;
-  submitFeedback: string;
-  submitting: string;
-  feedbackSubmitted: string;
-  feedbackThankYou: string;
 }
 
 export const translations: Record<Language, TranslationKeys> = {
@@ -173,10 +148,9 @@ export const translations: Record<Language, TranslationKeys> = {
     disclaimer:
       "⚠️ IMPORTANT: All calculations are estimates only. Your actual salary may differ due to individual circumstances, collective agreements, or company policies. Always verify with your employer or payslip.",
     privacyDisclaimer:
-      "🔒 PRIVACY: Your salary data stays on your device. Only feedback submissions are sent to me. No personal information is collected or stored.",
+      "🔒 PRIVACY: Your salary data stays on your device. No personal information is collected or stored.",
 
-    // Language Switch
-    languageSwitch: "🌍 Language",
+
 
     // Error Boundary
     errorTitle: "Something went wrong",
@@ -189,32 +163,6 @@ export const translations: Record<Language, TranslationKeys> = {
     reloadPage: "Reload Page",
     clearStorageAndReload: "Clear Storage & Reload",
     showErrorDetails: "Show Error Details",
-
-    // Feedback Form
-    feedbackButton: "Send Feedback",
-    feedbackTitle: "Send Feedback",
-    feedbackSubtitle: "Help us improve the app with your suggestions",
-    feedbackType: "Feedback Type",
-    featureRequest: "Feature Request",
-    bugReport: "Bug Report",
-    improvement: "Improvement",
-    other: "Other",
-    feature: "Feature",
-    bug: "Bug",
-    feedbackTitleLabel: "Title",
-    feedbackTitlePlaceholder: "Brief description of your feedback",
-    feedbackDescription: "Description",
-    feedbackDescriptionPlaceholder:
-      "Please provide detailed information about your feedback...",
-    feedbackPriority: "Priority",
-    low: "Low",
-    medium: "Medium",
-    high: "High",
-    submitFeedback: "Submit Feedback",
-    submitting: "Submitting...",
-    feedbackSubmitted: "Feedback Submitted!",
-    feedbackThankYou:
-      "Thank you for your feedback. We'll review it and get back to you if needed.",
   },
 
   nl: {
@@ -284,10 +232,9 @@ export const translations: Record<Language, TranslationKeys> = {
     disclaimer:
       "⚠️ BELANGRIJK: Alle berekeningen zijn slechts schattingen. Je daadwerkelijke salaris kan afwijken door individuele omstandigheden, cao's of bedrijfsbeleid. Controleer altijd bij je werkgever of salarisstrook.",
     privacyDisclaimer:
-      "🔒 PRIVACY: Je salarisgegevens blijven op je apparaat. Alleen feedback wordt naar mij verzonden. Er worden geen persoonlijke gegevens verzameld of opgeslagen.",
+      "🔒 PRIVACY: Je salarisgegevens blijven op je apparaat. Er worden geen persoonlijke gegevens verzameld of opgeslagen.",
 
-    // Language Switch
-    languageSwitch: "🌍 Taal",
+
 
     // Error Boundary
     errorTitle: "Er is iets misgegaan",
@@ -301,32 +248,6 @@ export const translations: Record<Language, TranslationKeys> = {
     reloadPage: "Pagina Herladen",
     clearStorageAndReload: "Opslag Wissen & Herladen",
     showErrorDetails: "Toon Foutdetails",
-
-    // Feedback Form
-    feedbackButton: "Feedback Sturen",
-    feedbackTitle: "Feedback Sturen",
-    feedbackSubtitle: "Help ons de app te verbeteren met je suggesties",
-    feedbackType: "Type Feedback",
-    featureRequest: "Feature Verzoek",
-    bugReport: "Bug Rapport",
-    improvement: "Verbetering",
-    other: "Anders",
-    feature: "Feature",
-    bug: "Bug",
-    feedbackTitleLabel: "Titel",
-    feedbackTitlePlaceholder: "Korte beschrijving van je feedback",
-    feedbackDescription: "Beschrijving",
-    feedbackDescriptionPlaceholder:
-      "Geef gedetailleerde informatie over je feedback...",
-    feedbackPriority: "Prioriteit",
-    low: "Laag",
-    medium: "Gemiddeld",
-    high: "Hoog",
-    submitFeedback: "Feedback Versturen",
-    submitting: "Versturen...",
-    feedbackSubmitted: "Feedback Verstuurd!",
-    feedbackThankYou:
-      "Bedankt voor je feedback. We bekijken het en nemen contact op indien nodig.",
   },
 };
 

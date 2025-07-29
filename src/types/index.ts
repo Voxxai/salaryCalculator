@@ -47,7 +47,3 @@ export interface UpdateConfigFunction {
 export interface UpdateHoursPerWeekFunction {
   (weekIndex: number, field: keyof WeekHours, value: string): void;
 }
-
-export interface HandleLanguageChangeFunction {
-  (newLanguage: Language): void;
-}

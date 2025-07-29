@@ -1,7 +1,6 @@
 import {
   timeToDecimal,
   decimalToTime,
-  validateTimeInput,
   validateNumericInput,
   calculateSalary,
 } from "../calculations";
@@ -50,45 +49,7 @@ describe("calculations", () => {
     });
   });
 
-  describe("validateTimeInput", () => {
-    it("should validate correct HH:MM format", () => {
-      expect(validateTimeInput("8:30")).toBe(true);
-      expect(validateTimeInput("12:00")).toBe(true);
-      expect(validateTimeInput("23:59")).toBe(true);
-      expect(validateTimeInput("0:00")).toBe(true);
-      expect(validateTimeInput("99:59")).toBe(true); // Allow up to 99 hours
-    });
 
-    it("should reject invalid formats", () => {
-      expect(validateTimeInput("100:00")).toBe(false); // Over 99 hours
-      expect(validateTimeInput("12:60")).toBe(false); // Invalid minutes
-      expect(validateTimeInput("8:5")).toBe(false); // Minutes must be 2 digits
-      expect(validateTimeInput("abc")).toBe(false);
-      expect(validateTimeInput("8")).toBe(false);
-      expect(validateTimeInput("8:")).toBe(false);
-      expect(validateTimeInput(":30")).toBe(false);
-    });
-
-    it("should allow empty string", () => {
-      expect(validateTimeInput("")).toBe(true);
-    });
-
-    it("should handle edge cases for hours 0-99", () => {
-      expect(validateTimeInput("0:00")).toBe(true);
-      expect(validateTimeInput("1:00")).toBe(true);
-      expect(validateTimeInput("99:00")).toBe(true);
-      expect(validateTimeInput("99:59")).toBe(true);
-    });
-
-    it("should handle boundary conditions", () => {
-      expect(validateTimeInput("0:00")).toBe(true);
-      expect(validateTimeInput("0:59")).toBe(true);
-      expect(validateTimeInput("99:00")).toBe(true);
-      expect(validateTimeInput("99:59")).toBe(true);
-      expect(validateTimeInput("100:00")).toBe(false);
-      expect(validateTimeInput("0:60")).toBe(false);
-    });
-  });
 
   describe("validateNumericInput", () => {
     it("should validate positive numbers", () => {

@@ -143,8 +143,3 @@ export const validateNumericInput = (
   }
   return numValue;
 };
-
-// Function to validate time input (HH:MM format)
-export const validateTimeInput = (value: string): boolean => {
-  return TIME_REGEX.test(value) || value === "";
-};

@@ -8,7 +8,6 @@ import {
   getYearsOfServiceOptions,
 } from "../utils/hourlyRates";
 import { Config, Language, UpdateConfigFunction } from "../types";
-import { AGE_GROUPS_WITHOUT_SHIFTLEADER } from "../constants";
 
 interface ConfigurationProps {
   config: Config;
@@ -67,9 +66,10 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
 
     // Auto-switch to vakkenvuller if shiftleader is not available for selected age group
     React.useEffect(() => {
+      const availableFunctions = getJobFunctions(config.ageGroup);
       if (
         config.jobFunction === "shiftleader" &&
-        AGE_GROUPS_WITHOUT_SHIFTLEADER.includes(config.ageGroup as any)
+        !availableFunctions.includes("shiftleader")
       ) {
         updateConfig("jobFunction", "vakkenvuller");
       }

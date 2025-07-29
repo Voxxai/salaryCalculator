@@ -8,11 +8,7 @@ Een React web- en mobiele applicatie voor het berekenen van salaris met toeslage
 
 De app wordt automatisch gedeployed naar GitHub Pages bij elke push naar de master branch!
 
-### 🆕 Nieuw: Feedback Systeem
 
-- **💬 User Feedback**: Gebruikers kunnen feature requests en bug reports indienen
-- **🗄️ Database Integration**: Optionele Supabase database voor cross-device sync
-- **📱 Cross-Device**: Feedback zichtbaar op alle apparaten via database
 
 ### 1. Configuratie Sectie
 
@@ -122,20 +118,21 @@ De applicatie is volledig responsief en werkt optimaal op:
 - Loonheffing is optioneel en standaard uitgeschakeld
 - De app is specifiek ontwikkeld voor Albert Heijn medewerkers
 
-## 🗄️ Database Setup (Optioneel)
+## 🔒 Privacy & Data Storage
 
-Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
+De app werkt volledig lokaal zonder externe database:
 
-1. **Database setup**: Configureer je Supabase database volgens de officiële documentatie
-2. **Maak een `.env` bestand**: Kopieer `env.example` naar `.env` en vul je Supabase credentials in
-3. **Test de setup**: Start de app en verstuur test feedback
+- **💾 Local Storage**: Alle data (instellingen, uren, feedback) wordt opgeslagen in je browser
+- **🔒 Privacy**: Geen data wordt naar externe servers verzonden
+- **📱 Offline**: De app werkt volledig offline
+- **🧹 Clean**: Geen database setup of configuratie nodig
 
 **Voordelen:**
 
-- ✅ **Gratis tier**: 500MB database, 50MB bestanden
-- ✅ **Real-time sync**: Feedback verschijnt direct op alle apparaten
-- ✅ **Backup systeem**: Fallback naar localStorage als database niet beschikbaar is
-- ✅ **Secure**: HTTPS en API key authenticatie
+- ✅ **Privacy**: Alle data blijft op je apparaat
+- ✅ **Offline**: Werkt zonder internetverbinding
+- ✅ **Simpel**: Geen database setup nodig
+- ✅ **Snel**: Geen netwerk calls voor data opslag
 
 ## 🚀 Deployment & GitHub Pages
 
@@ -183,8 +180,8 @@ npm run build
 - **PWA**: Service Worker voor offline functionaliteit
 - **TypeScript**: Volledig getypeerde code
 - **Local Storage**: Automatische opslag van instellingen
-- **Database**: Supabase PostgreSQL database (optioneel)
-- **Feedback System**: User feedback system
+- **Local Storage**: Browser-based data storage
+
 - **Error Handling**: Error boundaries en fallback systemen
 
 ## 📄 Licentie

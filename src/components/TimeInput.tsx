@@ -80,7 +80,7 @@ const TimeInput: React.FC<TimeInputProps> = React.memo(
           onFocus={handleHoursFocus}
           onBlur={handleHoursBlur}
           placeholder="8"
-          className="w-20 px-3 py-3 sm:py-2 text-sm border-2 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 touch-target border-blue-300 focus:border-blue-500 text-center"
+          className="w-20 px-3 py-3 sm:py-2 text-sm border-2 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 border-blue-300 focus:border-blue-500 text-center"
           inputMode="decimal"
           aria-label="Hours"
           min="0"
@@ -96,7 +96,7 @@ const TimeInput: React.FC<TimeInputProps> = React.memo(
         <select
           value={minutes}
           onChange={handleMinutesChange}
-          className="w-20 px-3 py-3 sm:py-2 text-sm border-2 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 touch-target border-blue-300 focus:border-blue-500 text-center"
+          className="w-20 px-3 py-3 sm:py-2 text-sm border-2 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 border-blue-300 focus:border-blue-500 text-center"
           aria-label="Minutes"
         >
           <option value="00">00</option>

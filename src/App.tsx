@@ -10,15 +10,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { useScreenSize } from "./hooks/useScreenSize";
 
 // Import utility functions
-import { calculateSalary, validateTimeInput } from "./utils/calculations";
-import {
-  saveConfig,
-  loadConfig,
-  saveHours,
-  loadHours,
-  saveLanguage,
-  loadLanguage,
-} from "./utils/storage";
+import { calculateSalary } from "./utils/calculations";
+import { saveConfig, loadConfig, saveHours, loadHours } from "./utils/storage";
 import { DEFAULT_CONFIG, DEFAULT_WEEK_HOURS } from "./constants";
 
 // Import types
@@ -29,7 +22,6 @@ import {
   Language,
   UpdateConfigFunction,
   UpdateHoursPerWeekFunction,
-  HandleLanguageChangeFunction,
 } from "./types";
 
 function App(): JSX.Element {
@@ -105,13 +97,6 @@ function App(): JSX.Element {
     []
   );
 
-  const handleLanguageChange: HandleLanguageChangeFunction = useCallback(
-    newLanguage => {
-      setLanguage(newLanguage);
-    },
-    []
-  );
-
   return (
     <ErrorBoundary language={language}>
       <div className="min-h-screen bg-gray-50 font-inter">
@@ -121,7 +106,7 @@ function App(): JSX.Element {
         </a>
 
         {/* Header component */}
-        <Header language={language} onLanguageChange={handleLanguageChange} />
+        <Header language={language} />
 
         <div
           id="main-content"

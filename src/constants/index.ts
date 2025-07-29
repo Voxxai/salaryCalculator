@@ -36,6 +36,4 @@ export const STORAGE_KEYS = {
 
 export const TIME_REGEX = /^([0-9]|[1-9][0-9]):([0-5][0-9])$/;
 
-export const MIN_AGE_FOR_SHIFTLEADER = 18;
 
-export const AGE_GROUPS_WITHOUT_SHIFTLEADER = ["13-15", "16", "17"] as const;

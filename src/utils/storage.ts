@@ -29,14 +29,6 @@ const debouncedSaveHours = debounce((hours: WeekHours[]) => {
   }
 }, 300);
 
-const debouncedSaveLanguage = debounce((language: Language) => {
-  try {
-    localStorage.setItem(STORAGE_KEYS.LANGUAGE, language);
-  } catch (error) {
-    console.warn("Failed to save language to localStorage:", error);
-  }
-}, 300);
-
 // Migrate old config format to new 2025 format with function-based rates
 const migrateConfig = (oldConfig: any): Config | null => {
   if (!oldConfig) return null;
@@ -114,23 +106,6 @@ export const loadHours = (): WeekHours[] | null => {
 // Save hours to local storage (debounced)
 export const saveHours = (hours: WeekHours[]): boolean => {
   debouncedSaveHours(hours);
-  return true;
-};
-
-// Load language from local storage
-export const loadLanguage = (): Language => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEYS.LANGUAGE);
-    return (stored as Language) || "nl";
-  } catch (error) {
-    console.warn("Failed to load language from localStorage:", error);
-    return "nl";
-  }
-};
-
-// Save language to local storage (debounced)
-export const saveLanguage = (language: Language): boolean => {
-  debouncedSaveLanguage(language);
   return true;
 };
 
