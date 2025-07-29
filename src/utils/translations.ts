@@ -215,9 +215,6 @@ export const translations: Record<Language, TranslationKeys> = {
     feedbackSubmitted: "Feedback Submitted!",
     feedbackThankYou:
       "Thank you for your feedback. We'll review it and get back to you if needed.",
-
-
-
   },
 
   nl: {
@@ -330,8 +327,6 @@ export const translations: Record<Language, TranslationKeys> = {
     feedbackSubmitted: "Feedback Verstuurd!",
     feedbackThankYou:
       "Bedankt voor je feedback. We bekijken het en nemen contact op indien nodig.",
-
-
   },
 };
 

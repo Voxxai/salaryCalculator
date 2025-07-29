@@ -83,8 +83,6 @@ function App(): JSX.Element {
     saveHours(hoursPerWeek);
   }, [hoursPerWeek]);
 
-
-
   // Memoize update functions to prevent unnecessary re-renders
   const updateConfig: UpdateConfigFunction = useCallback((field, value) => {
     setConfig(prev => ({

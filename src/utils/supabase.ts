@@ -73,6 +73,4 @@ export const feedbackService = {
       return { success: false, error: "Failed to submit feedback" };
     }
   },
-
-
 };

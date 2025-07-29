@@ -126,7 +126,7 @@ De applicatie is volledig responsief en werkt optimaal op:
 
 Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
 
-1. **Volg de setup guide**: Zie `docs/SUPABASE_SETUP.md` voor gedetailleerde instructies
+1. **Database setup**: Configureer je Supabase database volgens de officiële documentatie
 2. **Maak een `.env` bestand**: Kopieer `env.example` naar `.env` en vul je Supabase credentials in
 3. **Test de setup**: Start de app en verstuur test feedback
 
@@ -136,8 +136,6 @@ Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
 - ✅ **Real-time sync**: Feedback verschijnt direct op alle apparaten
 - ✅ **Backup systeem**: Fallback naar localStorage als database niet beschikbaar is
 - ✅ **Secure**: HTTPS en API key authenticatie
-
-
 
 ## 🚀 Deployment & GitHub Pages
 
@@ -173,7 +171,7 @@ npm start
 npm run build
 ```
 
-**Zie `docs/DEPLOYMENT_GUIDE.md` voor gedetailleerde instructies.**
+**Zie de officiële React deployment documentatie voor instructies.**
 
 ## 🔧 Technische Details
 
