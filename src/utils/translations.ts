@@ -103,30 +103,6 @@ interface TranslationKeys {
   submitting: string;
   feedbackSubmitted: string;
   feedbackThankYou: string;
-
-  // Admin Panel
-  adminButton: string;
-  feedbackAdminTitle: string;
-  feedbackAdminSubtitle: string;
-  filterByType: string;
-  allTypes: string;
-  sortBy: string;
-  sortByDate: string;
-  sortByPriority: string;
-  noFeedback: string;
-  deleteFeedback: string;
-  clearAllFeedback: string;
-  close: string;
-
-  // Admin Login
-  adminLogin: string;
-  adminLoginSubtitle: string;
-  password: string;
-  enterPassword: string;
-  incorrectPassword: string;
-  loggingIn: string;
-  login: string;
-  adminPasswordHint: string;
 }
 
 export const translations: Record<Language, TranslationKeys> = {
@@ -240,29 +216,8 @@ export const translations: Record<Language, TranslationKeys> = {
     feedbackThankYou:
       "Thank you for your feedback. We'll review it and get back to you if needed.",
 
-    // Admin Panel
-    adminButton: "Admin Panel",
-    feedbackAdminTitle: "Feedback Management",
-    feedbackAdminSubtitle: "View and manage user feedback",
-    filterByType: "Filter by Type",
-    allTypes: "All Types",
-    sortBy: "Sort By",
-    sortByDate: "Date",
-    sortByPriority: "Priority",
-    noFeedback: "No feedback submitted yet",
-    deleteFeedback: "Delete Feedback",
-    clearAllFeedback: "Clear All Feedback",
-    close: "Close",
 
-    // Admin Login
-    adminLogin: "Admin Login",
-    adminLoginSubtitle: "Enter password to access admin panel",
-    password: "Password",
-    enterPassword: "Enter password",
-    incorrectPassword: "Incorrect password. Please try again.",
-    loggingIn: "Logging in...",
-    login: "Login",
-    adminPasswordHint: "Hint: admin123",
+
   },
 
   nl: {
@@ -376,30 +331,7 @@ export const translations: Record<Language, TranslationKeys> = {
     feedbackThankYou:
       "Bedankt voor je feedback. We bekijken het en nemen contact op indien nodig.",
 
-    // Admin Panel
-    adminButton: "Admin Paneel",
-    feedbackAdminTitle: "Feedback Beheer",
-    feedbackAdminSubtitle: "Bekijk en beheer gebruikersfeedback",
-    filterByType: "Filter op Type",
-    allTypes: "Alle Types",
-    sortBy: "Sorteer Op",
-    sortByDate: "Datum",
-    sortByPriority: "Prioriteit",
-    noFeedback: "Nog geen feedback ingediend",
-    deleteFeedback: "Feedback Verwijderen",
-    clearAllFeedback: "Alle Feedback Wissen",
-    close: "Sluiten",
 
-    // Admin Login
-    adminLogin: "Admin Login",
-    adminLoginSubtitle:
-      "Voer wachtwoord in om toegang te krijgen tot admin paneel",
-    password: "Wachtwoord",
-    enterPassword: "Voer wachtwoord in",
-    incorrectPassword: "Onjuist wachtwoord. Probeer het opnieuw.",
-    loggingIn: "Inloggen...",
-    login: "Inloggen",
-    adminPasswordHint: "Hint: admin123",
   },
 };
 

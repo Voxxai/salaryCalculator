@@ -12,9 +12,7 @@ De app wordt automatisch gedeployed naar GitHub Pages bij elke push naar de mast
 
 - **💬 User Feedback**: Gebruikers kunnen feature requests en bug reports indienen
 - **🗄️ Database Integration**: Optionele Supabase database voor cross-device sync
-- **🔐 Admin Panel**: Bekijk en beheer feedback met wachtwoord-beveiliging
 - **📱 Cross-Device**: Feedback zichtbaar op alle apparaten via database
-- **🛡️ Secure Authentication**: Admin toegang beschermd met database-gebaseerde authenticatie
 
 ### 1. Configuratie Sectie
 
@@ -126,12 +124,11 @@ De applicatie is volledig responsief en werkt optimaal op:
 
 ## 🗄️ Database Setup (Optioneel)
 
-Voor cross-device feedback sync en admin beveiliging, kun je een gratis Supabase database opzetten:
+Voor cross-device feedback sync, kun je een gratis Supabase database opzetten:
 
 1. **Volg de setup guide**: Zie `docs/SUPABASE_SETUP.md` voor gedetailleerde instructies
 2. **Maak een `.env` bestand**: Kopieer `env.example` naar `.env` en vul je Supabase credentials in
-3. **Setup admin beveiliging**: Voer het SQL script `database/admin_config.sql` uit in je Supabase database
-4. **Test de setup**: Start de app en verstuur test feedback
+3. **Test de setup**: Start de app en verstuur test feedback
 
 **Voordelen:**
 
@@ -139,52 +136,8 @@ Voor cross-device feedback sync en admin beveiliging, kun je een gratis Supabase
 - ✅ **Real-time sync**: Feedback verschijnt direct op alle apparaten
 - ✅ **Backup systeem**: Fallback naar localStorage als database niet beschikbaar is
 - ✅ **Secure**: HTTPS en API key authenticatie
-- ✅ **Admin beveiliging**: Database-gebaseerde wachtwoord authenticatie
 
-## 🔐 Admin Beveiliging
 
-### Setup
-
-1. **Database Setup**: Voer het SQL script uit in Supabase
-
-   ```sql
-   -- Zie database/admin_config.sql voor volledige setup
-   ```
-
-2. **Eerste keer setup**: Klik op de admin knop (⚙️) en stel je wachtwoord in
-   - Minimum 8 karakters vereist
-   - Wachtwoord wordt veilig gehashed met bcrypt
-   - Geen password recovery - onthoud je wachtwoord!
-
-### Beveiligingsfeatures
-
-**🔒 Database-gebaseerde authenticatie**
-
-- Wachtwoord opgeslagen in Supabase database
-- Veilig gehashed met bcrypt (12 salt rounds)
-- Geen hardcoded wachtwoorden in code
-
-**🛡️ Security standaarden**
-
-- bcrypt password hashing (industry standard)
-- 12 salt rounds voor optimale beveiliging
-- Row Level Security (RLS) in database
-- Session management met 24-uurs expiratie
-
-**⚡ Flexibiliteit**
-
-- Wachtwoord wijzigen zonder app restart
-- Cross-device toegang
-- Automatische logout bij verlopen sessies
-
-### Features
-
-- ✅ **Wachtwoord-beveiliging**: Admin paneel vereist wachtwoord
-- ✅ **bcrypt hashing**: Industry standard password security
-- ✅ **Session management**: Automatische logout na 24 uur
-- ✅ **Database storage**: Veilige opslag in Supabase
-- ✅ **First-time setup**: Automatische wachtwoord configuratie
-- ✅ **Cross-device**: Admin toegang op alle apparaten
 
 ## 🚀 Deployment & GitHub Pages
 
@@ -233,7 +186,7 @@ npm run build
 - **TypeScript**: Volledig getypeerde code
 - **Local Storage**: Automatische opslag van instellingen
 - **Database**: Supabase PostgreSQL database (optioneel)
-- **Feedback System**: User feedback met admin panel
+- **Feedback System**: User feedback system
 - **Error Handling**: Error boundaries en fallback systemen
 
 ## 📄 Licentie

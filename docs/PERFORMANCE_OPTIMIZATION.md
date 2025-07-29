@@ -15,9 +15,6 @@ This document outlines all the performance optimizations implemented in the Sala
 - ✅ `Footer.tsx` - Memoized to prevent re-renders when language doesn't change
 - ✅ `LanguageSwitch.tsx` - Memoized to prevent re-renders when props don't change
 - ✅ `FeedbackForm.tsx` - Memoized to prevent unnecessary re-renders
-- ✅ `AdminLogin.tsx` - Memoized to prevent unnecessary re-renders
-- ✅ `AdminSettings.tsx` - Memoized to prevent unnecessary re-renders
-- ✅ `AdminSetup.tsx` - Memoized to prevent unnecessary re-renders
 
 **Impact**: Reduces unnecessary re-renders by ~40-60% in typical usage scenarios.
 
@@ -159,7 +156,7 @@ const decimalToTimeCache = new Map<number, string>();
 
 ### 1. Code Splitting
 
-- **Admin Features**: Lazy load admin components only when needed
+
 - **Feedback System**: Split feedback functionality into separate chunks
 
 ### 2. Image Optimization
