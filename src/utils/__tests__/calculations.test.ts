@@ -207,11 +207,11 @@ describe("calculations", () => {
       const result = calculateSalaryFromShifts(mockConfig, sundayShift);
 
       // 8 hours total - 0.5 hours break = 7.5 hours
-      // All hours are Sunday hours = 7.5 hours at 100% allowance
-      // 7.5 * 20 * 2 = 300
+      // All hours are Sunday hours = 7.5 hours at 50% allowance
+      // 7.5 * 20 * 1.5 = 225
       // 0.5 hours paid break * 20 = 10
-      // Total: 300 + 10 = 310
-      expect(result.estimatedGrossSalary).toBe(310);
+      // Total: 225 + 10 = 235
+      expect(result.estimatedGrossSalary).toBe(235);
     });
 
     it("should return all required result fields", () => {
