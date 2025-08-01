@@ -1,6 +1,7 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import React, { Component, ReactNode, ErrorInfo } from "react";
 import { getTranslation } from "../utils/translations";
 import { Language } from "../types";
+import { WarningIcon } from "./Icons";
 
 interface Props {
   children: ReactNode;
@@ -82,7 +83,9 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
           <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center">
-            <div className="text-red-500 text-6xl mb-4">⚠️</div>
+            <div className="flex justify-center mb-4">
+              <WarningIcon className="text-red-500" size={64} />
+            </div>
             <h1 className="text-xl font-bold text-gray-900 mb-2">
               {getTranslation("errorTitle", this.props.language)}
             </h1>

@@ -1,6 +1,7 @@
 import React from "react";
 import { getTranslation } from "../utils/translations";
 import { Language } from "../types";
+import { InfoIcon } from "./Icons";
 
 interface FooterProps {
   language: Language;
@@ -9,17 +10,18 @@ interface FooterProps {
 // Footer component - Shows tips, information and credits
 const Footer: React.FC<FooterProps> = React.memo(({ language }) => {
   return (
-    <footer className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-500 px-4">
-      <div className="space-y-3">
+    <footer className="mt-6 sm:mt-8 text-center text-sm text-gray-500 px-4">
+      <div className="space-y-4">
         {/* Tips */}
         <div>
-          <p className="leading-relaxed text-gray-600 text-center">
+          <p className="leading-relaxed text-gray-600 text-center flex items-center justify-center gap-2">
+            <InfoIcon className="text-blue-500" size={16} />
             {getTranslation("tip", language)}
           </p>
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-200 pt-3">
+        <div className="border-t border-gray-200 pt-4">
           <p className="leading-relaxed text-center">
             {language === "nl" ? (
               <>
@@ -28,7 +30,7 @@ const Footer: React.FC<FooterProps> = React.memo(({ language }) => {
                   href="https://github.com/voxxai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 underline transition-colors"
+                  className="text-blue-500 hover:text-blue-600 underline transition-colors"
                 >
                   Voxxai
                 </a>
@@ -40,7 +42,7 @@ const Footer: React.FC<FooterProps> = React.memo(({ language }) => {
                   href="https://github.com/voxxai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 underline transition-colors"
+                  className="text-blue-500 hover:text-blue-600 underline transition-colors"
                 >
                   Voxxai
                 </a>

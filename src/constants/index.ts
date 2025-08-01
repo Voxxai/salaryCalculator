@@ -20,20 +20,9 @@ export const DEFAULT_CONFIG = {
   percentageLoonheffing: 7.81,
 } as const;
 
-export const DEFAULT_WEEK_HOURS = {
-  regularHours: "0:00",
-  paidBreaks: "0:00",
-  allowance25: "0:00",
-  allowance50: "0:00",
-  allowance100: "0:00",
-} as const;
-
 export const STORAGE_KEYS = {
   CONFIG: "salary_calculator_config",
-  HOURS: "salary_calculator_hours",
   LANGUAGE: "salary_calculator_language",
 } as const;
 
 export const TIME_REGEX = /^([0-9]|[1-9][0-9]):([0-5][0-9])$/;
-
-

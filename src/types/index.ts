@@ -16,12 +16,21 @@ export interface Config {
   percentageLoonheffing: number;
 }
 
-export interface WeekHours {
-  regularHours: string;
-  paidBreaks: string;
-  allowance25: string;
-  allowance50: string;
-  allowance100: string;
+// New shift-based types
+export interface Shift {
+  id: string;
+  date?: string; // YYYY-MM-DD format (optional since we removed date input)
+  startTime: string; // HH:MM format
+  endTime: string; // HH:MM format
+  breakMinutes?: number; // Break time in minutes (automatically calculated)
+  isSunday: boolean;
+  isHoliday: boolean;
+  isNightShift: boolean; // 22:00-06:00
+}
+
+export interface WeekShifts {
+  weekNumber: number;
+  shifts: Shift[];
 }
 
 export interface Results {
@@ -44,6 +53,19 @@ export interface UpdateConfigFunction {
   (field: keyof Config, value: string | number | boolean): void;
 }
 
-export interface UpdateHoursPerWeekFunction {
-  (weekIndex: number, field: keyof WeekHours, value: string): void;
+// New shift-based update functions
+export interface UpdateWeekShiftsFunction {
+  (weekIndex: number, shifts: Shift[]): void;
+}
+
+export interface AddShiftFunction {
+  (weekIndex: number, shift: Shift): void;
+}
+
+export interface UpdateShiftFunction {
+  (weekIndex: number, shiftId: string, shift: Partial<Shift>): void;
+}
+
+export interface DeleteShiftFunction {
+  (weekIndex: number, shiftId: string): void;
 }

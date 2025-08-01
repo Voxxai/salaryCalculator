@@ -1,23 +1,27 @@
 import React from "react";
 import Configuration from "./Configuration";
 import Results from "./Results";
-import HoursRegistration from "./HoursRegistration";
+import ShiftRegistration from "./ShiftRegistration";
 import Footer from "./Footer";
 import {
   Config,
   Results as ResultsType,
-  WeekHours,
+  WeekShifts,
   Language,
   UpdateConfigFunction,
-  UpdateHoursPerWeekFunction,
+  AddShiftFunction,
+  UpdateShiftFunction,
+  DeleteShiftFunction,
 } from "../types";
 
 interface DesktopLayoutProps {
   config: Config;
   updateConfig: UpdateConfigFunction;
   results: ResultsType;
-  hoursPerWeek: WeekHours[];
-  updateHoursPerWeek: UpdateHoursPerWeekFunction;
+  weekShifts: WeekShifts[];
+  addShift: AddShiftFunction;
+  updateShift: UpdateShiftFunction;
+  deleteShift: DeleteShiftFunction;
   language: Language;
 }
 
@@ -27,8 +31,10 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(
     config,
     updateConfig,
     results,
-    hoursPerWeek,
-    updateHoursPerWeek,
+    weekShifts,
+    addShift,
+    updateShift,
+    deleteShift,
     language,
   }) => {
     return (
@@ -46,12 +52,15 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(
           <Results results={results} language={language} />
         </div>
 
-        {/* Hours registration component - full width below */}
+        {/* Registration component - full width below */}
         <div className="mt-6 lg:mt-8">
-          <HoursRegistration
-            hoursPerWeek={hoursPerWeek}
-            updateHoursPerWeek={updateHoursPerWeek}
+          <ShiftRegistration
+            weekShifts={weekShifts}
+            addShift={addShift}
+            updateShift={updateShift}
+            deleteShift={deleteShift}
             language={language}
+            ageGroup={config.ageGroup}
           />
         </div>
 
