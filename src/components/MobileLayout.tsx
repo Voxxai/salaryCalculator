@@ -1,34 +1,40 @@
 import React from "react";
 import Configuration from "./Configuration";
 import Results from "./Results";
-import HoursRegistration from "./HoursRegistration";
+import ShiftRegistration from "./ShiftRegistration";
 import Footer from "./Footer";
 import {
   Config,
   Results as ResultsType,
-  WeekHours,
+  WeekShifts,
   Language,
   UpdateConfigFunction,
-  UpdateHoursPerWeekFunction,
+  AddShiftFunction,
+  UpdateShiftFunction,
+  DeleteShiftFunction,
 } from "../types";
 
 interface MobileLayoutProps {
   config: Config;
   updateConfig: UpdateConfigFunction;
   results: ResultsType;
-  hoursPerWeek: WeekHours[];
-  updateHoursPerWeek: UpdateHoursPerWeekFunction;
+  weekShifts: WeekShifts[];
+  addShift: AddShiftFunction;
+  updateShift: UpdateShiftFunction;
+  deleteShift: DeleteShiftFunction;
   language: Language;
 }
 
-// Mobile Layout component - Logical flow: Config → Hours → Results
+// Mobile Layout component - Logical flow: Config → Registration → Results
 const MobileLayout: React.FC<MobileLayoutProps> = React.memo(
   ({
     config,
     updateConfig,
     results,
-    hoursPerWeek,
-    updateHoursPerWeek,
+    weekShifts,
+    addShift,
+    updateShift,
+    deleteShift,
     language,
   }) => {
     return (
@@ -42,11 +48,14 @@ const MobileLayout: React.FC<MobileLayoutProps> = React.memo(
             language={language}
           />
 
-          {/* Hours registration component */}
-          <HoursRegistration
-            hoursPerWeek={hoursPerWeek}
-            updateHoursPerWeek={updateHoursPerWeek}
+          {/* Registration component */}
+          <ShiftRegistration
+            weekShifts={weekShifts}
+            addShift={addShift}
+            updateShift={updateShift}
+            deleteShift={deleteShift}
             language={language}
+            ageGroup={config.ageGroup}
           />
 
           {/* Results component */}

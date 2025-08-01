@@ -29,7 +29,6 @@ interface TranslationKeys {
   customHourlyRate: string;
   manualInput: string;
   allInRatesInfo: string;
-  shiftleaderWarning: string;
   resetAllSettings: string;
   years: string;
   year: string;
@@ -44,7 +43,7 @@ interface TranslationKeys {
   estimatedNetSalary: string;
 
   // Hours Registration
-  hoursRegistration: string;
+
   week: string;
   regularHours: string;
   overtimeHours: string;
@@ -62,12 +61,22 @@ interface TranslationKeys {
   edit: string;
   delete: string;
 
+  // Shift Registration (new)
+  shiftRegistration: string;
+  addShift: string;
+  editShift: string;
+  deleteShift: string;
+  shiftDate: string;
+  shiftStartTime: string;
+  shiftEndTime: string;
+  shiftBreakMinutes: string;
+  shiftDuration: string;
+  shiftAllowances: string;
+
   // Footer
   tip: string;
   disclaimer: string;
   privacyDisclaimer: string;
-
-
 
   // Error Boundary
   errorTitle: string;
@@ -87,7 +96,7 @@ export const translations: Record<Language, TranslationKeys> = {
     subtitle: "Calculate your salary with overtime and deductions",
 
     // Configuration
-    configuration: "💰 Your Pay Rate",
+    configuration: "Your Pay Rate",
     hourlyRate: "Your All-in Hourly Rate (€)",
     overtimePercentage: "Overtime Percentage (%)",
     numberOfWeeks: "Number of weeks in salary period",
@@ -108,15 +117,13 @@ export const translations: Record<Language, TranslationKeys> = {
     customHourlyRate: "Custom hourly rate",
     manualInput: "Manual input",
     allInRatesInfo:
-      "💡 All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
-    shiftleaderWarning:
-      "ℹ️ Shift leader function is only available from age 18",
+      "All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
     resetAllSettings: "Reset All Settings",
     years: "years",
     year: "year",
 
     // Results
-    results: "📊 Results",
+    results: "Results",
     totalRegularHours: "Total Regular Hours",
     totalOvertimeHours: "Total Overtime Hours 50",
     estimatedGrossSalary: "Estimated Gross Salary",
@@ -125,7 +132,7 @@ export const translations: Record<Language, TranslationKeys> = {
     estimatedNetSalary: "Estimated Net Salary",
 
     // Hours Registration
-    hoursRegistration: "⏰ Hours Registration",
+
     week: "Week",
     regularHours: "Regular Hours",
     overtimeHours: "Overtime Hours 50",
@@ -143,14 +150,24 @@ export const translations: Record<Language, TranslationKeys> = {
     edit: "Edit",
     delete: "Delete",
 
+    // Shift Registration (new)
+    shiftRegistration: "Shift Registration",
+    addShift: "Add Shift",
+    editShift: "Edit Shift",
+    deleteShift: "Delete Shift",
+    shiftDate: "Date",
+    shiftStartTime: "Start Time",
+    shiftEndTime: "End Time",
+    shiftBreakMinutes: "Break (minutes)",
+    shiftDuration: "Duration",
+    shiftAllowances: "Allowances",
+
     // Footer
-    tip: "💡 Tip: Type hours (1-99) and select minutes from dropdown (00, 15, 30, 45)",
+    tip: "Tip: Type hours (1-99) and select minutes from dropdown (00, 15, 30, 45)",
     disclaimer:
-      "⚠️ IMPORTANT: All calculations are estimates only. Your actual salary may differ due to individual circumstances, collective agreements, or company policies. Always verify with your employer or payslip.",
+      "These are estimates only. Actual salary may vary. Always verify with your employer.",
     privacyDisclaimer:
-      "🔒 PRIVACY: Your salary data stays on your device. No personal information is collected or stored.",
-
-
+      "PRIVACY: Your salary data stays on your device. No personal information is collected or stored.",
 
     // Error Boundary
     errorTitle: "Something went wrong",
@@ -171,7 +188,7 @@ export const translations: Record<Language, TranslationKeys> = {
     subtitle: "Bereken je salaris met toeslagen en aftrekposten",
 
     // Configuration
-    configuration: "💰 Jouw Uurloon",
+    configuration: "Jouw Uurloon",
     hourlyRate: "Jouw All-in Uurloon (€)",
     overtimePercentage: "Toeslagpercentage (%)",
     numberOfWeeks: "Aantal weken in salarisperiode",
@@ -192,15 +209,13 @@ export const translations: Record<Language, TranslationKeys> = {
     customHourlyRate: "Aangepast uurloon",
     manualInput: "Handmatige invoer",
     allInRatesInfo:
-      "💡 All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
-    shiftleaderWarning:
-      "ℹ️ Shiftleider functie is alleen beschikbaar vanaf 18 jaar",
+      "All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
     resetAllSettings: "Reset Alle Instellingen",
     years: "jaar",
     year: "jaar",
 
     // Results
-    results: "📊 Resultaten",
+    results: "Resultaten",
     totalRegularHours: "Totaal Reguliere Uren",
     totalOvertimeHours: "Totaal Toeslaguren 50",
     estimatedGrossSalary: "Geschat Bruto Salaris",
@@ -209,7 +224,7 @@ export const translations: Record<Language, TranslationKeys> = {
     estimatedNetSalary: "Geschat Netto Salaris",
 
     // Hours Registration
-    hoursRegistration: "⏰ Urenregistratie",
+
     week: "Week",
     regularHours: "Reguliere Uren",
     overtimeHours: "Toeslaguren 50",
@@ -227,14 +242,24 @@ export const translations: Record<Language, TranslationKeys> = {
     edit: "Bewerken",
     delete: "Verwijderen",
 
+    // Shift Registration (new)
+    shiftRegistration: "Shiftregistratie",
+    addShift: "Shift Toevoegen",
+    editShift: "Shift Bewerken",
+    deleteShift: "Shift Verwijderen",
+    shiftDate: "Datum",
+    shiftStartTime: "Starttijd",
+    shiftEndTime: "Eindtijd",
+    shiftBreakMinutes: "Pauze (minuten)",
+    shiftDuration: "Duur",
+    shiftAllowances: "Toeslagen",
+
     // Footer
-    tip: "💡 Tip: Type uren (1-99) en selecteer minuten uit dropdown (00, 15, 30, 45)",
+    tip: "Tip: Type uren (1-99) en selecteer minuten uit dropdown (00, 15, 30, 45)",
     disclaimer:
-      "⚠️ BELANGRIJK: Alle berekeningen zijn slechts schattingen. Je daadwerkelijke salaris kan afwijken door individuele omstandigheden, cao's of bedrijfsbeleid. Controleer altijd bij je werkgever of salarisstrook.",
+      "Dit zijn slechts schattingen. Daadwerkelijk salaris kan afwijken. Controleer altijd bij je werkgever.",
     privacyDisclaimer:
-      "🔒 PRIVACY: Je salarisgegevens blijven op je apparaat. Er worden geen persoonlijke gegevens verzameld of opgeslagen.",
-
-
+      "PRIVACY: Je salarisgegevens blijven op je apparaat. Er worden geen persoonlijke gegevens verzameld of opgeslagen.",
 
     // Error Boundary
     errorTitle: "Er is iets misgegaan",

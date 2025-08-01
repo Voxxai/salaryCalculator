@@ -3,27 +3,43 @@
 @tailwind utilities;
 
 /* ============================================= */
-/* == ALBERT HEIJN APP - OFFICIEEL KLEURENPALET == */
+/* == MINIMALISTIC DESIGN - CLEAN & SIMPLE == */
 /* ============================================= */
 :root {
-  /* 1. Basis Merkkleuren */
-  --ah-blauw: #00a1e0;
-  --ah-oranje: #ff9e1b;
+  /* Minimalistic color palette */
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-accent: #f59e0b;
+  --color-accent-light: #fbbf24;
 
-  /* 2. Neutrale UI Kleuren */
-  --kleur-wit: #ffffff;
-  --kleur-lichtgrijs: #f2f2f2;
-  --kleur-donkergrijs: #4a4a4a;
+  /* Neutral colors */
+  --color-white: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
 
-  /* 3. Functionele Kleuren (gebruik deze in je componenten) */
-  --kleur-primair: var(--ah-blauw);
-  --kleur-accent-bonus: var(--ah-oranje);
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 
-  --kleur-achtergrond-app: var(--kleur-wit);
-  --kleur-achtergrond-card: var(--kleur-lichtgrijs);
+  /* Background colors */
+  --color-bg-primary: var(--color-white);
+  --color-bg-secondary: var(--color-gray-50);
+  --color-bg-tertiary: var(--color-gray-100);
 
-  --kleur-tekst-standaard: var(--kleur-donkergrijs);
-  --kleur-tekst-op-donker: var(--kleur-wit);
+  /* Text colors */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-inverse: var(--color-white);
 }
 
 /* Reset default margins and padding */
@@ -35,11 +51,18 @@
 
 /* Base styles for the entire application */
 body {
-  font-family: "Inter", sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--kleur-achtergrond-app);
-  color: var(--kleur-tekst-standaard);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
   /* Prevent horizontal scroll on mobile */
   overflow-x: hidden;
   /* Improve touch scrolling */
@@ -49,7 +72,37 @@ body {
   padding: 0;
 }
 
-/* Prevent zoom on input focus (iOS) */
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: 1.875rem;
+}
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+h4 {
+  font-size: 1.125rem;
+}
+
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Form elements */
 input[type="text"],
 input[type="number"],
 input[type="email"],
@@ -57,15 +110,66 @@ input[type="tel"],
 select,
 textarea {
   font-size: 16px !important;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-white);
+  color: var(--color-text-primary);
+  transition: all 0.2s ease;
 }
 
-/* Touch-friendly button sizes */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Buttons */
 button,
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
   min-height: 44px;
   min-width: 44px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+/* Primary button */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-light);
+}
+
+/* Secondary button */
+.btn-secondary {
+  background-color: var(--color-gray-100);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-gray-300);
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-gray-200);
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-white);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-200);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 /* Accessibility improvements */
@@ -73,7 +177,7 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid var(--kleur-primair);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -82,7 +186,7 @@ textarea:focus {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: var(--kleur-primair);
+  background: var(--color-primary);
   color: white;
   padding: 8px;
   text-decoration: none;
@@ -97,10 +201,10 @@ textarea:focus {
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   :root {
-    --kleur-primair: #0066cc;
-    --kleur-accent-bonus: #cc6600;
-    --kleur-tekst-standaard: #000000;
-    --kleur-achtergrond-app: #ffffff;
+    --color-primary: #1d4ed8;
+    --color-accent: #d97706;
+    --color-text-primary: #000000;
+    --color-bg-primary: #ffffff;
   }
 }
 
@@ -115,23 +219,22 @@ textarea:focus {
   }
 }
 
-/* Mobile-optimized scrollbar */
+/* Clean scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--kleur-achtergrond-app);
+  background: var(--color-gray-100);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--kleur-primair);
-  border-radius: 2px;
+  background: var(--color-gray-300);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ah-blauw);
-  opacity: 0.8;
+  background: var(--color-gray-400);
 }
 
 /* Mobile-specific styles */

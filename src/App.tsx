@@ -10,18 +10,25 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { useScreenSize } from "./hooks/useScreenSize";
 
 // Import utility functions
-import { calculateSalary } from "./utils/calculations";
-import { saveConfig, loadConfig, saveHours, loadHours } from "./utils/storage";
-import { DEFAULT_CONFIG, DEFAULT_WEEK_HOURS } from "./constants";
+import { calculateSalaryFromShifts } from "./utils/calculations";
+import {
+  saveConfig,
+  loadConfig,
+  saveShifts,
+  loadShifts,
+} from "./utils/storage";
+import { DEFAULT_CONFIG } from "./constants";
 
 // Import types
 import {
   Config,
-  WeekHours,
+  WeekShifts,
   Results,
   Language,
   UpdateConfigFunction,
-  UpdateHoursPerWeekFunction,
+  AddShiftFunction,
+  UpdateShiftFunction,
+  DeleteShiftFunction,
 } from "./types";
 
 function App(): JSX.Element {
@@ -37,43 +44,46 @@ function App(): JSX.Element {
     return savedConfig || DEFAULT_CONFIG;
   });
 
-  // State for hours registration per week (load from storage)
-  const [hoursPerWeek, setHoursPerWeek] = useState<WeekHours[]>(() => {
-    const savedHours = loadHours();
-    return savedHours || [DEFAULT_WEEK_HOURS];
+  // State for shifts per week (load from storage)
+  const [weekShifts, setWeekShifts] = useState<WeekShifts[]>(() => {
+    const savedShifts = loadShifts();
+    return (
+      savedShifts ||
+      Array.from({ length: config.numberOfWeeks }, (_, i) => ({
+        weekNumber: i + 1,
+        shifts: [],
+      }))
+    );
   });
 
   // Memoize the salary calculation to prevent unnecessary recalculations
   const results = useMemo(() => {
-    return calculateSalary(config, hoursPerWeek);
-  }, [config, hoursPerWeek]);
+    return calculateSalaryFromShifts(config, weekShifts);
+  }, [config, weekShifts]);
 
-  // Effect to adjust hours registration when number of weeks changes
+  // Effect to adjust shifts when number of weeks changes
   useEffect(() => {
-    if (hoursPerWeek.length !== config.numberOfWeeks) {
-      const newHoursPerWeek: WeekHours[] = [];
+    if (weekShifts.length !== config.numberOfWeeks) {
+      const newWeekShifts: WeekShifts[] = [];
       for (let i = 0; i < config.numberOfWeeks; i++) {
-        newHoursPerWeek.push({
-          regularHours: hoursPerWeek[i]?.regularHours || "0:00",
-          paidBreaks: hoursPerWeek[i]?.paidBreaks || "0:00",
-          allowance25: hoursPerWeek[i]?.allowance25 || "0:00",
-          allowance50: hoursPerWeek[i]?.allowance50 || "0:00",
-          allowance100: hoursPerWeek[i]?.allowance100 || "0:00",
+        newWeekShifts.push({
+          weekNumber: i + 1,
+          shifts: weekShifts[i]?.shifts || [],
         });
       }
-      setHoursPerWeek(newHoursPerWeek);
+      setWeekShifts(newWeekShifts);
     }
-  }, [config.numberOfWeeks, hoursPerWeek.length]);
+  }, [config.numberOfWeeks, weekShifts.length]);
 
   // Effect to save config to local storage when it changes
   useEffect(() => {
     saveConfig(config);
   }, [config]);
 
-  // Effect to save hours to local storage when they change
+  // Effect to save shifts to local storage when they change
   useEffect(() => {
-    saveHours(hoursPerWeek);
-  }, [hoursPerWeek]);
+    saveShifts(weekShifts);
+  }, [weekShifts]);
 
   // Memoize update functions to prevent unnecessary re-renders
   const updateConfig: UpdateConfigFunction = useCallback((field, value) => {
@@ -83,19 +93,46 @@ function App(): JSX.Element {
     }));
   }, []);
 
-  const updateHoursPerWeek: UpdateHoursPerWeekFunction = useCallback(
-    (weekIndex, field, value) => {
-      setHoursPerWeek(prev => {
-        const newHours = [...prev];
-        newHours[weekIndex] = {
-          ...newHours[weekIndex],
-          [field]: value,
+  // Shift management functions
+  const addShift: AddShiftFunction = useCallback((weekIndex, shift) => {
+    setWeekShifts(prev => {
+      const newShifts = [...prev];
+      newShifts[weekIndex] = {
+        ...newShifts[weekIndex],
+        shifts: [...newShifts[weekIndex].shifts, shift],
+      };
+      return newShifts;
+    });
+  }, []);
+
+  const updateShift: UpdateShiftFunction = useCallback(
+    (weekIndex, shiftId, updatedShift) => {
+      setWeekShifts(prev => {
+        const newShifts = [...prev];
+        newShifts[weekIndex] = {
+          ...newShifts[weekIndex],
+          shifts: newShifts[weekIndex].shifts.map(shift =>
+            shift.id === shiftId ? { ...shift, ...updatedShift } : shift
+          ),
         };
-        return newHours;
+        return newShifts;
       });
     },
     []
   );
+
+  const deleteShift: DeleteShiftFunction = useCallback((weekIndex, shiftId) => {
+    setWeekShifts(prev => {
+      const newShifts = [...prev];
+      newShifts[weekIndex] = {
+        ...newShifts[weekIndex],
+        shifts: newShifts[weekIndex].shifts.filter(
+          shift => shift.id !== shiftId
+        ),
+      };
+      return newShifts;
+    });
+  }, []);
 
   return (
     <ErrorBoundary language={language}>
@@ -110,7 +147,7 @@ function App(): JSX.Element {
 
         <div
           id="main-content"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10"
         >
           {/* Choose layout based on screen size */}
           {isMobile ? (
@@ -118,8 +155,10 @@ function App(): JSX.Element {
               config={config}
               updateConfig={updateConfig}
               results={results}
-              hoursPerWeek={hoursPerWeek}
-              updateHoursPerWeek={updateHoursPerWeek}
+              weekShifts={weekShifts}
+              addShift={addShift}
+              updateShift={updateShift}
+              deleteShift={deleteShift}
               language={language}
             />
           ) : (
@@ -127,8 +166,10 @@ function App(): JSX.Element {
               config={config}
               updateConfig={updateConfig}
               results={results}
-              hoursPerWeek={hoursPerWeek}
-              updateHoursPerWeek={updateHoursPerWeek}
+              weekShifts={weekShifts}
+              addShift={addShift}
+              updateShift={updateShift}
+              deleteShift={deleteShift}
               language={language}
             />
           )}

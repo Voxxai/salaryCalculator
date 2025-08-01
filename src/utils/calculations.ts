@@ -1,5 +1,6 @@
-import { Config, WeekHours, Results } from "../types";
+import { Config, Results, WeekShifts } from "../types";
 import { ALLOWANCE_MULTIPLIERS, TIME_REGEX } from "../constants";
+import { convertShiftsToWeekHours } from "./shiftCalculations";
 
 // Cache for time conversions to improve performance
 const timeToDecimalCache = new Map<string, number>();
@@ -42,26 +43,41 @@ export const decimalToTime = (decimalHours: number): string => {
   return result;
 };
 
-// Function to calculate salary according to 2025 logic
-export const calculateSalary = (
+// New function to calculate salary from shift data
+export const calculateSalaryFromShifts = (
   config: Config,
-  hoursPerWeek: WeekHours[]
+  weekShifts: WeekShifts[]
 ): Results => {
-  // Calculate total hours for each category
-  let totalRegularHoursDecimal = 0;
-  let totalPaidBreaksDecimal = 0;
-  let totalAllowance25Decimal = 0;
-  let totalAllowance50Decimal = 0;
-  let totalAllowance100Decimal = 0;
+  // Convert shifts to hours
+  const hours = convertShiftsToWeekHours(weekShifts, config.ageGroup);
 
-  hoursPerWeek.forEach(week => {
-    totalRegularHoursDecimal += timeToDecimal(week.regularHours);
-    totalPaidBreaksDecimal += timeToDecimal(week.paidBreaks);
-    totalAllowance25Decimal += timeToDecimal(week.allowance25);
-    totalAllowance50Decimal += timeToDecimal(week.allowance50);
-    totalAllowance100Decimal += timeToDecimal(week.allowance100);
-  });
+  const totalRegularHoursDecimal = timeToDecimal(hours.totalRegularHours);
+  const totalPaidBreaksDecimal = timeToDecimal(hours.totalPaidBreaks);
+  const totalAllowance50Decimal = timeToDecimal(hours.totalAllowance50);
+  const totalAllowance100Decimal = timeToDecimal(hours.totalAllowance100);
 
+  // Note: allowance25 is not used in shift-based system as per CAO 2025
+  const totalAllowance25Decimal = 0;
+
+  return calculateSalaryFromHours(
+    config,
+    totalRegularHoursDecimal,
+    totalPaidBreaksDecimal,
+    totalAllowance25Decimal,
+    totalAllowance50Decimal,
+    totalAllowance100Decimal
+  );
+};
+
+// Core salary calculation function
+const calculateSalaryFromHours = (
+  config: Config,
+  totalRegularHoursDecimal: number,
+  totalPaidBreaksDecimal: number,
+  totalAllowance25Decimal: number,
+  totalAllowance50Decimal: number,
+  totalAllowance100Decimal: number
+): Results => {
   // Calculate hourly rates
   const regularHourlyRate = config.allInHourlyRate;
   const paidBreaksHourlyRate = config.allInHourlyRate; // Paid breaks are at regular rate
