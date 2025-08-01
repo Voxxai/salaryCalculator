@@ -120,10 +120,13 @@ export const calculateShiftHours = (
     }
   }
 
-  // Apply Sunday and holiday allowances (100%)
-  if (shift.isSunday || shift.isHoliday) {
-    // If both Sunday and holiday, the higher allowance applies (100% for both)
-    // For simplicity, we'll apply 100% allowance to the entire shift
+  // Apply Sunday allowance (50%) and holiday allowances (100%)
+  if (shift.isSunday) {
+    // Sunday allowance is 50%
+    allowance50 += totalHours;
+    regularHours = 0; // All hours go to 50% allowance
+  } else if (shift.isHoliday) {
+    // Holiday allowance is 100%
     allowance100 += totalHours;
     regularHours = 0; // All hours go to 100% allowance
     allowance50 = 0; // Reset 50% allowance as 100% takes precedence
