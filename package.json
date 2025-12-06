@@ -2,7 +2,7 @@
   "name": "salary-calculator",
   "version": "1.0.0",
   "description": "Een React salariscalculator applicatie",
-  "homepage": "https://voxxai.github.io/salaryCalculator/",
+  "homepage": "/salaryCalculator/",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
