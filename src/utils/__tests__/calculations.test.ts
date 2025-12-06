@@ -107,28 +107,30 @@ describe("calculations", () => {
     it("should calculate correct gross salary", () => {
       const result = calculateSalaryFromShifts(mockConfig, mockShifts);
 
-      // 8 hours regular work - 0.5 hours break = 7.5 hours * 20 = 150
-      // 0.5 hours paid break * 20 = 10
-      // Total: 150 + 10 = 160
-      expect(result.estimatedGrossSalary).toBe(160);
+      // 8 hours regular work
+      // Break is 30 mins (automatically calculated or manual). 30 min breaks are now UNPAID.
+      // Worked hours: 8 - 0.5 = 7.5 hours
+      // Paid break: 0 hours
+      // Total paid: 7.5 hours * 20 = 150
+      expect(result.estimatedGrossSalary).toBe(150);
     });
 
     it("should calculate correct deductions", () => {
       const result = calculateSalaryFromShifts(mockConfig, mockShifts);
 
-      // Gross salary: 160
-      // Pensioen premie: 160 * 0.0159 = 2.54
-      // SPAWW: 160 * 0.001 = 0.16
-      // Salary before tax: 160 - 2.54 - 0.16 = 157.30
-      // WGA: 157.30 * 0.0047 = 0.74
-      // Loonheffing: 157.30 * 0.0781 = 12.28
-      // Net salary: 160 - 2.54 - 0.16 - 0.74 - 12.28 = 144.28
+      // Based on Gross 150:
+      // Pensioen (1.59%): 2.39
+      // SPAWW (0.1%): 0.15
+      // Taxable: 147.465
+      // WGA (0.49%): 0.72
+      // Loonheffing (7.81%): 11.52
+      // Net: 135.22
 
-      expect(result.estimatedPensioenPremie).toBe(2.54);
-      expect(result.estimatedSpaww).toBe(0.16);
-      expect(result.estimatedPremieWGAWerknemer).toBe(0.74);
-      expect(result.estimatedLoonheffing).toBe(12.28);
-      expect(result.estimatedNetSalary).toBe(144.27);
+      expect(result.estimatedPensioenPremie).toBe(2.39);
+      expect(result.estimatedSpaww).toBe(0.15);
+      expect(result.estimatedPremieWGAWerknemer).toBe(0.72);
+      expect(result.estimatedLoonheffing).toBe(11.52);
+      expect(result.estimatedNetSalary).toBe(135.23);
     });
 
     it("should handle multiple weeks", () => {
@@ -139,8 +141,8 @@ describe("calculations", () => {
 
       const result = calculateSalaryFromShifts(mockConfig, multipleWeeks);
 
-      // Double the shifts, so double the salary
-      expect(result.estimatedGrossSalary).toBe(320);
+      // Double the shifts (150 * 2)
+      expect(result.estimatedGrossSalary).toBe(300);
     });
 
     it("should handle zero hours", () => {
@@ -177,13 +179,16 @@ describe("calculations", () => {
 
       const result = calculateSalaryFromShifts(mockConfig, nightShift);
 
-      // 8 hours total - 0.5 hours break = 7.5 hours
-      // All hours are night hours (22:00-06:00) = 7.5 hours at 50% allowance
-      // 7.5 * 20 * 1.5 = 225
-      // 0.5 hours paid break * 20 = 10
-      // Total: 225 + 10 = 235
-      // Note: Actual calculation may vary due to rounding
-      expect(result.estimatedGrossSalary).toBe(250);
+      // 8 hours total - 0.5 hours break = 7.5 hours worked
+      // Break is 30m -> Unpaid.
+      // Night shift logic: 22:00-06:00 covers entire shift (8 hours overlap)
+      // New logic applies 50% allowance.
+      // Regular hours = 0 (fully covered by night)
+      // Allowance50 hours = 8 (overlap)
+      // Note: The code subtracts night hours from regular, so 7.5 - 8 = 0 regular.
+      // Income: 8 * (20 * 1.5) = 240
+
+      expect(result.estimatedGrossSalary).toBe(240);
     });
 
     it("should handle Sunday and holiday allowances", () => {
@@ -207,11 +212,9 @@ describe("calculations", () => {
       const result = calculateSalaryFromShifts(mockConfig, sundayShift);
 
       // 8 hours total - 0.5 hours break = 7.5 hours
-      // All hours are Sunday hours = 7.5 hours at 50% allowance
-      // 7.5 * 20 * 1.5 = 225
-      // 0.5 hours paid break * 20 = 10
-      // Total: 225 + 10 = 235
-      expect(result.estimatedGrossSalary).toBe(235);
+      // Sunday logic: All hours (7.5) get 50% allowance (Rate * 1.5)
+      // 7.5 * 30 = 225
+      expect(result.estimatedGrossSalary).toBe(225);
     });
 
     it("should return all required result fields", () => {

@@ -6,14 +6,19 @@ describe("Age-based break calculation", () => {
 
     minorAgeGroups.forEach(ageGroup => {
       describe(`Age group: ${ageGroup}`, () => {
-        test("should give 15 minutes break for shifts up to 4 hours", () => {
-          expect(calculateAutomaticBreak("09:00", "12:00", ageGroup)).toBe(15);
-          expect(calculateAutomaticBreak("14:00", "18:00", ageGroup)).toBe(15);
+        test("should give 0 minutes break for shifts up to 4 hours", () => {
+          expect(calculateAutomaticBreak("09:00", "12:00", ageGroup)).toBe(0);
+          expect(calculateAutomaticBreak("14:00", "17:00", ageGroup)).toBe(0);
         });
 
-        test("should give 30 minutes break for shifts between 4-5.5 hours", () => {
-          expect(calculateAutomaticBreak("09:00", "13:30", ageGroup)).toBe(30);
-          expect(calculateAutomaticBreak("14:00", "19:30", ageGroup)).toBe(30);
+        test("should give 15 minutes break for shifts between 4-4.5 hours", () => {
+          expect(calculateAutomaticBreak("09:00", "13:00", ageGroup)).toBe(15);
+          expect(calculateAutomaticBreak("14:00", "18:30", ageGroup)).toBe(15);
+        });
+
+        test("should give 30 minutes break for shifts between 4.5-5.5 hours", () => {
+          expect(calculateAutomaticBreak("09:00", "14:00", ageGroup)).toBe(30); // 5 hours
+          expect(calculateAutomaticBreak("14:00", "19:15", ageGroup)).toBe(30); // 5.25 hours
         });
 
         test("should give 45 minutes break for shifts over 5.5 hours", () => {
@@ -29,14 +34,18 @@ describe("Age-based break calculation", () => {
 
     adultAgeGroups.forEach(ageGroup => {
       describe(`Age group: ${ageGroup}`, () => {
-        test("should give 15 minutes break for shifts up to 4.5 hours", () => {
-          expect(calculateAutomaticBreak("09:00", "13:00", ageGroup)).toBe(15);
-          expect(calculateAutomaticBreak("14:00", "18:30", ageGroup)).toBe(15);
+        test("should give 0 minutes break for shifts under 4 hours", () => {
+          expect(calculateAutomaticBreak("09:00", "12:00", ageGroup)).toBe(0);
         });
 
-        test("should give 30 minutes break for shifts between 4.5-6 hours", () => {
-          expect(calculateAutomaticBreak("09:00", "14:00", ageGroup)).toBe(30);
-          expect(calculateAutomaticBreak("14:00", "20:00", ageGroup)).toBe(30);
+        test("should give 15 minutes break for shifts up to 5.5 hours (>= 4 hours)", () => {
+          expect(calculateAutomaticBreak("09:00", "13:00", ageGroup)).toBe(15);
+          expect(calculateAutomaticBreak("14:00", "19:00", ageGroup)).toBe(15); // 5 hours
+        });
+
+        test("should give 30 minutes break for shifts between 5.5-6 hours", () => {
+          expect(calculateAutomaticBreak("09:00", "14:45", ageGroup)).toBe(30); // 5.75 hours
+          expect(calculateAutomaticBreak("14:00", "19:45", ageGroup)).toBe(30);
         });
 
         test("should give 45 minutes break for shifts over 6 hours", () => {
@@ -55,12 +64,12 @@ describe("Age-based break calculation", () => {
 
     test("should default to adult rules when no age group is provided", () => {
       expect(calculateAutomaticBreak("09:00", "13:00")).toBe(15); // 4 hours = 15 min for adults
-      expect(calculateAutomaticBreak("09:00", "14:00")).toBe(30); // 5 hours = 30 min for adults
+      expect(calculateAutomaticBreak("09:00", "14:45")).toBe(30); // 5.75 hours = 30 min for adults
     });
 
     test("should handle very short shifts", () => {
-      expect(calculateAutomaticBreak("09:00", "10:00", "16")).toBe(15); // 1 hour for minor
-      expect(calculateAutomaticBreak("09:00", "10:00", "18")).toBe(15); // 1 hour for adult
+      expect(calculateAutomaticBreak("09:00", "10:00", "16")).toBe(0); // 1 hour for minor
+      expect(calculateAutomaticBreak("09:00", "10:00", "18")).toBe(0); // 1 hour for adult
     });
   });
 });
