@@ -21,6 +21,9 @@ interface TranslationKeys {
   jobFunction: string;
   yearsOfService: string;
   vakkenvuller: string;
+  caissiere: string;
+  verkoopmedewerker: string;
+  kwaliteitsmedewerker: string;
   shiftleader: string;
   customRate: string;
   selectedRate: string;
@@ -29,6 +32,8 @@ interface TranslationKeys {
   customHourlyRate: string;
   manualInput: string;
   allInRatesInfo: string;
+  applyLoonheffingskorting: string;
+  taxCreditInfo: string;
   resetAllSettings: string;
   years: string;
   year: string;
@@ -72,6 +77,7 @@ interface TranslationKeys {
   shiftBreakMinutes: string;
   shiftDuration: string;
   shiftAllowances: string;
+  copyWeek: string;
 
   // Footer
   tip: string;
@@ -109,6 +115,9 @@ export const translations: Record<Language, TranslationKeys> = {
     jobFunction: "Job Function",
     yearsOfService: "Years of Service",
     vakkenvuller: "Shelf Stocker",
+    caissiere: "Cashier",
+    verkoopmedewerker: "Sales Associate",
+    kwaliteitsmedewerker: "Quality Associate",
     shiftleader: "Shift Leader",
     customRate: "Custom Rate",
     selectedRate: "Selected Hourly Rate",
@@ -118,6 +127,8 @@ export const translations: Record<Language, TranslationKeys> = {
     manualInput: "Manual input",
     allInRatesInfo:
       "All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
+    applyLoonheffingskorting: "Apply tax credit",
+    taxCreditInfo: "Turn this on if this is your only or main job.",
     resetAllSettings: "Reset All Settings",
     years: "years",
     year: "year",
@@ -161,6 +172,7 @@ export const translations: Record<Language, TranslationKeys> = {
     shiftBreakMinutes: "Break (minutes)",
     shiftDuration: "Duration",
     shiftAllowances: "Allowances",
+    copyWeek: "Copy previous week",
 
     // Footer
     tip: "Tip: Type hours (1-99) and select minutes from dropdown (00, 15, 30, 45)",
@@ -201,6 +213,9 @@ export const translations: Record<Language, TranslationKeys> = {
     jobFunction: "Functie",
     yearsOfService: "Functiejaren",
     vakkenvuller: "Vakkenvuller",
+    caissiere: "Caissière",
+    verkoopmedewerker: "Verkoopmedewerker",
+    kwaliteitsmedewerker: "Kwaliteitsmedewerker",
     shiftleader: "Shiftleader",
     customRate: "Aangepast Uurloon",
     selectedRate: "Geselecteerd Uurloon",
@@ -210,6 +225,8 @@ export const translations: Record<Language, TranslationKeys> = {
     manualInput: "Handmatige invoer",
     allInRatesInfo:
       "All-in tarieven: Dit zijn de complete uurloontarieven inclusief alle toeslagen. Voor contracten onder 12 uur per week.",
+    applyLoonheffingskorting: "Loonheffingskorting toepassen",
+    taxCreditInfo: "Zet dit aan als dit je enige of belangrijkste baan is.",
     resetAllSettings: "Reset Alle Instellingen",
     years: "jaar",
     year: "jaar",
@@ -253,6 +270,7 @@ export const translations: Record<Language, TranslationKeys> = {
     shiftBreakMinutes: "Pauze (minuten)",
     shiftDuration: "Duur",
     shiftAllowances: "Toeslagen",
+    copyWeek: "Kopieer vorige week",
 
     // Footer
     tip: "Tip: Type uren (1-99) en selecteer minuten uit dropdown (00, 15, 30, 45)",

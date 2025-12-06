@@ -13,6 +13,7 @@ export interface Config {
   percentageSpaww: number;
   percentagePremieWGAWerknemer: number;
   percentageLoonheffing: number;
+  applyLoonheffingskorting: boolean;
 }
 
 // New shift-based types
@@ -67,4 +68,8 @@ export interface UpdateShiftFunction {
 
 export interface DeleteShiftFunction {
   (weekIndex: number, shiftId: string): void;
+}
+
+export interface CopyWeekFunction {
+  (fromWeekIndex: number, toWeekIndex: number): void;
 }

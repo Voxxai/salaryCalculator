@@ -120,8 +120,11 @@ const calculateSalaryFromHours = (
     salaryBeforeTax * (config.percentagePremieWGAWerknemer / 100);
 
   // 5. Loonheffing (OPTIONAL - from salary before tax)
-  const deductionLoonheffing =
-    salaryBeforeTax * (config.percentageLoonheffing / 100);
+  let deductionLoonheffing = 0;
+  if (!config.applyLoonheffingskorting) {
+    deductionLoonheffing =
+      salaryBeforeTax * (config.percentageLoonheffing / 100);
+  }
 
   // Calculate net salary (with optional loonheffing)
   const netSalary =

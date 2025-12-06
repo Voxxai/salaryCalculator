@@ -296,6 +296,28 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
           </div>
 
           {/* Hidden fixed values - used for calculations but not displayed */}
+          <div className="pt-2">
+            <label className="flex items-start gap-3 justify-center text-sm text-gray-800">
+              <input
+                type="checkbox"
+                checked={config.applyLoonheffingskorting}
+                onChange={e =>
+                  updateConfig("applyLoonheffingskorting", e.target.checked)
+                }
+                className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <span className="text-left">
+                <span className="font-medium block">
+                  {getTranslation("applyLoonheffingskorting", language)}
+                </span>
+                <span className="text-gray-600 text-xs">
+                  {getTranslation("taxCreditInfo", language)}
+                </span>
+              </span>
+            </label>
+          </div>
+
+          {/* Hidden fixed values - used for calculations but not displayed */}
           {/* 2025 Aftrekposten Percentages (hidden but used in calculations):
             - Pensioen premie: {config.percentagePensioenPremie?.toFixed(2) || "1.59"}%
             - SPAWW.nl: {config.percentageSpaww?.toFixed(2) || "0.10"}%

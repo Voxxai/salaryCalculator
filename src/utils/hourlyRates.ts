@@ -2,56 +2,89 @@
 // Source: https://ahuitbetaaldata.nl/salaris-albert-heijn/
 
 export type AgeGroup = "13-15" | "16" | "17" | "18" | "19" | "20" | "21+";
-export type JobFunction = "vakkenvuller" | "shiftleader";
+export type JobFunction =
+  | "vakkenvuller"
+  | "caissiere"
+  | "verkoopmedewerker"
+  | "kwaliteitsmedewerker"
+  | "shiftleader";
 export type ServiceBracket = "0" | "1" | "2" | "3" | "4" | "5";
 
-interface VakkenvullerRates {
-  [key: string]: number;
-}
+type BaseHourlyRates = Record<AgeGroup, number>;
 
-interface ShiftleaderRates {
-  [key: string]: {
-    [key: string]: number;
-  };
-}
+type ShiftleaderRates = Partial<
+  Record<AgeGroup, Partial<Record<ServiceBracket, number>>>
+>;
 
 interface HourlyRatesData {
-  vakkenvuller: VakkenvullerRates;
+  vakkenvuller: BaseHourlyRates;
+  caissiere: BaseHourlyRates;
+  verkoopmedewerker: BaseHourlyRates;
+  kwaliteitsmedewerker: BaseHourlyRates;
   shiftleader: ShiftleaderRates;
 }
 
 export const hourlyRates: HourlyRatesData = {
   // Vakkenvuller rates by age group (All-in rates including 32.97% bonus)
   vakkenvuller: {
-    "13-15": 6.15, // 4.62 + 32.97% = 6.15 euro per uur
-    16: 7.1, // 5.33 + 32.97% = 7.10 euro per uur
-    17: 8.11, // 6.09 + 32.97% = 8.11 euro per uur
-    18: 9.59, // 7.20 + 32.97% = 9.59 euro per uur
-    19: 11.51, // 8.64 + 32.97% = 11.51 euro per uur
-    20: 15.34, // 11.52 + 32.97% = 15.34 euro per uur
-    "21+": 19.18, // 14.40 + 32.97% = 19.18 euro per uur
+    "13-15": 6.15,
+    16: 7.1,
+    17: 8.11,
+    18: 9.59,
+    19: 11.51,
+    20: 15.34,
+    "21+": 19.18,
+  },
+
+  caissiere: {
+    "13-15": 6.35,
+    16: 7.35,
+    17: 8.4,
+    18: 9.95,
+    19: 11.95,
+    20: 15.9,
+    "21+": 19.85,
+  },
+
+  verkoopmedewerker: {
+    "13-15": 6.35,
+    16: 7.35,
+    17: 8.4,
+    18: 9.95,
+    19: 11.95,
+    20: 15.9,
+    "21+": 19.85,
+  },
+
+  kwaliteitsmedewerker: {
+    "13-15": 6.6,
+    16: 7.65,
+    17: 8.75,
+    18: 10.4,
+    19: 12.5,
+    20: 16.65,
+    "21+": 20.8,
   },
 
   // Shiftleader rates by age group and years of service (All-in rates)
-  // Source: https://ahuitbetaaldata.nl/salaris-shiftleider-albert-heijn/
   // Note: Shiftleider functie is alleen beschikbaar vanaf 18 jaar
   shiftleader: {
     18: {
-      "0": 12.5, // All-in loon voor 18 jaar
+      "0": 12.5,
     },
     19: {
-      "0": 13.84, // All-in loon voor 19 jaar
+      "0": 13.84,
     },
     20: {
-      "0": 15.87, // All-in loon voor 20 jaar
+      "0": 15.87,
     },
     "21+": {
-      "0": 19.97, // 21 jaar en ouder (geen functiejaren)
-      "1": 21.4, // 21 jaar (en een functiejaar)
-      "2": 21.76, // 21 jaar (en twee functiejaren)
-      "3": 22.12, // 21 jaar (en drie functiejaren)
-      "4": 22.48, // 21 jaar (en vier functiejaren)
-      "5": 23.2, // 21 jaar (en vijf functiejaren)
+      "0": 19.97,
+      "1": 21.4,
+      "2": 21.76,
+      "3": 22.12,
+      "4": 22.48,
+      "5": 23.2,
     },
   },
 };
@@ -62,18 +95,14 @@ export const getHourlyRate = (
   ageGroup: AgeGroup,
   yearsOfService: number = 0
 ): number => {
-  if (functionType === "vakkenvuller") {
-    return hourlyRates.vakkenvuller[ageGroup] || 0;
-  } else if (functionType === "shiftleader") {
-    // Check if age group is valid for shiftleader (18+ only)
+  if (functionType === "shiftleader") {
     if (ageGroup === "13-15" || ageGroup === "16" || ageGroup === "17") {
-      return 0; // Shiftleider niet beschikbaar voor deze leeftijdsgroepen
+      return 0;
     }
 
     const ageRates = hourlyRates.shiftleader[ageGroup];
     if (!ageRates) return 0;
 
-    // Determine years of service bracket
     let serviceBracket: ServiceBracket = "0";
     if (yearsOfService >= 1 && yearsOfService <= 5) {
       serviceBracket = yearsOfService.toString() as ServiceBracket;
@@ -82,7 +111,7 @@ export const getHourlyRate = (
     return ageRates[serviceBracket] || 0;
   }
 
-  return 0;
+  return hourlyRates[functionType]?.[ageGroup] ?? 0;
 };
 
 // Function to get available age groups
@@ -101,16 +130,18 @@ export const getAgeGroups = (): AgeGroup[] => {
 
 // Function to get available job functions based on age group
 export const getJobFunctions = (ageGroup?: AgeGroup): JobFunction[] => {
-  if (!ageGroup) {
-    return ["vakkenvuller", "shiftleader"];
+  const basicFunctions: JobFunction[] = [
+    "vakkenvuller",
+    "caissiere",
+    "verkoopmedewerker",
+    "kwaliteitsmedewerker",
+  ];
+
+  if (!ageGroup || ["13-15", "16", "17"].includes(ageGroup)) {
+    return basicFunctions;
   }
 
-  // Shiftleider is alleen beschikbaar vanaf 18 jaar
-  if (ageGroup === "13-15" || ageGroup === "16" || ageGroup === "17") {
-    return ["vakkenvuller"];
-  }
-
-  return ["vakkenvuller", "shiftleader"];
+  return [...basicFunctions, "shiftleader"];
 };
 
 // Function to get years of service options

@@ -7,6 +7,7 @@ import {
   AddShiftFunction,
   UpdateShiftFunction,
   DeleteShiftFunction,
+  CopyWeekFunction,
 } from "../types";
 import {
   generateShiftId,
@@ -35,13 +36,22 @@ interface ShiftRegistrationProps {
   addShift: AddShiftFunction;
   updateShift: UpdateShiftFunction;
   deleteShift: DeleteShiftFunction;
+  copyWeek: CopyWeekFunction;
   language: Language;
   ageGroup: string;
 }
 
 // Shift Registration component - Manages shift input
 const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
-  ({ weekShifts, addShift, updateShift, deleteShift, language, ageGroup }) => {
+  ({
+    weekShifts,
+    addShift,
+    updateShift,
+    deleteShift,
+    copyWeek,
+    language,
+    ageGroup,
+  }) => {
     // Get the current period status (includes pending payout window)
     const periodStatus = useMemo(() => getPeriodStatus(), []);
     const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -261,7 +271,7 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
                         </>
                       ) : null}
                     </h3>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center gap-2">
                       <button
                         onClick={() => handleAddShift(index)}
                         className="px-2 py-1 sm:px-3 sm:py-1.5 bg-blue-500 text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors flex items-center gap-1"
@@ -270,6 +280,15 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
                         <PlusIcon className="text-white" size={12} />
                         Shift Toevoegen
                       </button>
+                      {index > 0 && (
+                        <button
+                          onClick={() => copyWeek(index - 1, index)}
+                          className="px-2 py-1 sm:px-3 sm:py-1.5 bg-gray-200 text-gray-800 rounded text-xs font-medium hover:bg-gray-300 transition-colors"
+                          title={getTranslation("copyWeek", language)}
+                        >
+                          {getTranslation("copyWeek", language)}
+                        </button>
+                      )}
                     </div>
                   </div>
 

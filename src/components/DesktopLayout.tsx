@@ -12,6 +12,7 @@ import {
   AddShiftFunction,
   UpdateShiftFunction,
   DeleteShiftFunction,
+  CopyWeekFunction,
 } from "../types";
 
 interface DesktopLayoutProps {
@@ -22,6 +23,7 @@ interface DesktopLayoutProps {
   addShift: AddShiftFunction;
   updateShift: UpdateShiftFunction;
   deleteShift: DeleteShiftFunction;
+  copyWeek: CopyWeekFunction;
   language: Language;
 }
 
@@ -35,6 +37,7 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(
     addShift,
     updateShift,
     deleteShift,
+    copyWeek,
     language,
   }) => {
     return (
@@ -59,6 +62,7 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(
             addShift={addShift}
             updateShift={updateShift}
             deleteShift={deleteShift}
+            copyWeek={copyWeek}
             language={language}
             ageGroup={config.ageGroup}
           />

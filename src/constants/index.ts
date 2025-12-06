@@ -17,6 +17,7 @@ export const DEFAULT_CONFIG = {
   percentageSpaww: 0.1,
   percentagePremieWGAWerknemer: 0.49,
   percentageLoonheffing: 7.81,
+  applyLoonheffingskorting: true,
 } as const;
 
 export const STORAGE_KEYS = {

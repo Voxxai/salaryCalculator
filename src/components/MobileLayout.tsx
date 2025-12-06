@@ -12,6 +12,7 @@ import {
   AddShiftFunction,
   UpdateShiftFunction,
   DeleteShiftFunction,
+  CopyWeekFunction,
 } from "../types";
 
 interface MobileLayoutProps {
@@ -22,6 +23,7 @@ interface MobileLayoutProps {
   addShift: AddShiftFunction;
   updateShift: UpdateShiftFunction;
   deleteShift: DeleteShiftFunction;
+  copyWeek: CopyWeekFunction;
   language: Language;
 }
 
@@ -35,6 +37,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = React.memo(
     addShift,
     updateShift,
     deleteShift,
+    copyWeek,
     language,
   }) => {
     return (
@@ -54,6 +57,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = React.memo(
             addShift={addShift}
             updateShift={updateShift}
             deleteShift={deleteShift}
+            copyWeek={copyWeek}
             language={language}
             ageGroup={config.ageGroup}
           />

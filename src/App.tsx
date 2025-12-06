@@ -17,7 +17,7 @@ import {
   saveShifts,
   loadShifts,
 } from "./utils/storage";
-import { getCurrentPeriod } from "./utils/periods";
+import { generateShiftId } from "./utils/shiftCalculations";
 import { DEFAULT_CONFIG } from "./constants";
 
 // Import types
@@ -30,6 +30,7 @@ import {
   AddShiftFunction,
   UpdateShiftFunction,
   DeleteShiftFunction,
+  CopyWeekFunction,
 } from "./types";
 
 function App(): JSX.Element {
@@ -43,7 +44,7 @@ function App(): JSX.Element {
   const [config, setConfig] = useState<Config>(() => {
     const savedConfig = loadConfig();
     if (savedConfig) {
-      return savedConfig;
+      return { ...DEFAULT_CONFIG, ...savedConfig } as Config;
     }
     // Initialize with defaults only
     return DEFAULT_CONFIG;
@@ -139,6 +140,35 @@ function App(): JSX.Element {
     });
   }, []);
 
+  const copyWeek: CopyWeekFunction = useCallback(
+    (fromWeekIndex, toWeekIndex) => {
+      setWeekShifts(prev => {
+        const sourceWeek = prev[fromWeekIndex];
+        if (!sourceWeek || sourceWeek.shifts.length === 0) return prev;
+
+        const copiedShifts = sourceWeek.shifts.map(shift => ({
+          ...shift,
+          id: generateShiftId(),
+        }));
+
+        const newShifts = [...prev];
+        const targetWeek =
+          newShifts[toWeekIndex] ||
+          ({
+            weekNumber: toWeekIndex + 1,
+            shifts: [],
+          } as WeekShifts);
+
+        newShifts[toWeekIndex] = {
+          ...targetWeek,
+          shifts: copiedShifts,
+        };
+        return newShifts;
+      });
+    },
+    []
+  );
+
   return (
     <ErrorBoundary language={language}>
       <div className="min-h-screen bg-gray-50 font-inter">
@@ -164,6 +194,7 @@ function App(): JSX.Element {
               addShift={addShift}
               updateShift={updateShift}
               deleteShift={deleteShift}
+              copyWeek={copyWeek}
               language={language}
             />
           ) : (
@@ -175,6 +206,7 @@ function App(): JSX.Element {
               addShift={addShift}
               updateShift={updateShift}
               deleteShift={deleteShift}
+              copyWeek={copyWeek}
               language={language}
             />
           )}

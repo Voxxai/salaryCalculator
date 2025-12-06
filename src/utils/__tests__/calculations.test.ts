@@ -85,6 +85,7 @@ describe("calculations", () => {
       ...DEFAULT_CONFIG,
       allInHourlyRate: 20,
       ageGroup: "18",
+      applyLoonheffingskorting: false,
     };
 
     const mockShifts: WeekShifts[] = [
