@@ -214,7 +214,6 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                         ))}
                       </select>
                     </div>
-                    {/* Show warning for shiftleader availability */}
                     {/* Warning removed - app automatically switches to vakkenvuller when shiftleader is not available */}
                   </div>
 
@@ -300,7 +299,7 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
           {/* 2025 Aftrekposten Percentages (hidden but used in calculations):
             - Pensioen premie: {config.percentagePensioenPremie?.toFixed(2) || "1.59"}%
             - SPAWW.nl: {config.percentageSpaww?.toFixed(2) || "0.10"}%
-            - Premie WGA werknemer: {config.percentagePremieWGAWerknemer?.toFixed(2) || "0.47"}%
+            - Premie WGA werknemer: {config.percentagePremieWGAWerknemer?.toFixed(2) || "0.49"}%
             - Loonheffing: {config.percentageLoonheffing?.toFixed(2) || "7.81"}% (indicatie)
         */}
 
@@ -313,11 +312,6 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
               {getTranslation("resetAllSettings", language)}
             </button>
           </div>
-
-          {/* Hidden fixed values - used for calculations but not displayed */}
-          {/* Overtime Percentage: {config.overtimePercentage}% */}
-          {/* Number of Weeks: {config.numberOfWeeks} */}
-          {/* Aftrekposten percentages worden automatisch toegepast in de berekeningen */}
         </div>
       </div>
     );

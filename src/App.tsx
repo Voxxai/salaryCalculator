@@ -17,6 +17,7 @@ import {
   saveShifts,
   loadShifts,
 } from "./utils/storage";
+import { getCurrentPeriod } from "./utils/periods";
 import { DEFAULT_CONFIG } from "./constants";
 
 // Import types
@@ -41,7 +42,11 @@ function App(): JSX.Element {
   // State for configuration settings (load from storage)
   const [config, setConfig] = useState<Config>(() => {
     const savedConfig = loadConfig();
-    return savedConfig || DEFAULT_CONFIG;
+    if (savedConfig) {
+      return savedConfig;
+    }
+    // Initialize with defaults only
+    return DEFAULT_CONFIG;
   });
 
   // State for shifts per week (load from storage)
@@ -49,7 +54,7 @@ function App(): JSX.Element {
     const savedShifts = loadShifts();
     return (
       savedShifts ||
-      Array.from({ length: config.numberOfWeeks }, (_, i) => ({
+      Array.from({ length: 4 }, (_, i) => ({
         weekNumber: i + 1,
         shifts: [],
       }))
@@ -61,11 +66,11 @@ function App(): JSX.Element {
     return calculateSalaryFromShifts(config, weekShifts);
   }, [config, weekShifts]);
 
-  // Effect to adjust shifts when number of weeks changes
+  // Effect to adjust shifts when period changes (always 4 weeks)
   useEffect(() => {
-    if (weekShifts.length !== config.numberOfWeeks) {
+    if (weekShifts.length !== 4) {
       const newWeekShifts: WeekShifts[] = [];
-      for (let i = 0; i < config.numberOfWeeks; i++) {
+      for (let i = 0; i < 4; i++) {
         newWeekShifts.push({
           weekNumber: i + 1,
           shifts: weekShifts[i]?.shifts || [],
@@ -73,7 +78,7 @@ function App(): JSX.Element {
       }
       setWeekShifts(newWeekShifts);
     }
-  }, [config.numberOfWeeks, weekShifts.length]);
+  }, [weekShifts]);
 
   // Effect to save config to local storage when it changes
   useEffect(() => {

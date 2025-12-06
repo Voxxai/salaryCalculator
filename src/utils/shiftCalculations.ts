@@ -32,33 +32,40 @@ export const calculateAutomaticBreak = (
 
   const totalHours = endDecimal - startDecimal;
 
+  // NIEUW: Geen pauze als de shift korter is dan 4 uur
+  if (totalHours < 4) {
+    return 0;
+  }
+
   // Determine if employee is under 18 (minor) or 18+
   const isMinor =
     ageGroup === "13-15" || ageGroup === "16" || ageGroup === "17";
 
   if (isMinor) {
     // CAO break rules for minors (under 18) - Albert Heijn:
-    // - 0-4 hours: 15 minutes break
-    // - 4-5.5 hours: 30 minutes break
-    // - 5.5+ hours: 45 minutes break
-    if (totalHours <= 4) {
-      return 15; // 15 minutes
+    // < 4 uur: 0 minuten (hierboven afgehandeld)
+    // 4-4.5 uur: 15 minuten
+    // 4.5-5.5 uur: 30 minuten
+    // 5.5+ uur: 45 minuten
+    if (totalHours <= 4.5) {
+      return 15; // 15 minuten
     } else if (totalHours <= 5.5) {
-      return 30; // 30 minutes
+      return 30; // 30 minuten
     } else {
-      return 45; // 45 minutes
+      return 45; // 45 minuten
     }
   } else {
     // CAO break rules for adults (18+) - Albert Heijn:
-    // - 0-4.5 hours: 15 minutes break
-    // - 4.5-6 hours: 30 minutes break
-    // - 6+ hours: 45 minutes break
-    if (totalHours <= 4.5) {
-      return 15; // 15 minutes
+    // < 4 uur: 0 minuten (hierboven afgehandeld)
+    // 4-5.5 uur: 15 minuten (vaak doorbetaald bij AH korte diensten)
+    // 5.5-6 uur: 30 minuten
+    // 6+ uur: 45 minuten
+    if (totalHours <= 5.5) {
+      return 15; // 15 minuten
     } else if (totalHours <= 6) {
-      return 30; // 30 minutes
+      return 30; // 30 minuten
     } else {
-      return 45; // 45 minutes
+      return 45; // 45 minuten
     }
   }
 };
@@ -94,19 +101,32 @@ export const calculateShiftHours = (
   allowance100: number;
 } => {
   // Automatically calculate break time if not provided
+  // Let op: we gebruiken hier een check op undefined omdat 0 een geldige waarde is
   const breakMinutes =
-    shift.breakMinutes ||
-    calculateAutomaticBreak(shift.startTime, shift.endTime, ageGroup);
+    shift.breakMinutes !== undefined
+      ? shift.breakMinutes
+      : calculateAutomaticBreak(shift.startTime, shift.endTime, ageGroup);
 
   const totalHours = calculateShiftDuration(
     shift.startTime,
     shift.endTime,
     breakMinutes
   );
-  const breakHours = breakMinutes / 60;
+
+  // NIEUWE LOGICA VOOR BETAALDE PAUZES:
+  // - 15 min pauze = 15 min (0.25 uur) doorbetaald
+  // - 30 min pauze = 0 min doorbetaald (volledig eigen tijd)
+  // - 45 min pauze = 15 min (0.25 uur) doorbetaald (en 30 min eigen tijd)
+  let paidBreaks = 0;
+
+  if (breakMinutes === 15) {
+    paidBreaks = 0.25; // 15 minuten
+  } else if (breakMinutes === 45) {
+    paidBreaks = 0.25; // 15 minuten (van de 45)
+  }
+  // Bij 30 minuten (of 0) blijft paidBreaks 0.
 
   let regularHours = totalHours;
-  let paidBreaks = breakHours;
   let allowance50 = 0;
   let allowance100 = 0;
 

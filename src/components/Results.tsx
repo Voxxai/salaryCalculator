@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { getTranslation } from "../utils/translations";
 import { Results as ResultsType, Language } from "../types";
+import { getPeriodStatus, formatFullDate } from "../utils/periods";
 import { ChartIcon, WarningIcon } from "./Icons";
 
 interface ResultsProps {
@@ -10,6 +11,7 @@ interface ResultsProps {
 
 // Results component - Displays only the final net salary result
 const Results: React.FC<ResultsProps> = React.memo(({ results, language }) => {
+  const periodStatus = useMemo(() => getPeriodStatus(), []);
   return (
     <div
       className="card flex flex-col h-full"
@@ -37,6 +39,45 @@ const Results: React.FC<ResultsProps> = React.memo(({ results, language }) => {
             € {results.estimatedNetSalary.toFixed(2)}
           </p>
         </div>
+
+        {/* Expected Payout Date */}
+        {periodStatus.pendingPayout ? (
+          <div className="space-y-3">
+            <div
+              className="bg-green-50 border border-green-200 rounded-lg p-4 text-center"
+              role="status"
+            >
+              <p className="text-sm text-green-700 mb-1">
+                Eerstvolgende uitbetaling (periode{" "}
+                {periodStatus.pendingPayout.periodNumber})
+              </p>
+              <p className="text-lg font-semibold text-green-900">
+                {formatFullDate(periodStatus.pendingPayout.payoutDate, "nl-NL")}
+              </p>
+            </div>
+            <div
+              className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-center"
+              role="status"
+            >
+              <p className="text-xs text-gray-600 mb-1">Huidige werkperiode</p>
+              <p className="text-sm text-gray-800 font-medium">
+                Periode {periodStatus.currentPeriod.periodNumber} - uitbetaling
+                op{" "}
+                {formatFullDate(periodStatus.currentPeriod.payoutDate, "nl-NL")}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="bg-green-50 border border-green-200 rounded-lg p-4 text-center"
+            role="status"
+          >
+            <p className="text-sm text-green-700 mb-1">Volgende uitbetaling</p>
+            <p className="text-lg font-semibold text-green-900">
+              {formatFullDate(periodStatus.currentPeriod.payoutDate, "nl-NL")}
+            </p>
+          </div>
+        )}
 
         {/* Disclaimer direct onder het resultaat voor maximale duidelijkheid */}
         <div

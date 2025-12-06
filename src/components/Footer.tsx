@@ -12,14 +12,6 @@ const Footer: React.FC<FooterProps> = React.memo(({ language }) => {
   return (
     <footer className="mt-6 sm:mt-8 text-center text-sm text-gray-500 px-4">
       <div className="space-y-4">
-        {/* Tips */}
-        <div>
-          <p className="leading-relaxed text-gray-600 text-center flex items-center justify-center gap-2">
-            <InfoIcon className="text-blue-500" size={16} />
-            {getTranslation("tip", language)}
-          </p>
-        </div>
-
         {/* Divider */}
         <div className="border-t border-gray-200 pt-4">
           <p className="leading-relaxed text-center">

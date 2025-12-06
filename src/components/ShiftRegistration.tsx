@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { getTranslation } from "../utils/translations";
 import {
   Shift,
@@ -16,6 +16,12 @@ import {
   calculateAutomaticBreak,
 } from "../utils/shiftCalculations";
 import { decimalToTime } from "../utils/calculations";
+import {
+  getPeriodStatus,
+  getWeekDatesForPeriod,
+  formatDateRange,
+  formatFullDate,
+} from "../utils/periods";
 import {
   CalendarIcon,
   ClockIcon,
@@ -36,13 +42,16 @@ interface ShiftRegistrationProps {
 // Shift Registration component - Manages shift input
 const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
   ({ weekShifts, addShift, updateShift, deleteShift, language, ageGroup }) => {
+    // Get the current period status (includes pending payout window)
+    const periodStatus = useMemo(() => getPeriodStatus(), []);
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [selectedWeek, setSelectedWeek] = useState<number | null>(null);
     const [editingShift, setEditingShift] = useState<Shift | null>(null);
+    const [manualBreakEdited, setManualBreakEdited] = useState<boolean>(false);
     const [shiftData, setShiftData] = useState<Partial<Shift>>({
       startTime: "",
       endTime: "",
-      breakMinutes: 0,
+      breakMinutes: undefined,
       isNightShift: false,
       isSunday: false,
       isHoliday: false,
@@ -52,10 +61,11 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
     const handleAddShift = useCallback((weekIndex: number): void => {
       setSelectedWeek(weekIndex);
       setEditingShift(null);
+      setManualBreakEdited(false);
       setShiftData({
         startTime: "",
         endTime: "",
-        breakMinutes: 0,
+        breakMinutes: undefined,
         isNightShift: false,
         isSunday: false,
         isHoliday: false,
@@ -68,6 +78,7 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
       (weekIndex: number, shift: Shift): void => {
         setSelectedWeek(weekIndex);
         setEditingShift(shift);
+        setManualBreakEdited(true);
         setShiftData({
           startTime: shift.startTime,
           endTime: shift.endTime,
@@ -119,11 +130,16 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
             )
           : 0;
 
+      const breakMinutes =
+        shiftData.breakMinutes !== undefined
+          ? shiftData.breakMinutes
+          : automaticBreakMinutes;
+
       const finalShiftData: Shift = {
         id: editingShift?.id || generateShiftId(),
         startTime: shiftData.startTime!,
         endTime: shiftData.endTime!,
-        breakMinutes: automaticBreakMinutes,
+        breakMinutes,
         isSunday: shiftData.isSunday || false,
         isHoliday: shiftData.isHoliday || false,
         isNightShift: isNightShiftShift,
@@ -139,6 +155,7 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
       setSelectedWeek(null);
       setEditingShift(null);
       setShiftData({});
+      setManualBreakEdited(false);
       setErrors([]);
     }, [selectedWeek, shiftData, editingShift, addShift, updateShift]);
 
@@ -154,14 +171,23 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
       (startTime: string, endTime: string): void => {
         const isNightShiftShift = isNightShift(startTime, endTime);
 
+        const autoBreak =
+          startTime && endTime
+            ? calculateAutomaticBreak(startTime, endTime, ageGroup)
+            : undefined;
+
         setShiftData(prev => ({
           ...prev,
           startTime,
           endTime,
           isNightShift: isNightShiftShift,
+          breakMinutes:
+            !manualBreakEdited && autoBreak !== undefined
+              ? autoBreak
+              : prev.breakMinutes,
         }));
       },
-      []
+      [ageGroup, manualBreakEdited]
     );
 
     const getShiftSummary = (shift: Shift): string => {
@@ -204,75 +230,100 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
             <CalendarIcon className="text-blue-500" size={24} />
             {getTranslation("shiftRegistration", language)}
           </h2>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-            {weekShifts.map((week, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors"
-              >
-                <div className="mb-4">
-                  <h3 className="text-base sm:text-lg font-medium text-gray-900 text-center mb-2">
-                    {getTranslation("week", language)} {week.weekNumber}
-                  </h3>
-                  <div className="flex justify-center">
-                    <button
-                      onClick={() => handleAddShift(index)}
-                      className="px-2 py-1 sm:px-3 sm:py-1.5 bg-blue-500 text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors flex items-center gap-1"
-                      title={getTranslation("addShift", language)}
-                    >
-                      <PlusIcon className="text-white" size={12} />
-                      Shift Toevoegen
-                    </button>
+            {weekShifts.map((week, index) => {
+              const weekDates = getWeekDatesForPeriod(
+                periodStatus.currentPeriod.periodNumber,
+                periodStatus.currentPeriod.year
+              );
+              const weekStart = weekDates[index];
+              const weekEnd = weekDates[index]
+                ? new Date(weekDates[index])
+                : null;
+              if (weekEnd) {
+                weekEnd.setDate(weekEnd.getDate() + 6); // Sunday of that week
+              }
+
+              return (
+                <div
+                  key={index}
+                  className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors"
+                >
+                  <div className="mb-4">
+                    <h3 className="text-base sm:text-lg font-medium text-gray-900 text-center mb-2">
+                      Week {week.weekNumber}
+                      {weekStart && weekEnd ? (
+                        <>
+                          <br />
+                          <span className="text-sm text-gray-600">
+                            ({formatDateRange(weekStart, weekEnd)})
+                          </span>
+                        </>
+                      ) : null}
+                    </h3>
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => handleAddShift(index)}
+                        className="px-2 py-1 sm:px-3 sm:py-1.5 bg-blue-500 text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors flex items-center gap-1"
+                        title={getTranslation("addShift", language)}
+                      >
+                        <PlusIcon className="text-white" size={12} />
+                        Shift Toevoegen
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    {week.shifts.length === 0 ? (
+                      <div className="text-center text-gray-500 text-sm py-4">
+                        Geen shiften ingevoerd
+                      </div>
+                    ) : (
+                      week.shifts.map(shift => (
+                        <div
+                          key={shift.id}
+                          className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm"
+                        >
+                          <div className="text-center mb-2">
+                            <div className="text-sm text-gray-900 font-medium">
+                              {getShiftSummary(shift)}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {shift.breakMinutes === 0 ? (
+                                <span>Geen pauze in deze shift</span>
+                              ) : (
+                                <span>Pauze: {shift.breakMinutes} min</span>
+                              )}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              {shift.isSunday && "☀️ Zondag "}
+                              {shift.isHoliday && "🎉 Feestdag "}
+                              {shift.isNightShift && "🌙 Nachtwerk"}
+                            </div>
+                          </div>
+                          <div className="flex justify-center space-x-2">
+                            <button
+                              onClick={() => handleEditShift(index, shift)}
+                              className="w-6 h-6 bg-blue-500 text-white rounded text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
+                              title={getTranslation("edit", language)}
+                            >
+                              <EditIcon className="text-white" size={12} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteShift(index, shift.id)}
+                              className="w-6 h-6 bg-red-500 text-white rounded text-sm flex items-center justify-center hover:bg-red-600 transition-colors"
+                              title={getTranslation("delete", language)}
+                            >
+                              <DeleteIcon className="text-white" size={12} />
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
-
-                <div className="space-y-3">
-                  {week.shifts.length === 0 ? (
-                    <div className="text-center text-gray-500 text-sm py-4">
-                      Geen shiften ingevoerd
-                    </div>
-                  ) : (
-                    week.shifts.map(shift => (
-                      <div
-                        key={shift.id}
-                        className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm"
-                      >
-                        <div className="text-center mb-2">
-                          <div className="text-sm text-gray-900 font-medium">
-                            {getShiftSummary(shift)}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            Pauze: {shift.breakMinutes} min (automatisch)
-                          </div>
-                          <div className="text-xs text-gray-500 mt-1">
-                            {shift.isSunday && "☀️ Zondag "}
-                            {shift.isHoliday && "🎉 Feestdag "}
-                            {shift.isNightShift && "🌙 Nachtwerk"}
-                          </div>
-                        </div>
-                        <div className="flex justify-center space-x-2">
-                          <button
-                            onClick={() => handleEditShift(index, shift)}
-                            className="w-6 h-6 bg-blue-500 text-white rounded text-sm flex items-center justify-center hover:bg-blue-600 transition-colors"
-                            title={getTranslation("edit", language)}
-                          >
-                            <EditIcon className="text-white" size={12} />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteShift(index, shift.id)}
-                            className="w-6 h-6 bg-red-500 text-white rounded text-sm flex items-center justify-center hover:bg-red-600 transition-colors"
-                            title={getTranslation("delete", language)}
-                          >
-                            <DeleteIcon className="text-white" size={12} />
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -284,7 +335,7 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
                 {editingShift
                   ? getTranslation("editShift", language)
                   : getTranslation("addShift", language)}{" "}
-                - {getTranslation("week", language)} {selectedWeek! + 1}
+                - Week {(selectedWeek || 0) + 1}
               </h3>
 
               {errors.length > 0 && (
@@ -375,43 +426,115 @@ const ShiftRegistration: React.FC<ShiftRegistrationProps> = React.memo(
                   </div>
                 </div>
 
-                {/* Automatic Break Display */}
+                {/* Manual Break Override */}
                 {shiftData.startTime && shiftData.endTime && (
-                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <div className="text-sm text-green-800 font-medium mb-1">
-                      Automatische Pauze:
-                    </div>
-                    <div className="text-sm text-green-700">
-                      {getAutomaticBreakTime()} (volgens CAO regels)
-                    </div>
-                    <div className="text-xs text-green-600 mt-1">
-                      {ageGroup === "13-15" ||
-                      ageGroup === "16" ||
-                      ageGroup === "17"
-                        ? "Pauze profiel: Jonger dan 18 jaar"
-                        : "Pauze profiel: 18 jaar en ouder"}
-                    </div>
-                    <div className="text-xs text-green-600 mt-1">
-                      {ageGroup === "13-15" ||
-                      ageGroup === "16" ||
-                      ageGroup === "17" ? (
-                        <>
-                          • 0-4 uur: 15 minuten
-                          <br />
-                          • 4-5.5 uur: 30 minuten
-                          <br />• 5.5+ uur: 45 minuten
-                        </>
-                      ) : (
-                        <>
-                          • 0-4.5 uur: 15 minuten
-                          <br />
-                          • 4.5-6 uur: 30 minuten
-                          <br />• 6+ uur: 45 minuten
-                        </>
-                      )}
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Pauze (minuten) - handmatig aanpassen
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="5"
+                      value={
+                        shiftData.breakMinutes !== undefined
+                          ? shiftData.breakMinutes
+                          : calculateAutomaticBreak(
+                              shiftData.startTime,
+                              shiftData.endTime,
+                              ageGroup
+                            )
+                      }
+                      onChange={e =>
+                        setShiftData(prev => ({
+                          ...prev,
+                          breakMinutes: parseInt(e.target.value) || 0,
+                        }))
+                      }
+                      placeholder={`Automatisch: ${calculateAutomaticBreak(
+                        shiftData.startTime,
+                        shiftData.endTime,
+                        ageGroup
+                      )} min`}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Laat leeg voor automatische berekening (
+                      {calculateAutomaticBreak(
+                        shiftData.startTime,
+                        shiftData.endTime,
+                        ageGroup
+                      )}{" "}
+                      min)
+                    </p>
                   </div>
                 )}
+
+                {/* Automatic Break Display */}
+                {shiftData.startTime &&
+                  shiftData.endTime &&
+                  (() => {
+                    const breakMinutes = calculateAutomaticBreak(
+                      shiftData.startTime,
+                      shiftData.endTime,
+                      ageGroup
+                    );
+
+                    if (breakMinutes === 0) {
+                      return (
+                        <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                          <div className="text-sm text-amber-800 font-medium mb-1">
+                            ⏸️ Geen pauzes in deze shift
+                          </div>
+                          <div className="text-sm text-amber-700">
+                            Deze shift is korter dan 4 uur, dus geen pauze
+                            volgens CAO regels.
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <div className="text-sm text-green-800 font-medium mb-1">
+                          Automatische Pauze:
+                        </div>
+                        <div className="text-sm text-green-700">
+                          {getAutomaticBreakTime()} (volgens CAO regels)
+                        </div>
+                        <div className="text-xs text-green-600 mt-1">
+                          {ageGroup === "13-15" ||
+                          ageGroup === "16" ||
+                          ageGroup === "17"
+                            ? "Pauze profiel: Jonger dan 18 jaar"
+                            : "Pauze profiel: 18 jaar en ouder"}
+                        </div>
+                        <div className="text-xs text-green-600 mt-1">
+                          {ageGroup === "13-15" ||
+                          ageGroup === "16" ||
+                          ageGroup === "17" ? (
+                            <>
+                              • &lt; 4 uur: 0 minuten
+                              <br />
+                              • 4-4.5 uur: 15 minuten
+                              <br />
+                              • 4.5-5.5 uur: 30 minuten
+                              <br />• 5.5+ uur: 45 minuten
+                            </>
+                          ) : (
+                            <>
+                              • &lt; 4 uur: 0 minuten
+                              <br />
+                              • 4-5.5 uur: 15 minuten
+                              <br />
+                              • 5.5-6 uur: 30 minuten
+                              <br />• 6+ uur: 45 minuten
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                 {/* Auto-detected allowances */}
                 {(shiftData.isNightShift ||

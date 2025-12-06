@@ -9,7 +9,6 @@ export interface Config {
   yearsOfService: number;
   useFunctionBasedRate: boolean;
   overtimePercentage: number;
-  numberOfWeeks: number;
   percentagePensioenPremie: number;
   percentageSpaww: number;
   percentagePremieWGAWerknemer: number;

@@ -13,10 +13,9 @@ export const DEFAULT_CONFIG = {
   yearsOfService: 0,
   useFunctionBasedRate: true,
   overtimePercentage: 50,
-  numberOfWeeks: 4,
   percentagePensioenPremie: 1.59,
   percentageSpaww: 0.1,
-  percentagePremieWGAWerknemer: 0.47,
+  percentagePremieWGAWerknemer: 0.49,
   percentageLoonheffing: 7.81,
 } as const;
 
