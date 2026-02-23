@@ -2,7 +2,6 @@
   "name": "salary-calculator",
   "version": "1.0.0",
   "description": "Een React salariscalculator applicatie",
-  "homepage": "/salaryCalculator/",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
