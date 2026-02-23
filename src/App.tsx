@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 // Import all components
 import Header from "./components/Header";
@@ -171,6 +172,7 @@ function App(): JSX.Element {
 
   return (
     <ErrorBoundary language={language}>
+      <Analytics />
       <div className="min-h-screen bg-gray-50 font-inter">
         {/* Skip to content link for accessibility */}
         <a href="#main-content" className="skip-link">
