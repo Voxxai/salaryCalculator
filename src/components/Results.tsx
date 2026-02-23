@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo } from "react";
 import { getTranslation } from "../utils/translations";
 import { Results as ResultsType, Language } from "../types";

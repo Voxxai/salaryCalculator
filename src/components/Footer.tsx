@@ -1,4 +1,7 @@
+'use client';
+
 import React from "react";
+import Link from "next/link";
 import { getTranslation } from "../utils/translations";
 import { Language } from "../types";
 import { InfoIcon } from "./Icons";
@@ -18,26 +21,26 @@ const Footer: React.FC<FooterProps> = React.memo(({ language }) => {
             {language === "nl" ? (
               <>
                 💻 Ontwikkeld door{" "}
-                <a
+                <Link
                   href="https://github.com/voxxai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:text-blue-600 underline transition-colors"
                 >
                   Voxxai
-                </a>
+                </Link>
               </>
             ) : (
               <>
                 💻 Developed by{" "}
-                <a
+                <Link
                   href="https://github.com/voxxai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:text-blue-600 underline transition-colors"
                 >
                   Voxxai
-                </a>
+                </Link>
               </>
             )}
           </p>

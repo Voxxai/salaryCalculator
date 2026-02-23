@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import Configuration from "./Configuration";
 import Results from "./Results";
