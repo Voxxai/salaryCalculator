@@ -1,4 +1,7 @@
+'use client';
+
 import React from "react";
+import Image from "next/image";
 import { getTranslation } from "../utils/translations";
 import { Language } from "../types";
 
@@ -17,11 +20,14 @@ const Header: React.FC<HeaderProps> = React.memo(({ language }) => {
         <div className="flex items-center justify-between">
           {/* AH Logo - Left */}
           <div className="flex items-center">
-            <img
-              src={process.env.PUBLIC_URL + "/Albert_Heijn_Logo.svg.png"}
+            <Image
+              src="/Albert_Heijn_Logo.svg.png"
               alt="Albert Heijn Logo"
+              width={48}
+              height={48}
               className="h-10 sm:h-12 w-auto opacity-80"
               aria-hidden="true"
+              priority
             />
           </div>
 

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo, useCallback } from "react";
 import { getTranslation } from "../utils/translations";
 import { clearAllData } from "../utils/storage";
@@ -179,6 +181,7 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                         id="age-group"
                         value={config.ageGroup}
                         onChange={e => updateConfig("ageGroup", e.target.value)}
+                        suppressHydrationWarning
                         className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center bg-white"
                       >
                         {getAgeGroups().map(age => (
@@ -205,6 +208,7 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                         onChange={e =>
                           updateConfig("jobFunction", e.target.value)
                         }
+                        suppressHydrationWarning
                         className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center bg-white"
                       >
                         {getJobFunctions(config.ageGroup).map(func => (
@@ -236,6 +240,7 @@ const Configuration: React.FC<ConfigurationProps> = React.memo(
                               parseInt(e.target.value)
                             )
                           }
+                          suppressHydrationWarning
                           className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center bg-white"
                         >
                           {getYearsOfServiceOptions(
